@@ -49,7 +49,7 @@ namespace WPFDungeon
                 //put the player to the portal
             }
 
-            GameLoop();
+            GameLogic.GameLoop(player, mUp,mDown,mLeft,mRight,Width-25,Height-50);
         }
 
         private void Window_KeyDown(object sender, KeyEventArgs e)
@@ -109,39 +109,12 @@ namespace WPFDungeon
 
             SetUpPlayer();
         }
-        private void GameLoop()
-        {
-            if (mUp)
-            {
-                player.FaceTo('T');
-                player.AddToLocation(0, -5);
-                Canvas.SetTop(playerModel, player.Location[1]);
-            }
-            if (mDown)
-            {
-                player.FaceTo('B');
-                player.AddToLocation(0, 5);
-                Canvas.SetTop(playerModel, player.Location[1]);
-            }
-            if (mLeft)
-            {
-                player.FaceTo('L');
-                player.AddToLocation(-5, 0);
-                Canvas.SetLeft(playerModel, player.Location[0]);
-            }
-            if (mRight)
-            {
-                player.FaceTo('R');
-                player.AddToLocation(5, 0);
-                Canvas.SetLeft(playerModel, player.Location[0]);
-            }
-        }
         private void SetUpPlayer()
         {            
             player = new Player(Width, Height);
-            playerModel = player.playerLooks.Body;
-            Canvas.SetLeft(playerModel, player.Location[0]);
-            Canvas.SetTop(playerModel, player.Location[1]);
+            canvas.Children.Add(player.playerLooks.Body);
+            Canvas.SetLeft(player.playerLooks.Body, player.Location[0]);
+            Canvas.SetTop(player.playerLooks.Body, player.Location[1]);
         }
     }
 }
