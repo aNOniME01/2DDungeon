@@ -24,7 +24,6 @@ namespace WPFDungeon
         private static DispatcherTimer timer;
         private static Player player;
         private static List<Bullet> bullets;
-        private static bool gameOver;
         private static bool mUp;
         private static bool mDown;
         private static bool mLeft;
@@ -34,7 +33,6 @@ namespace WPFDungeon
             InitializeComponent();
 
             bullets = new List<Bullet>();
-            gameOver = false;
             mUp = false;
             mDown = false;
             mLeft = false;
