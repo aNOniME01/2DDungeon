@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.32112.339
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleDungeon", "ConsoleDungeon.csproj", "{33F1AEF7-A3A6-4B10-BF34-3F8259457E41}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WPFDungeon", "..\WPFDungeon\WPFDungeon.csproj", "{61B06491-89BB-4C69-A4C7-890BF722DBE6}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{33F1AEF7-A3A6-4B10-BF34-3F8259457E41}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{33F1AEF7-A3A6-4B10-BF34-3F8259457E41}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{33F1AEF7-A3A6-4B10-BF34-3F8259457E41}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{33F1AEF7-A3A6-4B10-BF34-3F8259457E41}.Release|Any CPU.Build.0 = Release|Any CPU
+		{61B06491-89BB-4C69-A4C7-890BF722DBE6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{61B06491-89BB-4C69-A4C7-890BF722DBE6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{61B06491-89BB-4C69-A4C7-890BF722DBE6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{61B06491-89BB-4C69-A4C7-890BF722DBE6}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8114DDC0-1791-460A-A393-AFF7D60983D4}
+	EndGlobalSection
+EndGlobal
