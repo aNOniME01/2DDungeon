@@ -22,7 +22,7 @@ namespace WPFDungeon
     public partial class MainWindow : Window
     {
         private static DispatcherTimer timer;
-        private static Player player;
+        private static Game game;
         private static List<Bullet> bullets;
         private static bool mUp;
         private static bool mDown;
@@ -47,7 +47,7 @@ namespace WPFDungeon
                 //put the player to the portal
             }
 
-            GameLogic.GameLoop(player, mUp,mDown,mLeft,mRight,Width-25,Height-50);
+            GameLogic.GameLoop(game, mUp,mDown,mLeft,mRight,Width-25,Height-50);
         }
 
         private void Window_KeyDown(object sender, KeyEventArgs e)
@@ -91,9 +91,9 @@ namespace WPFDungeon
             else if (e.Key == Key.Space)
             {
 
-                Canvas.SetLeft(player.bullet.Hitbox, player.bullet.Location[0]);
-                Canvas.SetTop(player.bullet.Hitbox, player.bullet.Location[1]);
-                canvas.Children.Add(player.bullet.Hitbox);
+                Canvas.SetLeft(game.Player.bullet.Hitbox, game.Player.bullet.Location[0]);
+                Canvas.SetTop(game.Player.bullet.Hitbox, game.Player.bullet.Location[1]);
+                canvas.Children.Add(game.Player.bullet.Hitbox);
             }
 
         }
@@ -108,11 +108,12 @@ namespace WPFDungeon
             SetUpPlayer();
         }
         private void SetUpPlayer()
-        {            
-            player = new Player(Width, Height);
-            canvas.Children.Add(player.playerLooks.Body);
-            Canvas.SetLeft(player.playerLooks.Body, player.Location[0]);
-            Canvas.SetTop(player.playerLooks.Body, player.Location[1]);
+        {
+            game = new Game(Width, Height);
+            canvas.Children.Add(game.Player.playerLooks.Body);
+            canvas.Children.Add(game.Rooms[0].Area);
+            Canvas.SetLeft(game.Player.playerLooks.Body, game.Player.Location[0]);
+            Canvas.SetTop(game.Player.playerLooks.Body, game.Player.Location[1]);
         }
     }
 }

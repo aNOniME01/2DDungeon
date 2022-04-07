@@ -10,31 +10,31 @@ namespace WPFDungeon
 {
     internal class GameLogic
     {
-        public static void GameLoop(Player player,bool mUp,bool mDown,bool mLeft,bool mRight,double wWidth,double wHeight)
+        public static void GameLoop(Game game,bool mUp,bool mDown,bool mLeft,bool mRight,double wWidth,double wHeight)
         {
-            if (mUp && player.Location[1] > 0)
+            if (mUp && game.Player.Location[1] > 0)
             {
-                player.FaceTo('T');
-                player.AddToLocation(0, -5);
-                Canvas.SetTop(player.playerLooks.Body, player.Location[1]);
+                game.Player.FaceTo('T');
+                game.Player.AddToLocation(0, -5);
+                Canvas.SetTop(game.Player.playerLooks.Body, game.Player.Location[1]);
             }
-            if (mDown && player.Location[1] <  wHeight)
+            if (mDown && game.Player.Location[1] <  wHeight)
             {
-                player.FaceTo('B');
-                player.AddToLocation(0, 5);
-                Canvas.SetTop(player.playerLooks.Body, player.Location[1]);
+                game.Player.FaceTo('B');
+                game.Player.AddToLocation(0, 5);
+                Canvas.SetTop(game.Player.playerLooks.Body, game.Player.Location[1]);
             }
-            if (mLeft && player.Location[0] > 0)
+            if (mLeft && game.Player.Location[0] > 0)
             {
-                player.FaceTo('L');
-                player.AddToLocation(-5, 0);
-                Canvas.SetLeft(player.playerLooks.Body, player.Location[0]);
+                game.Player.FaceTo('L');
+                game.Player.AddToLocation(-5, 0);
+                Canvas.SetLeft(game.Player.playerLooks.Body, game.Player.Location[0]);
             }
-            if (mRight && player.Location[0] < wWidth)
+            if (mRight && game.Player.Location[0] < wWidth)
             {
-                player.FaceTo('R');
-                player.AddToLocation(5, 0);
-                Canvas.SetLeft(player.playerLooks.Body, player.Location[0]);
+                game.Player.FaceTo('R');
+                game.Player.AddToLocation(5, 0);
+                Canvas.SetLeft(game.Player.playerLooks.Body, game.Player.Location[0]);
             }
         }
 
