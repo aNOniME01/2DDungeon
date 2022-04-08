@@ -23,7 +23,6 @@ namespace WPFDungeon
     {
         private static DispatcherTimer timer;
         private static Game game;
-        private static List<Bullet> bullets;
         private static bool mUp;
         private static bool mDown;
         private static bool mLeft;
@@ -32,7 +31,6 @@ namespace WPFDungeon
         {
             InitializeComponent();
 
-            bullets = new List<Bullet>();
             mUp = false;
             mDown = false;
             mLeft = false;
@@ -90,10 +88,11 @@ namespace WPFDungeon
             }
             else if (e.Key == Key.Space)
             {
-
-                Canvas.SetLeft(game.Player.bullet.Hitbox, game.Player.bullet.Location[0]);
-                Canvas.SetTop(game.Player.bullet.Hitbox, game.Player.bullet.Location[1]);
-                canvas.Children.Add(game.Player.bullet.Hitbox);
+                int lastBullet = game.Player.Bullets.Count;
+                game.Player.Shoot();
+                Canvas.SetLeft(game.Player.Bullets[lastBullet].Hitbox, game.Player.Bullets[lastBullet].Location[0]);
+                Canvas.SetTop(game.Player.Bullets[lastBullet].Hitbox, game.Player.Bullets[lastBullet].Location[1]);
+                canvas.Children.Add(game.Player.Bullets[lastBullet].Hitbox);
             }
 
         }
@@ -110,10 +109,14 @@ namespace WPFDungeon
         private void SetUpPlayer()
         {
             game = new Game(Width, Height);
-            canvas.Children.Add(game.Player.playerLooks.Body);
+            canvas.Children.Add(game.Player.PlayerLooks.Body);
             canvas.Children.Add(game.Rooms[0].Area);
-            Canvas.SetLeft(game.Player.playerLooks.Body, game.Player.Location[0]);
-            Canvas.SetTop(game.Player.playerLooks.Body, game.Player.Location[1]);
+            Canvas.SetLeft(game.Player.PlayerLooks.Body, game.Player.Location[0]);
+            Canvas.SetTop(game.Player.PlayerLooks.Body, game.Player.Location[1]);
+            Canvas.SetLeft(game.Rooms[0].Area, game.Player.Location[0]);
+            Canvas.SetTop(game.Rooms[0].Area, game.Player.Location[1]);
+
+            Canvas.SetZIndex(game.Player.PlayerLooks.Body, 1);
         }
     }
 }

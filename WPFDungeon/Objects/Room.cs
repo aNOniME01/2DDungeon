@@ -29,7 +29,7 @@ namespace WPFDungeon
                     else if (line[0] == 'D')
                     {
                         string[] sgd = line.Trim('D').Trim().Split(';');
-                        DoorList.Add(new Door(Convert.ToDouble(sgd[0]), Convert.ToDouble(sgd[1]), Convert.ToDouble(sgd[2]), Convert.ToDouble(sgd[3])));
+                        DoorList.Add(new Door(Convert.ToDouble(sgd[0]), Convert.ToDouble(sgd[1]), Convert.ToDouble(sgd[2]), Convert.ToDouble(sgd[3]), Convert.ToChar(sgd[4])));
                     }
                     else if (line[0] == 'S')
                     {

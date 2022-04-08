@@ -8,5 +8,11 @@ namespace WPFDungeon
 {
     class Hallway
     {
+        public Door D1 { get; private set; }
+        public Door D2 { get; private set; }
+        public Hallway()
+        {
+
+        }
     }
 }
