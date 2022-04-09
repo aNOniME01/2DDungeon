@@ -45,7 +45,7 @@ namespace WPFDungeon
                 //put the player to the portal
             }
 
-            GameLogic.GameLoop(game, mUp,mDown,mLeft,mRight,Width-25,Height-50);
+            GameLogic.GameLoop(game, mUp,mDown,mLeft,mRight,Width-25,Height-50,canvas);
         }
 
         private void Window_KeyDown(object sender, KeyEventArgs e)
@@ -90,9 +90,9 @@ namespace WPFDungeon
             {
                 int lastBullet = game.Player.Bullets.Count;
                 game.Player.Shoot();
-                Canvas.SetLeft(game.Player.Bullets[lastBullet].Hitbox, game.Player.Bullets[lastBullet].Location[0]);
-                Canvas.SetTop(game.Player.Bullets[lastBullet].Hitbox, game.Player.Bullets[lastBullet].Location[1]);
-                canvas.Children.Add(game.Player.Bullets[lastBullet].Hitbox);
+                Canvas.SetTop(game.Player.Bullets[lastBullet].Mesh, game.Player.Bullets[lastBullet].Location[0]);
+                Canvas.SetLeft(game.Player.Bullets[lastBullet].Mesh, game.Player.Bullets[lastBullet].Location[1]);
+                canvas.Children.Add(game.Player.Bullets[lastBullet].Mesh);
             }
 
         }
@@ -104,19 +104,31 @@ namespace WPFDungeon
             timer.Tick += timer_Tick;
             timer.Start();
 
+            game = new Game(Width, Height);
+            canvas.Children.Add(game.Rooms[0].Area);
+            Canvas.SetTop(game.Rooms[0].Area, game.Player.Location[0]);
+            Canvas.SetLeft(game.Rooms[0].Area, game.Player.Location[1]);
+
+            foreach (Shooter shooter in game.Rooms[0].SpawnMaps[0].Shooters)
+            {
+                canvas.Children.Add(shooter.Body.Mesh);
+                Canvas.SetTop(shooter.Body.Mesh, shooter.Location[0]);
+                Canvas.SetLeft(shooter.Body.Mesh, shooter.Location[1]);
+            }
+
             SetUpPlayer();
         }
         private void SetUpPlayer()
         {
-            game = new Game(Width, Height);
-            canvas.Children.Add(game.Player.PlayerLooks.Body);
-            canvas.Children.Add(game.Rooms[0].Area);
-            Canvas.SetLeft(game.Player.PlayerLooks.Body, game.Player.Location[0]);
-            Canvas.SetTop(game.Player.PlayerLooks.Body, game.Player.Location[1]);
-            Canvas.SetLeft(game.Rooms[0].Area, game.Player.Location[0]);
-            Canvas.SetTop(game.Rooms[0].Area, game.Player.Location[1]);
+            canvas.Children.Add(game.Player.Body.Mesh);
+            Canvas.SetTop(game.Player.Body.Mesh, game.Player.Location[0]);
+            Canvas.SetLeft(game.Player.Body.Mesh, game.Player.Location[1]);
 
-            Canvas.SetZIndex(game.Player.PlayerLooks.Body, 1);
+            Canvas.SetZIndex(game.Player.Body.Mesh, 1);
+        }
+        public void AddToCanvas(UIElement uiElement)
+        {
+            canvas.Children.Add(uiElement);
         }
     }
 }

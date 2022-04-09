@@ -19,6 +19,7 @@ namespace WPFDungeon
         {
             Area = new Rectangle();
             DoorList = new List<Door>();
+            SpawnMaps = new List<SpawnMap>();
 
             foreach (string line in File.ReadAllLines(Transfer.GetLocation()+"\\WPFDungeon\\Prefabs\\Rooms\\"+fileName+".txt"))
             {
@@ -31,9 +32,15 @@ namespace WPFDungeon
                         string[] sgd = line.Trim('D').Trim().Split(';');
                         DoorList.Add(new Door(Convert.ToDouble(sgd[0]), Convert.ToDouble(sgd[1]), Convert.ToDouble(sgd[2]), Convert.ToDouble(sgd[3]), Convert.ToChar(sgd[4])));
                     }
+                    else if(line[0] == 'V')
+                    {
+                        SpawnMaps.Add(new SpawnMap());
+                    }
                     else if (line[0] == 'S')
                     {
-                        /*Shooter x;y;faceing*/
+                        //Shooter x;y;turretNum;faceing
+                        string[] sgd = line.Trim('S').Trim().Split(';');
+                        SpawnMaps[SpawnMaps.Count-1].AddShooter(Convert.ToDouble(sgd[0]), Convert.ToDouble(sgd[1]),Convert.ToInt32(sgd[2]),Convert.ToChar(sgd[3]));
                     }
                     else if (line[0] == 'P')
                     {

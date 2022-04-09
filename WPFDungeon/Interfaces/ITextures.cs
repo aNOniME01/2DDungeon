@@ -10,8 +10,8 @@ namespace WPFDungeon
 {
     internal class ITextures
     {
-        public ImageBrush ImageB { get; private set; }
-        public Rectangle Body { get; private set; }
+        public ImageBrush Texture { get; private set; }
+        public Rectangle Hitbox { get; private set; }
 
         public void FaceTo(char direction)
         {
@@ -36,7 +36,7 @@ namespace WPFDungeon
                 aRotateTransform.Angle = 90;
             }
 
-            ImageB.RelativeTransform = aRotateTransform;
+            Texture.RelativeTransform = aRotateTransform;
         }
 
     }

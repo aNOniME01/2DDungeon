@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Media;
 using System.Windows.Shapes;
 
@@ -13,8 +14,9 @@ namespace WPFDungeon
         public string Tag { get; private set; }
         public double[] Location { get; private set; }
         public char Faceing { get; private set; }
-        public Rectangle Hitbox { get; private set; }
-        public Bullet(string tag,double xLoc,double yLoc,char faceing)
+        public Rect Hitbox { get; private set; }
+        public Rectangle Mesh { get; private set; }
+        public Bullet(string tag, double yLoc, double xLoc, char faceing)
         {
             Tag = tag;
 
@@ -24,10 +26,21 @@ namespace WPFDungeon
 
             Faceing = faceing;
 
-            Hitbox = new Rectangle();
-            Hitbox.Width = 2;
-            Hitbox.Height = 5;
-            Hitbox.Stroke = Brushes.Black;
+            Mesh = new Rectangle();
+            if (Faceing == 'T' || Faceing == 'B')
+            {
+                Mesh.Width = 2;
+                Mesh.Height = 5;
+            }
+            else
+            {
+                Mesh.Width = 5;
+                Mesh.Height = 2;
+            }
+            Mesh.Stroke = Brushes.Black;
+
+            Hitbox = new Rect(xLoc, yLoc, Mesh.Width, Mesh.Height);
+
         }
         public void Navigate()
         {
