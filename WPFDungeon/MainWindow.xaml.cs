@@ -45,6 +45,11 @@ namespace WPFDungeon
                 //put the player to the portal
             }
 
+            foreach (Bullet bullet in game.Player.Bullets)
+            {
+                lable.Content = $"y:{bullet.Location[0]}x:{bullet.Location[1]}";
+            }
+
             GameLogic.GameLoop(game, mUp,mDown,mLeft,mRight,Width-25,Height-50,canvas);
         }
 

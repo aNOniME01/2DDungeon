@@ -60,6 +60,8 @@ namespace WPFDungeon
             {
                 Location[1] += 5;
             }
+
+            Hitbox = new Rect(Location[1], Location[0], Mesh.Width, Mesh.Height);
         }
     }
 }
