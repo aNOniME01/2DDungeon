@@ -15,11 +15,25 @@ namespace WPFDungeon
         public ImageBrush Texture { get; private set; }
         public Rect Hitbox { get; private set; }
         public Rectangle Mesh { get; private set; }
-        public ShooterLooks(double height, double width,double yLoc, double xLoc, char faceing)
+        public ShooterLooks(double height, double width,double yLoc, double xLoc, char faceing,int turretNum)
         {
             Texture = new ImageBrush();
-            Texture.ImageSource = new BitmapImage(new Uri(Transfer.GetLocation() + "WPFDungeon\\textures\\Player.png"));//shooter body texture
-
+            if (turretNum == 1)
+            {
+                Texture.ImageSource = new BitmapImage(new Uri(Transfer.GetLocation() + "WPFDungeon\\textures\\Shooter1.png"));//shooter body texture
+            }
+            else if (turretNum == 2)
+            {
+                Texture.ImageSource = new BitmapImage(new Uri(Transfer.GetLocation() + "WPFDungeon\\textures\\Shooter2.png"));//shooter body texture
+            }
+            else if (turretNum == 3)
+            {
+                Texture.ImageSource = new BitmapImage(new Uri(Transfer.GetLocation() + "WPFDungeon\\textures\\Shooter3.png"));//shooter body texture
+            }
+            else 
+            {
+                Texture.ImageSource = new BitmapImage(new Uri(Transfer.GetLocation() + "WPFDungeon\\textures\\Shooter4.png"));//shooter body texture
+            }
             RotateTransform aRotateTransform = new RotateTransform();
             aRotateTransform.CenterX = 0.5;
             aRotateTransform.CenterY = 0.5;

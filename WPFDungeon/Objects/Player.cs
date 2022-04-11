@@ -7,7 +7,7 @@ using System.Windows;
 
 namespace WPFDungeon
 {
-    internal class Player
+    internal class Player:IEntity
     {
         public double[] Location { get; private set; }
         public double Height { get; private set; }

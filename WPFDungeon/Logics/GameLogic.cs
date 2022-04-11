@@ -14,11 +14,28 @@ namespace WPFDungeon
         private static int shootTimer = 0;
         public static void GameLoop(Game game, bool mUp, bool mDown, bool mLeft, bool mRight, double wWidth, double wHeight, Canvas canvas)
         {
-            Rectangle body = game.Player.Body.Mesh;
             Rect playerHitBox = new Rect(game.Player.Location[0], game.Player.Location[0],game.Player.Width,game.Player.Height);//x,y,w,h
 
             #region PlayerLogic
             //player movement
+            PlayerMovement(game,mUp, mDown, mLeft, mRight,wWidth,wHeight);
+
+            //bullet navigation
+            PBulletNavigation(game,canvas);
+
+            //bullet deleting
+            PBulletDeleteing(game, wWidth, wHeight, canvas);
+
+            #endregion
+
+            //Shooter Bullets
+            ShooterLogic(game,canvas);
+
+        }
+        private static void PlayerMovement(Game game, bool mUp, bool mDown, bool mLeft, bool mRight, double wWidth, double wHeight)
+        {
+            Rectangle body = game.Player.Body.Mesh;
+
             if (mUp && game.Player.Location[0] > 0)
             {
                 game.Player.FaceTo('T');
@@ -43,9 +60,11 @@ namespace WPFDungeon
                 game.Player.AddToLocation(0, 2);
                 Canvas.SetLeft(body, game.Player.Location[1]);
             }
-
-            //bullet navigation
+        }
+        private static void PBulletNavigation(Game game,Canvas canvas)
+        {
             List<Shooter> shDeleteNeeded = new List<Shooter>();
+            Bullet bHit = null;
             foreach (Bullet bullet in game.Player.Bullets)
             {
                 bullet.Navigate();
@@ -57,6 +76,12 @@ namespace WPFDungeon
                     {
                         canvas.Children.Remove(shooter.Body.Mesh);
                         shDeleteNeeded.Add(shooter);
+                        foreach (Bullet eBullet in shooter.Bullets)
+                        {
+                            canvas.Children.Remove(eBullet.Mesh);
+                        }
+                        shooter.Bullets.Clear();
+                        bHit = bullet;
                     }
                 }
             }
@@ -64,8 +89,14 @@ namespace WPFDungeon
             {
                 game.Rooms[0].SpawnMaps[0].DeleteShooter(shooter);
             }
-
-            //bullet deleting
+            if (bHit != null)
+            {
+                canvas.Children.Remove(bHit.Mesh);
+                game.Player.DeleteBullet(bHit);
+            }
+        }
+        private static void PBulletDeleteing(Game game, double wWidth, double wHeight, Canvas canvas)
+        {
             List<Bullet> pbDeleteNeeded = new List<Bullet>();
             foreach (Bullet bullet in game.Player.Bullets)
             {
@@ -79,9 +110,9 @@ namespace WPFDungeon
             {
                 game.Player.DeleteBullet(bullet);
             }
-            #endregion
-
-            //Shooter Bullets
+        }
+        private static void ShooterLogic(Game game, Canvas canvas)
+        {
             foreach (Room room in game.Rooms)
             {
                 //foreach (SpawnMap spawnMap in room.SpawnMaps)
@@ -104,6 +135,7 @@ namespace WPFDungeon
                     }
                 }
                 //}
+
             }
 
             if (shootTimer > 50) shootTimer = 0;

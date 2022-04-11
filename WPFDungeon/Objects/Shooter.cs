@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace WPFDungeon
 {
-    internal class Shooter
+    internal class Shooter:IEntity
     {
         public double[] Location { get; private set; }
         public char Faceing { get; private set; }//it can have multiple turrets
@@ -29,7 +29,7 @@ namespace WPFDungeon
 
             TurretNum = turretNum;
 
-            Body = new ShooterLooks(Height,Width,Location[0],Location[1],Faceing);
+            Body = new ShooterLooks(Height,Width,Location[0],Location[1],Faceing,TurretNum);
 
             Bullets = new List<Bullet>();
         }

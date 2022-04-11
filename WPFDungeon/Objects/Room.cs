@@ -42,6 +42,12 @@ namespace WPFDungeon
                         string[] sgd = line.Trim('S').Trim().Split(';');
                         SpawnMaps[SpawnMaps.Count-1].AddShooter(Convert.ToDouble(sgd[0]), Convert.ToDouble(sgd[1]),Convert.ToInt32(sgd[2]),Convert.ToChar(sgd[3]));
                     }
+                    else if (line[0] == 'F')
+                    {
+                        //Swifter x;y;faceing
+                        string[] sgd = line.Trim('F').Trim().Split(';');
+                        SpawnMaps[SpawnMaps.Count-1].AddSwifter(Convert.ToDouble(sgd[0]), Convert.ToDouble(sgd[1]),Convert.ToChar(sgd[2]));
+                    }
                     else if (line[0] == 'P')
                     {
                         //Point x;y

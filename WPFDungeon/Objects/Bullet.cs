@@ -39,7 +39,6 @@ namespace WPFDungeon
             }
             Mesh.Stroke = Brushes.Black;
 
-            Hitbox = new Rect(xLoc, yLoc, Mesh.Width, Mesh.Height);
 
         }
         public void Navigate()
