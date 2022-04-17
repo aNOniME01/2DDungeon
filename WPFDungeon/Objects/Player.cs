@@ -34,6 +34,7 @@ namespace WPFDungeon
         {
             Location[0] += x;
             Location[1] += y;
+
         }
         public void FaceTo(char direction)
         {

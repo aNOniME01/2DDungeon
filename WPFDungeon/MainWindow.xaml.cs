@@ -114,6 +114,10 @@ namespace WPFDungeon
             Canvas.SetTop(game.Rooms[0].Area, game.Player.Location[0]);
             Canvas.SetLeft(game.Rooms[0].Area, game.Player.Location[1]);
 
+            canvas.Children.Add(game.Rooms[0].SpawnMaps[0].Portal.Body.Mesh);
+            Canvas.SetTop(game.Rooms[0].SpawnMaps[0].Portal.Body.Mesh, game.Rooms[0].SpawnMaps[0].Portal.Location[0]);
+            Canvas.SetLeft(game.Rooms[0].SpawnMaps[0].Portal.Body.Mesh, game.Rooms[0].SpawnMaps[0].Portal.Location[1]);
+
             SetUpEnemy();
 
             SetUpPlayer();

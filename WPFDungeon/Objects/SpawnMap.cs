@@ -10,6 +10,7 @@ namespace WPFDungeon
     {
         public List<Shooter> Shooters { get; private set; }
         public List<Swifter> Swifters { get; private set; }
+        public Portal Portal { get; private set; }
         //point list
         //ammo list
         //ability list
@@ -17,6 +18,7 @@ namespace WPFDungeon
         {
             Shooters = new List<Shooter>();
             Swifters = new List<Swifter>();
+            this.Portal = null;
         }
         public void AddShooter(double yLoc,double xLoc,int turretNum, char faceing)
         {
@@ -33,6 +35,10 @@ namespace WPFDungeon
         public void DeleteSwifter(Swifter swifter)
         {
             Swifters.Remove(swifter);
+        }
+        public void AddPortal(double yLoc, double xLoc, char faceing)
+        {
+            this.Portal = new Portal(yLoc, xLoc, faceing);
         }
     }
 }

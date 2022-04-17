@@ -10,7 +10,7 @@ using System.Windows.Shapes;
 
 namespace WPFDungeon
 {
-    internal class PlayerLooks:ITextures
+    internal class PlayerLooks:IBody
     {
         public ImageBrush Texture { get; private set; }
         public Rect Hitbox { get; private set; }
@@ -27,6 +27,8 @@ namespace WPFDungeon
             Mesh.Height = height;
             Mesh.Stroke = Brushes.Black;
             Mesh.Fill = Texture;
+
+            Hitbox = new Rect(xLoc, yLoc, Mesh.Width, Mesh.Height);
         }
         public void FaceTo(char direction) 
         {
@@ -40,6 +42,10 @@ namespace WPFDungeon
             else aRotateTransform.Angle = 90;
 
             Texture.RelativeTransform = aRotateTransform;
+        }
+        public void MoveHitbox(double[] location)
+        {
+            Hitbox = new Rect(location[1], location[0], Mesh.Width, Mesh.Height);
         }
     }
 }

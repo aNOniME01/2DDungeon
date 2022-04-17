@@ -14,8 +14,6 @@ namespace WPFDungeon
         private static int shootTimer = 0;
         public static void GameLoop(Game game, bool mUp, bool mDown, bool mLeft, bool mRight, double wWidth, double wHeight, Canvas canvas)
         {
-            Rect playerHitBox = new Rect(game.Player.Location[0], game.Player.Location[0],game.Player.Width,game.Player.Height);//x,y,w,h
-
             #region PlayerLogic
             //player movement
             PlayerMovement(game,mUp, mDown, mLeft, mRight,wWidth,wHeight);
@@ -28,8 +26,11 @@ namespace WPFDungeon
 
             #endregion
 
-            //Shooter Bullets
+            //Shooter logic
             ShooterLogic(game,canvas);
+
+            //Swifter logic
+            SwifterLogic(game,wWidth,wHeight);
 
         }
         private static void PlayerMovement(Game game, bool mUp, bool mDown, bool mLeft, bool mRight, double wWidth, double wHeight)
@@ -64,6 +65,7 @@ namespace WPFDungeon
         private static void PBulletNavigation(Game game,Canvas canvas)
         {
             List<Shooter> shDeleteNeeded = new List<Shooter>();
+            List<Swifter> swDeleteNeeded = new List<Swifter>();
             Bullet bHit = null;
             foreach (Bullet bullet in game.Player.Bullets)
             {
@@ -84,10 +86,24 @@ namespace WPFDungeon
                         bHit = bullet;
                     }
                 }
-            }
+                foreach (Swifter swifter in game.Rooms[0].SpawnMaps[0].Swifters)
+                {
+                    if (swifter.Body.Hitbox.IntersectsWith(bullet.Hitbox))
+                    {
+                        canvas.Children.Remove(swifter.Body.Mesh);
+                        swDeleteNeeded.Add(swifter);
+                        bHit = bullet;
+                    }
+                }
+            }       
+
             foreach (Shooter shooter in shDeleteNeeded)//<------Deletes the bullets
             {
                 game.Rooms[0].SpawnMaps[0].DeleteShooter(shooter);
+            }
+            foreach (Swifter swifter in swDeleteNeeded)//<------Deletes the bullets
+            {
+                game.Rooms[0].SpawnMaps[0].DeleteSwifter(swifter);
             }
             if (bHit != null)
             {
@@ -132,6 +148,10 @@ namespace WPFDungeon
                         bullet.Navigate();
                         Canvas.SetTop(bullet.Mesh, bullet.Location[0]);
                         Canvas.SetLeft(bullet.Mesh, bullet.Location[1]);
+                        if (bullet.Hitbox.IntersectsWith(game.Player.Body.Hitbox))
+                        {
+
+                        }
                     }
                 }
                 //}
@@ -140,6 +160,15 @@ namespace WPFDungeon
 
             if (shootTimer > 50) shootTimer = 0;
             shootTimer++;
+        }
+        private static void SwifterLogic(Game game, double wWidth,double wHeight)
+        {
+            foreach (Swifter swifter in game.Rooms[0].SpawnMaps[0].Swifters)
+            {
+                swifter.Navigate(wWidth,wHeight);
+                Canvas.SetTop(swifter.Body.Mesh,swifter.Location[0]);
+                Canvas.SetLeft(swifter.Body.Mesh,swifter.Location[1]);
+            }
         }
 
     }

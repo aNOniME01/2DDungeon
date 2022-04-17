@@ -10,12 +10,12 @@ using System.Windows.Shapes;
 
 namespace WPFDungeon
 {
-    internal class ShooterLooks:ITextures
+    internal class ShooterBody:IBody
     {
         public ImageBrush Texture { get; private set; }
         public Rect Hitbox { get; private set; }
         public Rectangle Mesh { get; private set; }
-        public ShooterLooks(double height, double width,double yLoc, double xLoc, char faceing,int turretNum)
+        public ShooterBody(double height, double width,double yLoc, double xLoc, char faceing,int turretNum)
         {
             Texture = new ImageBrush();
             if (turretNum == 1)
@@ -34,6 +34,18 @@ namespace WPFDungeon
             {
                 Texture.ImageSource = new BitmapImage(new Uri(Transfer.GetLocation() + "WPFDungeon\\textures\\Shooter4.png"));//shooter body texture
             }
+            FaceTo(faceing);
+
+            Hitbox = new Rect(xLoc,yLoc,width,height);
+
+            Mesh = new Rectangle();
+            Mesh.Width = width;
+            Mesh.Height = height;
+            Mesh.Stroke = Brushes.Black;
+            Mesh.Fill = Texture;
+        }
+        public void FaceTo(char faceing)
+        {
             RotateTransform aRotateTransform = new RotateTransform();
             aRotateTransform.CenterX = 0.5;
             aRotateTransform.CenterY = 0.5;
@@ -43,14 +55,6 @@ namespace WPFDungeon
             else if (faceing == 'L') aRotateTransform.Angle = 270;
             else aRotateTransform.Angle = 90;
             Texture.RelativeTransform = aRotateTransform;
-
-            Hitbox = new Rect(xLoc,yLoc,width,height);
-
-            Mesh = new Rectangle();
-            Mesh.Width = width;
-            Mesh.Height = height;
-            Mesh.Stroke = Brushes.Black;
-            Mesh.Fill = Texture;
         }
     }
 }

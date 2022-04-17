@@ -27,7 +27,7 @@ namespace WPFDungeon
                 {
                     if (line[0] == 'W') Area.Width = Convert.ToDouble(line.Trim('W').Trim());
                     else if (line[0] == 'H') Area.Height = Convert.ToDouble(line.Trim('H').Trim());
-                    else if (line[0] == 'D')
+                    else if (line[0] == 'D')//Door
                     {
                         string[] sgd = line.Trim('D').Trim().Split(';');
                         DoorList.Add(new Door(Convert.ToDouble(sgd[0]), Convert.ToDouble(sgd[1]), Convert.ToDouble(sgd[2]), Convert.ToDouble(sgd[3]), Convert.ToChar(sgd[4])));
@@ -36,19 +36,25 @@ namespace WPFDungeon
                     {
                         SpawnMaps.Add(new SpawnMap());
                     }
-                    else if (line[0] == 'S')
+                    else if (line[0] == 'S')//Shooter
                     {
                         //Shooter x;y;turretNum;faceing
                         string[] sgd = line.Trim('S').Trim().Split(';');
                         SpawnMaps[SpawnMaps.Count-1].AddShooter(Convert.ToDouble(sgd[0]), Convert.ToDouble(sgd[1]),Convert.ToInt32(sgd[2]),Convert.ToChar(sgd[3]));
                     }
-                    else if (line[0] == 'F')
+                    else if (line[0] == 'F')//Swifter
                     {
                         //Swifter x;y;faceing
                         string[] sgd = line.Trim('F').Trim().Split(';');
                         SpawnMaps[SpawnMaps.Count-1].AddSwifter(Convert.ToDouble(sgd[0]), Convert.ToDouble(sgd[1]),Convert.ToChar(sgd[2]));
                     }
-                    else if (line[0] == 'P')
+                    else if (line[0] == 'O')//Portal
+                    {
+                        //Portal x;y;faceing
+                        string[] sgd = line.Trim('O').Trim().Split(';');
+                        SpawnMaps[SpawnMaps.Count-1].AddPortal(Convert.ToDouble(sgd[0]), Convert.ToDouble(sgd[1]),Convert.ToChar(sgd[2]));
+                    }
+                    else if (line[0] == 'P')//Point
                     {
                         //Point x;y
                     }

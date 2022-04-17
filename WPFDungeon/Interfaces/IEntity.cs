@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace WPFDungeon
 {
-    internal class IEntity
+    internal interface IEntity
     {
-        public double[] Location { get; private set; }
-        public char Faceing { get; private set; }//it can have multiple turrets
-        public ITextures Body { get; private set; }//it can have multiple turrets
+        public double[] Location { get;}
+        public char Faceing { get;}
+        //public IBody Body { get;}
     }
 }

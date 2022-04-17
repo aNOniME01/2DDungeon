@@ -10,26 +10,17 @@ using System.Windows.Shapes;
 
 namespace WPFDungeon
 {
-    internal class SwifterLooks
+    internal class SwifterBody:IBody
     {
         public ImageBrush Texture { get; private set; }
         public Rect Hitbox { get; private set; }
         public Rectangle Mesh { get; private set; }
-        public SwifterLooks(double height, double width, double yLoc, double xLoc, char faceing)
+        public SwifterBody(double height, double width, double yLoc, double xLoc, char faceing)
         {
             Texture = new ImageBrush();
             Texture.ImageSource = new BitmapImage(new Uri(Transfer.GetLocation() + "WPFDungeon\\textures\\Swifter.png"));//shooter body texture
 
-            RotateTransform aRotateTransform = new RotateTransform();
-            aRotateTransform.CenterX = 0.5;
-            aRotateTransform.CenterY = 0.5;
-
-            if (faceing == 'T') aRotateTransform.Angle = 0;
-            else if (faceing == 'B') aRotateTransform.Angle = 180;
-            else if (faceing == 'L') aRotateTransform.Angle = 270;
-            else aRotateTransform.Angle = 90;
-            Texture.RelativeTransform = aRotateTransform;
-
+            FaceTo(faceing);
 
             Mesh = new Rectangle();
             if (faceing == 'T'|| faceing == 'B')
@@ -46,6 +37,23 @@ namespace WPFDungeon
             Mesh.Fill = Texture;
 
             Hitbox = new Rect(xLoc, yLoc, Mesh.Width, Mesh.Height);
+        }
+        public void FaceTo(char faceing)
+        {
+            RotateTransform aRotateTransform = new RotateTransform();
+            aRotateTransform.CenterX = 0.5;
+            aRotateTransform.CenterY = 0.5;
+
+            if (faceing == 'T') aRotateTransform.Angle = 0;
+            else if (faceing == 'B') aRotateTransform.Angle = 180;
+            else if (faceing == 'L') aRotateTransform.Angle = 270;
+            else aRotateTransform.Angle = 90;
+            Texture.RelativeTransform = aRotateTransform;
+
+        }
+        public void MoveHitbox(double[] location)
+        {
+            Hitbox = new Rect(location[1], location[0], Mesh.Width, Mesh.Height);
         }
     }
 }

@@ -17,4 +17,6 @@ F200;100;T
 -points-
 P30;20
 -abylities-
+-portal-
+O200;100;L
 --------

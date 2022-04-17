@@ -13,7 +13,7 @@ namespace WPFDungeon
         public double Height { get; private set; }
         public double Width { get; private set; }
         public int TurretNum { get; private set; }
-        public ShooterLooks Body { get; private set; }
+        public ShooterBody Body { get; private set; }
         public List<Bullet> Bullets { get; private set; }
         public Shooter(double yLoc,double xLoc, int turretNum,char faceing)
         {
@@ -29,7 +29,7 @@ namespace WPFDungeon
 
             TurretNum = turretNum;
 
-            Body = new ShooterLooks(Height,Width,Location[0],Location[1],Faceing,TurretNum);
+            Body = new ShooterBody(Height,Width,Location[0],Location[1],Faceing,TurretNum);
 
             Bullets = new List<Bullet>();
         }
