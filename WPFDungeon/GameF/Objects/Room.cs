@@ -12,13 +12,13 @@ namespace WPFDungeon
     class Room
     {
         public Rectangle Area { get; private set; }
-        public List<Door> DoorList { get; private set; }
+        public List<Door> Doors { get; private set; }
         public List<SpawnMap> SpawnMaps { get; private set; }
         
         public Room(string fileName)
         {
             Area = new Rectangle();
-            DoorList = new List<Door>();
+            Doors = new List<Door>();
             SpawnMaps = new List<SpawnMap>();
 
             foreach (string line in File.ReadAllLines(Transfer.GetLocation()+"\\WPFDungeon\\Prefabs\\Rooms\\"+fileName+".txt"))
@@ -30,7 +30,7 @@ namespace WPFDungeon
                     else if (line[0] == 'D')//Door
                     {
                         string[] sgd = line.Trim('D').Trim().Split(';');
-                        DoorList.Add(new Door(Convert.ToDouble(sgd[0]), Convert.ToDouble(sgd[1]), Convert.ToDouble(sgd[2]), Convert.ToDouble(sgd[3]), Convert.ToChar(sgd[4])));
+                        Doors.Add(new Door(Convert.ToDouble(sgd[0]), Convert.ToChar(sgd[1]),Area.Height,Area.Width));
                     }
                     else if(line[0] == 'V')
                     {

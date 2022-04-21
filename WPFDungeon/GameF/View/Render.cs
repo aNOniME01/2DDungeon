@@ -18,7 +18,16 @@ namespace WPFDungeon
             AddToCanvas(game.Rooms[0].Area, game.Player.Location[0], game.Player.Location[1]);
 
             AddToCanvas(game.Rooms[0].SpawnMaps[0].Portal.Body.Mesh, game.Rooms[0].SpawnMaps[0].Portal.Location[0],game.Rooms[0].SpawnMaps[0].Portal.Location[1]);
-            
+
+            foreach (Door door in game.Rooms[0].Doors)
+            {
+                AddToCanvas(door.Mesh, door.L1[0]+ game.Player.Location[0], door.L1[1]+ game.Player.Location[1]);
+            }
+            foreach (Hallway hallway in game.Hallways)
+            {
+                AddToCanvas(hallway.Body.Mesh, hallway.D1.L1[0]+ game.Player.Location[0], hallway.D1.L1[1]+ game.Player.Location[1]);
+            }
+
             SetUpPlayer();
             SetUpEnemy();
         }
