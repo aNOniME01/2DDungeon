@@ -95,9 +95,6 @@ namespace WPFDungeon
             {
                 int lastBullet = game.Player.Bullets.Count;
                 game.Player.Shoot();
-                Canvas.SetTop(game.Player.Bullets[lastBullet].Mesh, game.Player.Bullets[lastBullet].Location[0]);
-                Canvas.SetLeft(game.Player.Bullets[lastBullet].Mesh, game.Player.Bullets[lastBullet].Location[1]);
-                canvas.Children.Add(game.Player.Bullets[lastBullet].Mesh);
             }
 
         }
@@ -110,44 +107,8 @@ namespace WPFDungeon
             timer.Start();
 
             game = new Game(Width, Height);
-            canvas.Children.Add(game.Rooms[0].Area);
-            Canvas.SetTop(game.Rooms[0].Area, game.Player.Location[0]);
-            Canvas.SetLeft(game.Rooms[0].Area, game.Player.Location[1]);
 
-            canvas.Children.Add(game.Rooms[0].SpawnMaps[0].Portal.Body.Mesh);
-            Canvas.SetTop(game.Rooms[0].SpawnMaps[0].Portal.Body.Mesh, game.Rooms[0].SpawnMaps[0].Portal.Location[0]);
-            Canvas.SetLeft(game.Rooms[0].SpawnMaps[0].Portal.Body.Mesh, game.Rooms[0].SpawnMaps[0].Portal.Location[1]);
-
-            SetUpEnemy();
-
-            SetUpPlayer();
-        }
-        private void SetUpPlayer()
-        {
-            canvas.Children.Add(game.Player.Body.Mesh);
-            Canvas.SetTop(game.Player.Body.Mesh, game.Player.Location[0]);
-            Canvas.SetLeft(game.Player.Body.Mesh, game.Player.Location[1]);
-
-            Canvas.SetZIndex(game.Player.Body.Mesh, 1);
-        }
-        private void SetUpEnemy()
-        {
-            foreach (var enemy in game.Rooms[0].SpawnMaps[0].Swifters)
-            {
-                canvas.Children.Add(enemy.Body.Mesh);
-                Canvas.SetTop(enemy.Body.Mesh, enemy.Location[0]);
-                Canvas.SetLeft(enemy.Body.Mesh, enemy.Location[1]);
-            }
-            foreach (Shooter shooter in game.Rooms[0].SpawnMaps[0].Shooters)
-            {
-                canvas.Children.Add(shooter.Body.Mesh);
-                Canvas.SetTop(shooter.Body.Mesh, shooter.Location[0]);
-                Canvas.SetLeft(shooter.Body.Mesh, shooter.Location[1]);
-            }
-        }
-        public void AddToCanvas(UIElement uiElement)
-        {
-            canvas.Children.Add(uiElement);
+            Render.Load(canvas, game);
         }
     }
 }
