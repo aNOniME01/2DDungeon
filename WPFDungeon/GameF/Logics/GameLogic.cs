@@ -12,22 +12,22 @@ namespace WPFDungeon
     internal class GameLogic
     {
         private static int shootTimer = 0;
-        public static void GameLoop(Game game, bool mUp, bool mDown, bool mLeft, bool mRight, double wWidth, double wHeight, Canvas canvas)
+        public static void GameLoop(Game game, bool mUp, bool mDown, bool mLeft, bool mRight, double wWidth, double wHeight)
         {
             #region PlayerLogic
             //player movement
             PlayerMovement(game,mUp, mDown, mLeft, mRight,wWidth,wHeight);
 
             //bullet navigation
-            PBulletNavigation(game,canvas);
+            PBulletNavigation(game);
 
             //bullet deleting
-            PBulletDeleteing(game, wWidth, wHeight, canvas);
+            PBulletDeleteing(game, wWidth, wHeight);
 
             #endregion
 
             //Shooter logic
-            ShooterLogic(game,canvas);
+            ShooterLogic(game);
 
             //Swifter logic
             SwifterLogic(game,wWidth,wHeight);
@@ -35,34 +35,36 @@ namespace WPFDungeon
         }
         private static void PlayerMovement(Game game, bool mUp, bool mDown, bool mLeft, bool mRight, double wWidth, double wHeight)
         {
-            Rectangle body = game.Player.Body.Mesh;
-
             if (mUp && game.Player.Location[0] > 0)
             {
                 game.Player.FaceTo('T');
                 game.Player.AddToLocation(-2, 0);
-                Canvas.SetTop(body, game.Player.Location[0]);
+                Render.RefreshElement(game.Player);
             }
             if (mDown && game.Player.Location[0] < wHeight)
             {
                 game.Player.FaceTo('B');
                 game.Player.AddToLocation(2, 0);
-                Canvas.SetTop(body, game.Player.Location[0]);
+                Render.RefreshElement(game.Player);
             }
             if (mLeft && game.Player.Location[1] > 0)
             {
                 game.Player.FaceTo('L');
                 game.Player.AddToLocation(0, -2);
-                Canvas.SetLeft(body, game.Player.Location[1]);
+                Render.RefreshElement(game.Player);
             }
             if (mRight && game.Player.Location[1] < wWidth)
             {
                 game.Player.FaceTo('R');
                 game.Player.AddToLocation(0, 2);
-                Canvas.SetLeft(body, game.Player.Location[1]);
+                Render.RefreshElement(game.Player);
             }
         }
-        private static void PBulletNavigation(Game game,Canvas canvas)
+        /// <summary>
+        /// Navigates the bullet
+        /// </summary>
+        /// <param name="game">Game object, contains all the game elements (rooms,hallways,player,enemies)</param>
+        private static void PBulletNavigation(Game game)
         {
             List<Shooter> shDeleteNeeded = new List<Shooter>();
             List<Swifter> swDeleteNeeded = new List<Swifter>();
@@ -70,17 +72,16 @@ namespace WPFDungeon
             foreach (Bullet bullet in game.Player.Bullets)
             {
                 bullet.Navigate();
-                Canvas.SetTop(bullet.Mesh, bullet.Location[0]);
-                Canvas.SetLeft(bullet.Mesh, bullet.Location[1]);
+                Render.RefreshElement(bullet);
                 foreach (Shooter shooter in game.Rooms[0].SpawnMaps[0].Shooters)
                 {
                     if (shooter.Body.Hitbox.IntersectsWith(bullet.Hitbox))
                     {
-                        canvas.Children.Remove(shooter.Body.Mesh);
+                        game.GCanvas.Children.Remove(shooter.Body.Mesh);
                         shDeleteNeeded.Add(shooter);
                         foreach (Bullet eBullet in shooter.Bullets)
                         {
-                            canvas.Children.Remove(eBullet.Mesh);
+                            game.GCanvas.Children.Remove(eBullet.Mesh);
                         }
                         shooter.Bullets.Clear();
                         bHit = bullet;
@@ -90,7 +91,7 @@ namespace WPFDungeon
                 {
                     if (swifter.Body.Hitbox.IntersectsWith(bullet.Hitbox))
                     {
-                        canvas.Children.Remove(swifter.Body.Mesh);
+                        game.GCanvas.Children.Remove(swifter.Body.Mesh);
                         swDeleteNeeded.Add(swifter);
                         bHit = bullet;
                     }
@@ -107,18 +108,18 @@ namespace WPFDungeon
             }
             if (bHit != null)
             {
-                canvas.Children.Remove(bHit.Mesh);
+                game.GCanvas.Children.Remove(bHit.Mesh);
                 game.Player.DeleteBullet(bHit);
             }
         }
-        private static void PBulletDeleteing(Game game, double wWidth, double wHeight, Canvas canvas)
+        private static void PBulletDeleteing(Game game, double wWidth, double wHeight)
         {
             List<Bullet> pbDeleteNeeded = new List<Bullet>();
             foreach (Bullet bullet in game.Player.Bullets)
             {
                 if (bullet.Location[0] < 0 || bullet.Location[1] < 0 || bullet.Location[0] > wHeight || bullet.Location[1] > wWidth)
                 {
-                    canvas.Children.Remove(bullet.Mesh);
+                    game.GCanvas.Children.Remove(bullet.Mesh);
                     pbDeleteNeeded.Add(bullet);
                 }
             }
@@ -127,7 +128,7 @@ namespace WPFDungeon
                 game.Player.DeleteBullet(bullet);
             }
         }
-        private static void ShooterLogic(Game game, Canvas canvas)
+        private static void ShooterLogic(Game game)
         {
             foreach (Room room in game.Rooms)
             {
@@ -140,7 +141,7 @@ namespace WPFDungeon
                         shooter.Shoot();
                         for (int i = shooter.Bullets.Count - 1; i >= shooter.Bullets.Count - shooter.TurretNum; i--)
                         {
-                            canvas.Children.Add(shooter.Bullets[i].Mesh);
+                            game.GCanvas.Children.Add(shooter.Bullets[i].Mesh);
                         }
                     }
                     foreach (Bullet bullet in shooter.Bullets)

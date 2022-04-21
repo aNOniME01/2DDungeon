@@ -13,7 +13,7 @@ namespace WPFDungeon
         public double Height { get; private set; }
         public double Width { get; private set; }
         public int TurretNum { get; private set; }
-        public ShooterBody Body { get; private set; }
+        public IBody Body { get; private set; }
         public List<Bullet> Bullets { get; private set; }
         public Shooter(double yLoc,double xLoc, int turretNum,char faceing)
         {

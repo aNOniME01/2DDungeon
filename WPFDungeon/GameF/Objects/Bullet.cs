@@ -9,11 +9,12 @@ using System.Windows.Shapes;
 
 namespace WPFDungeon
 {
-    internal class Bullet
+    internal class Bullet:IEntity
     {
         public string Tag { get; private set; }
         public double[] Location { get; private set; }
         public char Faceing { get; private set; }
+        public IBody Body { get; set; }
         public Rect Hitbox { get; private set; }
         public Rectangle Mesh { get; private set; }
         public Bullet(string tag, double yLoc, double xLoc, char faceing)

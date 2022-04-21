@@ -10,7 +10,7 @@ namespace WPFDungeon
     {
         public double[] Location { get; private set; }
         public char Faceing { get; private set; }//it can have multiple turrets
-        public SwifterBody Body { get; private set; }//it can have multiple turrets
+        public IBody Body { get; private set; }//it can have multiple turrets
         public Swifter(double yLoc,double xLoc,char faceing)
         {
             Location = new double[2];
@@ -46,7 +46,7 @@ namespace WPFDungeon
                 else Location[1] += speed;
             }
             Body.FaceTo(Faceing);
-            Body.MoveHitbox(Location);
+            (Body as SwifterBody).MoveHitbox(Location);
         }
     }
 }

@@ -13,9 +13,9 @@ namespace WPFDungeon
         public double Height { get; private set; }
         public double Width { get; private set; }
         public char Faceing { get; private set; }
-        public PlayerLooks Body { get; private set; }
+        public IBody Body { get; private set; }
         public List<Bullet> Bullets { get; private set; }
-        public Player(double height, double width)
+        public Player()
         {
             Location = new double[2];
             Location[0] = 100;
@@ -28,7 +28,7 @@ namespace WPFDungeon
 
             Bullets = new List<Bullet>();
 
-            Body = new PlayerLooks(Height, Width, Location[0], Location[1]);
+            Body = new PlayerBody(Location[0], Location[1]);
         }
         public void AddToLocation(double x, double y)
         {
@@ -49,6 +49,5 @@ namespace WPFDungeon
         {
             Bullets.Remove(bullet);
         }
-
     }
 }

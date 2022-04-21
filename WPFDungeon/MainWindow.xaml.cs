@@ -50,7 +50,7 @@ namespace WPFDungeon
                 lable.Content = $"y:{bullet.Location[0]}x:{bullet.Location[1]}";
             }
 
-            GameLogic.GameLoop(game, mUp,mDown,mLeft,mRight,Width-25,Height-50,canvas);
+            GameLogic.GameLoop(game, mUp,mDown,mLeft,mRight,Width-25,Height-50);
         }
 
         private void Window_KeyDown(object sender, KeyEventArgs e)
@@ -106,9 +106,9 @@ namespace WPFDungeon
             timer.Tick += timer_Tick;
             timer.Start();
 
-            game = new Game(Width, Height);
+            game = new Game(canvas);
 
-            Render.Load(canvas, game);
+            Render.Load(game);
         }
     }
 }

@@ -10,21 +10,15 @@ namespace WPFDungeon
 {
     class Render
     {
-        private static Canvas canvas = null;
         private static Game game = null;
-        public static void Load(Canvas cvs,Game gm)
+        public static void Load(Game gm)
         {
-            canvas = cvs;
             game = gm;
 
-            canvas.Children.Add(game.Rooms[0].Area);
-            Canvas.SetTop(game.Rooms[0].Area, game.Player.Location[0]);
-            Canvas.SetLeft(game.Rooms[0].Area, game.Player.Location[1]);
+            AddToCanvas(game.Rooms[0].Area, game.Player.Location[0], game.Player.Location[1]);
 
-            canvas.Children.Add(game.Rooms[0].SpawnMaps[0].Portal.Body.Mesh);
-            Canvas.SetTop(game.Rooms[0].SpawnMaps[0].Portal.Body.Mesh, game.Rooms[0].SpawnMaps[0].Portal.Location[0]);
-            Canvas.SetLeft(game.Rooms[0].SpawnMaps[0].Portal.Body.Mesh, game.Rooms[0].SpawnMaps[0].Portal.Location[1]);
-
+            AddToCanvas(game.Rooms[0].SpawnMaps[0].Portal.Body.Mesh, game.Rooms[0].SpawnMaps[0].Portal.Location[0],game.Rooms[0].SpawnMaps[0].Portal.Location[1]);
+            
             SetUpPlayer();
             SetUpEnemy();
         }
@@ -48,15 +42,20 @@ namespace WPFDungeon
         {
             Canvas.SetTop(uiElement, y);
             Canvas.SetLeft(uiElement, x);
-            canvas.Children.Add(uiElement);
+            game.GCanvas.Children.Add(uiElement);
         }
         public static void AddToCanvas(UIElement uiElement,double y,double x,int z)
         {
             Canvas.SetTop(uiElement, y);
             Canvas.SetLeft(uiElement, x);
-            canvas.Children.Add(uiElement);
+            game.GCanvas.Children.Add(uiElement);
 
             Canvas.SetZIndex(uiElement, z);
+        }
+        public static void RefreshElement(IEntity entity)
+        {
+            Canvas.SetTop(entity.Body.Mesh, entity.Location[0]);
+            Canvas.SetLeft(entity.Body.Mesh, entity.Location[0]);
         }
     }
 }

@@ -10,21 +10,21 @@ using System.Windows.Shapes;
 
 namespace WPFDungeon
 {
-    internal class PlayerLooks:IBody
+    internal class PlayerBody:IBody
     {
         public ImageBrush Texture { get; private set; }
         public Rect Hitbox { get; private set; }
         public Rectangle Mesh { get; private set; }
-        public PlayerLooks(double height, double width,double yLoc,double xLoc)
+        public PlayerBody(double yLoc,double xLoc)
         {
             Texture = new ImageBrush();
             Texture.ImageSource = new BitmapImage(new Uri(Transfer.GetLocation() + "WPFDungeon\\textures\\Player.png"));
 
-            Hitbox = new Rect(xLoc, yLoc, width, height);
+            Hitbox = new Rect(xLoc, yLoc, 10, 10);
 
             Mesh = new Rectangle();
-            Mesh.Width = width;
-            Mesh.Height = height;
+            Mesh.Width = 10;
+            Mesh.Height = 10;
             Mesh.Stroke = Brushes.Black;
             Mesh.Fill = Texture;
 

@@ -10,6 +10,7 @@ namespace WPFDungeon
     {
         public double[] Location { get;}
         public char Faceing { get;}
+        public IBody Body { get;}
         //public IBody Body { get;}
     }
 }
