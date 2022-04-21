@@ -75,13 +75,13 @@ namespace WPFDungeon
                 Render.RefreshElement(bullet);
                 foreach (Shooter shooter in game.Rooms[0].SpawnMaps[0].Shooters)
                 {
-                    if (shooter.Body.Hitbox.IntersectsWith(bullet.Hitbox))
+                    if (shooter.Body.Hitbox.IntersectsWith(bullet.Body.Hitbox))
                     {
                         game.GCanvas.Children.Remove(shooter.Body.Mesh);
                         shDeleteNeeded.Add(shooter);
                         foreach (Bullet eBullet in shooter.Bullets)
                         {
-                            game.GCanvas.Children.Remove(eBullet.Mesh);
+                            game.GCanvas.Children.Remove(eBullet.Body.Mesh);
                         }
                         shooter.Bullets.Clear();
                         bHit = bullet;
@@ -89,7 +89,7 @@ namespace WPFDungeon
                 }
                 foreach (Swifter swifter in game.Rooms[0].SpawnMaps[0].Swifters)
                 {
-                    if (swifter.Body.Hitbox.IntersectsWith(bullet.Hitbox))
+                    if (swifter.Body.Hitbox.IntersectsWith(bullet.Body.Hitbox))
                     {
                         game.GCanvas.Children.Remove(swifter.Body.Mesh);
                         swDeleteNeeded.Add(swifter);
@@ -108,7 +108,7 @@ namespace WPFDungeon
             }
             if (bHit != null)
             {
-                game.GCanvas.Children.Remove(bHit.Mesh);
+                game.GCanvas.Children.Remove(bHit.Body.Mesh);
                 game.Player.DeleteBullet(bHit);
             }
         }
@@ -119,7 +119,7 @@ namespace WPFDungeon
             {
                 if (bullet.Location[0] < 0 || bullet.Location[1] < 0 || bullet.Location[0] > wHeight || bullet.Location[1] > wWidth)
                 {
-                    game.GCanvas.Children.Remove(bullet.Mesh);
+                    game.GCanvas.Children.Remove(bullet.Body.Mesh);
                     pbDeleteNeeded.Add(bullet);
                 }
             }
@@ -141,15 +141,15 @@ namespace WPFDungeon
                         shooter.Shoot();
                         for (int i = shooter.Bullets.Count - 1; i >= shooter.Bullets.Count - shooter.TurretNum; i--)
                         {
-                            game.GCanvas.Children.Add(shooter.Bullets[i].Mesh);
+                            game.GCanvas.Children.Add(shooter.Bullets[i].Body.Mesh);
                         }
                     }
                     foreach (Bullet bullet in shooter.Bullets)
                     {
                         bullet.Navigate();
-                        Canvas.SetTop(bullet.Mesh, bullet.Location[0]);
-                        Canvas.SetLeft(bullet.Mesh, bullet.Location[1]);
-                        if (bullet.Hitbox.IntersectsWith(game.Player.Body.Hitbox))
+                        Canvas.SetTop(bullet.Body.Mesh, bullet.Location[0]);
+                        Canvas.SetLeft(bullet.Body.Mesh, bullet.Location[1]);
+                        if (bullet.Body.Hitbox.IntersectsWith(game.Player.Body.Hitbox))
                         {
 
                         }

@@ -15,8 +15,6 @@ namespace WPFDungeon
         public double[] Location { get; private set; }
         public char Faceing { get; private set; }
         public IBody Body { get; set; }
-        public Rect Hitbox { get; private set; }
-        public Rectangle Mesh { get; private set; }
         public Bullet(string tag, double yLoc, double xLoc, char faceing)
         {
             Tag = tag;
@@ -26,21 +24,7 @@ namespace WPFDungeon
             Location[1] = xLoc;
 
             Faceing = faceing;
-
-            Mesh = new Rectangle();
-            if (Faceing == 'T' || Faceing == 'B')
-            {
-                Mesh.Width = 2;
-                Mesh.Height = 5;
-            }
-            else
-            {
-                Mesh.Width = 5;
-                Mesh.Height = 2;
-            }
-            Mesh.Stroke = Brushes.Black;
-
-
+            Body = new BulletBody(Faceing,Location[0],Location[1]);
         }
         public void Navigate()
         {
@@ -60,8 +44,7 @@ namespace WPFDungeon
             {
                 Location[1] += 5;
             }
-
-            Hitbox = new Rect(Location[1], Location[0], Mesh.Width, Mesh.Height);
+            (Body as BulletBody).SetHitboxLocation(Location[0], Location[1]);
         }
     }
 }
