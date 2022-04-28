@@ -12,28 +12,39 @@ namespace WPFDungeon
     internal class GameLogic
     {
         private static int shootTimer = 0;
-        public static void GameLoop(Game game, bool mUp, bool mDown, bool mLeft, bool mRight, double wWidth, double wHeight)
+        private static Game game;
+        private static List<Rect> barrierList = new List<Rect>();
+        public static void GameLoad(Game gm)
+        {
+            game = gm;
+
+            barrierList.Add(new Rect(0,0,500,20));
+            barrierList.Add(new Rect(0,464,500,20));
+            barrierList.Add(new Rect(0,20,500,20));
+            barrierList.Add(new Rect(480,20,500,20));
+        }
+        public static void GameLoop( bool mUp, bool mDown, bool mLeft, bool mRight, double wWidth, double wHeight)
         {
             #region PlayerLogic
             //player movement
-            PlayerMovement(game,mUp, mDown, mLeft, mRight,wWidth,wHeight);
+            PlayerMovement(mUp, mDown, mLeft, mRight,wWidth,wHeight);
 
             //bullet navigation
-            PBulletNavigation(game);
+            PBulletNavigation();
 
             //bullet deleting
-            PBulletDeleteing(game, wWidth, wHeight);
+            PBulletDeleteing(wWidth, wHeight);
 
             #endregion
 
             //Shooter logic
-            ShooterLogic(game);
+            ShooterLogic();
 
             //Swifter logic
-            SwifterLogic(game,wWidth,wHeight);
+            SwifterLogic(wWidth,wHeight);
 
         }
-        private static void PlayerMovement(Game game, bool mUp, bool mDown, bool mLeft, bool mRight, double wWidth, double wHeight)
+        private static void PlayerMovement( bool mUp, bool mDown, bool mLeft, bool mRight, double wWidth, double wHeight)
         {
             if (mUp && game.Player.Location[0] > 0)
             {
@@ -64,7 +75,7 @@ namespace WPFDungeon
         /// Navigates the bullet
         /// </summary>
         /// <param name="game">Game object, contains all the game elements (rooms,hallways,player,enemies)</param>
-        private static void PBulletNavigation(Game game)
+        private static void PBulletNavigation()
         {
             List<Shooter> shDeleteNeeded = new List<Shooter>();
             List<Swifter> swDeleteNeeded = new List<Swifter>();
@@ -112,7 +123,7 @@ namespace WPFDungeon
                 game.Player.DeleteBullet(bHit);
             }
         }
-        private static void PBulletDeleteing(Game game, double wWidth, double wHeight)
+        private static void PBulletDeleteing( double wWidth, double wHeight)
         {
             List<Bullet> pbDeleteNeeded = new List<Bullet>();
             foreach (Bullet bullet in game.Player.Bullets)
@@ -128,7 +139,7 @@ namespace WPFDungeon
                 game.Player.DeleteBullet(bullet);
             }
         }
-        private static void ShooterLogic(Game game)
+        private static void ShooterLogic()
         {
             foreach (Room room in game.Rooms)
             {
@@ -162,7 +173,7 @@ namespace WPFDungeon
             if (shootTimer > 50) shootTimer = 0;
             shootTimer++;
         }
-        private static void SwifterLogic(Game game, double wWidth,double wHeight)
+        private static void SwifterLogic( double wWidth,double wHeight)
         {
             foreach (Swifter swifter in game.Rooms[0].SpawnMaps[0].Swifters)
             {

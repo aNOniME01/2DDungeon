@@ -8,5 +8,9 @@
         Title="MainWindow" Height="500" Width="500">
     <Canvas x:Name="canvas" >
         <Label x:Name="lable" Content="Score: 0"/>
+        <Rectangle Width="500" Height="20" Fill="Red"/>
+        <Rectangle Width="500" Height="20" Fill="Red" Canvas.Top="464"/>
+        <Rectangle Width="20" Height="444" Fill="Red" Canvas.Top="20"/>
+        <Rectangle Width="20" Height="444" Fill="Red" Canvas.Top="20" Canvas.Left="480"/>
     </Canvas>
 </Window>

@@ -23,6 +23,10 @@ namespace WPFDungeon
             {
                 foreach (Door door in room.Doors)
                 {
+                    foreach (Room room2 in Rooms)
+                    {
+
+                    }
                     Hallways.Add(new Hallway(door,40));
                 }
             }
