@@ -24,27 +24,29 @@ namespace WPFDungeon
             if (D1.Faceing == 'T')
             {
                 Mesh.Width = 15;
-                Mesh.Height = D1.L1[0] - D2.L1[0];
+                Mesh.Height = Logic.ToPositive(D1.Location[0] - D2.Location[0]);
+                D1.Location[0] -= D1.Location[0] - D2.Location[0];
             }
             else if (D1.Faceing == 'B')
             {
                 Mesh.Width = 15;
-                Mesh.Height = D2.L1[0] - D1.L1[0];
+                Mesh.Height = Logic.ToPositive(D2.Location[0] - D1.Location[0]);
             }
-            else if (D1.Faceing == 'B')
+            else if (D1.Faceing == 'L')
             {
-                Mesh.Width = D1.L1[1] - D2.L1[1];
+                Mesh.Width = Logic.ToPositive(D1.Location[1] - D2.Location[1]);
                 Mesh.Height = 15;
+                D1.Location[1] -= D1.Location[1] - D2.Location[1];
             }
             else
             {
-                Mesh.Width = D2.L1[1] - D1.L1[1];
+                Mesh.Width = Logic.ToPositive(D2.Location[1] - D1.Location[1]);
                 Mesh.Height = 15;
             }
             Mesh.Stroke = Brushes.Black;
             Mesh.Fill = Brushes.Red;
 
-            Hitbox = new Rect(D1.L1[1], D1.L1[0], Mesh.Width, Mesh.Height);
+            Hitbox = new Rect(D1.Location[1], D1.Location[0], Mesh.Width, Mesh.Height);
         }
         public void FaceTo(char direction)
         {
@@ -58,6 +60,10 @@ namespace WPFDungeon
             else aRotateTransform.Angle = 90;
 
             Texture.RelativeTransform = aRotateTransform;
+        }
+        public void MoveHitbox(double[] Loc)
+        {
+            Hitbox = new Rect(Loc[1], Loc[0], Mesh.Width, Mesh.Height);
         }
     }
 }

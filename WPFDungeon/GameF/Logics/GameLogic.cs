@@ -18,12 +18,19 @@ namespace WPFDungeon
         {
             game = gm;
 
-            barrierList.Add(new Rect(0,0,500,20));
-            barrierList.Add(new Rect(0,464,500,20));
-            barrierList.Add(new Rect(0,20,500,20));
-            barrierList.Add(new Rect(480,20,500,20));
+            barrierList.Add(new Rect(0,0,465,20));
+            barrierList.Add(new Rect(0,442,465,20));
+            barrierList.Add(new Rect(0,20,20,422));
+            barrierList.Add(new Rect(465,0,20,462));
+
+            game.Rooms[0].ChangeLocation(100, 150);
+            foreach (Hallway hallway in game.Hallways)
+            {
+                hallway.ToRoomLoc(game.Rooms[0].Location);
+            }
+
         }
-        public static void GameLoop( bool mUp, bool mDown, bool mLeft, bool mRight, double wWidth, double wHeight)
+        public static void GameLoop(bool mUp, bool mDown, bool mLeft, bool mRight, double wWidth, double wHeight)
         {
             #region PlayerLogic
             //player movement
@@ -50,25 +57,25 @@ namespace WPFDungeon
             {
                 game.Player.FaceTo('T');
                 game.Player.AddToLocation(-2, 0);
-                Render.RefreshElement(game.Player);
+                Render.RefreshEntity(game.Player);
             }
             if (mDown && game.Player.Location[0] < wHeight)
             {
                 game.Player.FaceTo('B');
                 game.Player.AddToLocation(2, 0);
-                Render.RefreshElement(game.Player);
+                Render.RefreshEntity(game.Player);
             }
             if (mLeft && game.Player.Location[1] > 0)
             {
                 game.Player.FaceTo('L');
                 game.Player.AddToLocation(0, -2);
-                Render.RefreshElement(game.Player);
+                Render.RefreshEntity(game.Player);
             }
             if (mRight && game.Player.Location[1] < wWidth)
             {
                 game.Player.FaceTo('R');
                 game.Player.AddToLocation(0, 2);
-                Render.RefreshElement(game.Player);
+                Render.RefreshEntity(game.Player);
             }
         }
         /// <summary>
@@ -79,11 +86,11 @@ namespace WPFDungeon
         {
             List<Shooter> shDeleteNeeded = new List<Shooter>();
             List<Swifter> swDeleteNeeded = new List<Swifter>();
-            Bullet bHit = null;
+            Bullet? bHit = null;
             foreach (Bullet bullet in game.Player.Bullets)
             {
                 bullet.Navigate();
-                Render.RefreshElement(bullet);
+                Render.RefreshEntity(bullet);
                 foreach (Shooter shooter in game.Rooms[0].SpawnMaps[0].Shooters)
                 {
                     if (shooter.Body.Hitbox.IntersectsWith(bullet.Body.Hitbox))

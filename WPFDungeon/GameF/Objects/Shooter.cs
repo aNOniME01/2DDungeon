@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace WPFDungeon
 {
-    internal class Shooter:IEntity
+    internal class Shooter : IEntity
     {
         public double[] Location { get; private set; }
         public char Faceing { get; private set; }//it can have multiple turrets
@@ -68,5 +68,11 @@ namespace WPFDungeon
         {
             Bullets.Remove(bullet);
         }
+        public void ToRoomLoc(double[] roomLocation)
+        {
+            Location[0] += roomLocation[0];
+            Location[1] += roomLocation[1];
+        }
+
     }
 }

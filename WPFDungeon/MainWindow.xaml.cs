@@ -21,7 +21,7 @@ namespace WPFDungeon
     /// </summary>
     public partial class MainWindow : Window
     {
-        private static DispatcherTimer timer;
+        private static DispatcherTimer? timer;
         private static Game game;
         private static bool mUp;
         private static bool mDown;
@@ -35,22 +35,7 @@ namespace WPFDungeon
             mDown = false;
             mLeft = false;
             mRight = false;
-        }
 
-
-        void timer_Tick(object sender, EventArgs e)
-        {
-            if (Transfer.IsAvailable())
-            {
-                //put the player to the portal
-            }
-
-            foreach (Bullet bullet in game.Player.Bullets)
-            {
-                lable.Content = $"y:{bullet.Location[0]}x:{bullet.Location[1]}";
-            }
-
-            GameLogic.GameLoop(game, mUp,mDown,mLeft,mRight,Width-25,Height-50);
         }
 
         private void Window_KeyDown(object sender, KeyEventArgs e)
@@ -101,14 +86,31 @@ namespace WPFDungeon
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            game = new Game(canvas);
+
+            GameLogic.GameLoad(game);
+            Render.Load(game);
+
             timer = new DispatcherTimer();
             timer.Interval = TimeSpan.FromMilliseconds(20);
             timer.Tick += timer_Tick;
             timer.Start();
 
-            game = new Game(canvas);
+        }
 
-            Render.Load(game);
+        void timer_Tick(object sender, EventArgs e)
+        {
+            if (Transfer.IsAvailable())
+            {
+                //put the player to the portal
+            }
+
+            foreach (Bullet bullet in game.Player.Bullets)
+            {
+                lable.Content = $"y:{bullet.Location[0]}x:{bullet.Location[1]}";
+            }
+
+            GameLogic.GameLoop(mUp, mDown, mLeft, mRight, Width - 25, Height - 50);
         }
     }
 }

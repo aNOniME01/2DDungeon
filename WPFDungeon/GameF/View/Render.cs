@@ -15,26 +15,24 @@ namespace WPFDungeon
         {
             game = gm;
 
-            AddToCanvas(game.Rooms[0].Area, game.Player.Location[0], game.Player.Location[1]);
+            AddToCanvas(game.Rooms[0].Body.Mesh, game.Rooms[0].Location[0], game.Rooms[0].Location[1]);
 
             AddToCanvas(game.Rooms[0].SpawnMaps[0].Portal.Body.Mesh, game.Rooms[0].SpawnMaps[0].Portal.Location[0],game.Rooms[0].SpawnMaps[0].Portal.Location[1]);
 
-            foreach (Door door in game.Rooms[0].Doors)
-            {
-                AddToCanvas(door.Mesh, door.L1[0]+ game.Player.Location[0], door.L1[1]+ game.Player.Location[1]);
-            }
             foreach (Hallway hallway in game.Hallways)
             {
-                AddToCanvas(hallway.Body.Mesh, hallway.D1.L1[0]+ game.Player.Location[0], hallway.D1.L1[1]+ game.Player.Location[1]);
+                AddToCanvas(hallway.Body.Mesh, hallway.D1.Location[0], hallway.D1.Location[1]);
             }
 
-            SetUpPlayer();
+            //Draw player
+            AddToCanvas(game.Player.Body.Mesh, game.Player.Location[0], game.Player.Location[1], 1);
+
+            //Draw Enemies
             SetUpEnemy();
         }
-        private static void SetUpPlayer()
-        {
-            AddToCanvas(game.Player.Body.Mesh,game.Player.Location[0],game.Player.Location[1],1);
-        }
+        /// <summary>
+        /// Draws all enemies onto the canvas
+        /// </summary>
         private static void SetUpEnemy()
         {
             foreach (var enemy in game.Rooms[0].SpawnMaps[0].Swifters)
@@ -46,13 +44,25 @@ namespace WPFDungeon
                 AddToCanvas(shooter.Body.Mesh, shooter.Location[0], shooter.Location[1]);
             }
         }
-
+        /// <summary>
+        /// Adds a UIElement to the canvas (Layer = 0)
+        /// </summary>
+        /// <param name="uiElement">Element</param>
+        /// <param name="y">Y cordinate</param>
+        /// <param name="x">X cordinate</param>
         public static void AddToCanvas(UIElement uiElement,double y,double x)
         {
             Canvas.SetTop(uiElement, y);
             Canvas.SetLeft(uiElement, x);
             game.GCanvas.Children.Add(uiElement);
         }
+        /// <summary>
+        /// Adds a UIElement to the canvas with a layer
+        /// </summary>
+        /// <param name="uiElement">Element</param>
+        /// <param name="y">Y cordinate</param>
+        /// <param name="x">X cordinate</param>
+        /// <param name="z">Layer</param>
         public static void AddToCanvas(UIElement uiElement,double y,double x,int z)
         {
             Canvas.SetTop(uiElement, y);
@@ -61,10 +71,19 @@ namespace WPFDungeon
 
             Canvas.SetZIndex(uiElement, z);
         }
-        public static void RefreshElement(IEntity entity)
+        /// <summary>
+        /// Refreshes the entity location on the canvas
+        /// </summary>
+        /// <param name="entity">Entity</param>
+        public static void RefreshEntity(IEntity entity)
         {
             Canvas.SetTop(entity.Body.Mesh, entity.Location[0]);
             Canvas.SetLeft(entity.Body.Mesh, entity.Location[1]);
+        }
+        public static void RefreshElement(UIElement element,double[] Loc)
+        {
+            Canvas.SetTop(element, Loc[0]);
+            Canvas.SetLeft(element, Loc[1]);
         }
     }
 }

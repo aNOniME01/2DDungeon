@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 
 namespace WPFDungeon
 {
@@ -13,15 +14,19 @@ namespace WPFDungeon
         public IBody Body { get; set; }
         public Hallway(Door d1,double hallwayLength)
         {
-            D1 = d1;
+            D1 = new Door(d1);
             D2 = new Door(d1);
 
-            if (D2.Faceing == 'T') D2.L1[0] -= hallwayLength;
-            else if (D2.Faceing == 'B') D2.L1[0] += hallwayLength;
-            else if (D2.Faceing == 'L') D2.L1[1] -= hallwayLength;
-            else D2.L1[1] += hallwayLength;
+            D2.ModifyLocation(hallwayLength);
 
             Body = new HallwayBody(D1, D2);
+        }
+        public void ToRoomLoc(double[] roomLoc)
+        {
+            D1.ToRoomLocation(roomLoc);
+            D2.ToRoomLocation(roomLoc);
+            (Body as HallwayBody).MoveHitbox(roomLoc);
+            Render.RefreshElement(Body.Mesh,D1.Location);
         }
     }
 }

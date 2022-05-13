@@ -24,5 +24,11 @@ namespace WPFDungeon
 
             Body = new PortalBody(15,10,Location[0],Location[1],Faceing);
         }
+        public void ToRoomLoc(double[] roomLocation)
+        {
+            Location[0] += roomLocation[0];
+            Location[1] += roomLocation[1];
+        }
+
     }
 }

@@ -48,5 +48,11 @@ namespace WPFDungeon
             Body.FaceTo(Faceing);
             (Body as SwifterBody).MoveHitbox(Location);
         }
+        public void ToRoomLoc(double[] roomLocation)
+        {
+            Location[0] += roomLocation[0];
+            Location[1] += roomLocation[1];
+        }
+
     }
 }

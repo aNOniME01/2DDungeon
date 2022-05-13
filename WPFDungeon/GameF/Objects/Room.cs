@@ -6,18 +6,25 @@ using System.Threading.Tasks;
 using System.Windows.Shapes;
 using System.IO;
 using System.Windows.Media;
+using System.Windows.Controls;
 
 namespace WPFDungeon
 {
     class Room
     {
-        public Rectangle Area { get; private set; }
+        public double[] Location { get; private set; }
+        public char Faceing { get; private set; }
+        public IBody Body { get; private set; }
         public List<Door> Doors { get; private set; }
         public List<SpawnMap> SpawnMaps { get; private set; }
+        public SpawnMap SelectedSpawnMap { get; private set; }
         
         public Room(string fileName)
         {
-            Area = new Rectangle();
+            Location = new double[2] {0,0};
+            Faceing = 'T';
+            double height = 0;
+            double width = 0;
             Doors = new List<Door>();
             SpawnMaps = new List<SpawnMap>();
 
@@ -25,12 +32,12 @@ namespace WPFDungeon
             {
                 if (line != "")
                 {
-                    if (line[0] == 'W') Area.Width = Convert.ToDouble(line.Trim('W').Trim());
-                    else if (line[0] == 'H') Area.Height = Convert.ToDouble(line.Trim('H').Trim());
+                    if (line[0] == 'W') width = Convert.ToDouble(line.Trim('W').Trim());
+                    else if (line[0] == 'H') height = Convert.ToDouble(line.Trim('H').Trim());
                     else if (line[0] == 'D')//Door
                     {
                         string[] sgd = line.Trim('D').Trim().Split(';');
-                        Doors.Add(new Door(Convert.ToDouble(sgd[0]), Convert.ToChar(sgd[1]),Area.Height,Area.Width));
+                        Doors.Add(new Door(Convert.ToDouble(sgd[0]), Convert.ToChar(sgd[1]), height, width));
                     }
                     else if(line[0] == 'V')
                     {
@@ -61,8 +68,66 @@ namespace WPFDungeon
                 }
             }
 
-            Area.Stroke = Brushes.Black;
-            Area.Fill = Brushes.Green;
+            Body = new RoomBody(height, width);
+
+            //for testing
+            SelectedSpawnMap = SpawnMaps[0];
+        }
+        public void ChangeFaceing(char newFaceing)
+        {
+            Faceing = newFaceing;
+            if (newFaceing == 'L' || newFaceing == 'R')
+            {
+                double hlpr = Body.Mesh.Width;
+                Body.Mesh.Width = Body.Mesh.Height;
+                Body.Mesh.Height = hlpr;
+            }
+        }
+        private void ChangeEntityFaceing(List<IEntity> entities)
+        {
+            foreach (var entity in entities)
+            {
+                if (Faceing == 'B')
+                {
+
+                }
+                else if (Faceing == 'L')
+                {
+
+                }
+                else if (Faceing == 'R')
+                {
+
+                }
+            }
+        }
+        public void ChangeLocation(double y,double x)
+        {
+            Location[0] = y;
+            Location[1] = x;
+
+            (Body as RoomBody).MoveHitbox(Location);
+
+            Canvas.SetTop(Body.Mesh,Location[0]);
+            Canvas.SetLeft(Body.Mesh,Location[1]);
+
+
+
+            ChangeEntityLocation();
+        }
+        private void ChangeEntityLocation()
+        {
+            foreach (Shooter entity in SelectedSpawnMap.Shooters)
+            {
+                entity.ToRoomLoc(Location);
+            }
+
+            foreach (Swifter entity in SelectedSpawnMap.Swifters)
+            {
+                entity.ToRoomLoc(Location);
+            }
+
+            SelectedSpawnMap.Portal.ToRoomLoc(Location);
         }
     }
 }
