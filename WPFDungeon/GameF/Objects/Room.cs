@@ -68,7 +68,7 @@ namespace WPFDungeon
                 }
             }
 
-            Body = new RoomBody(height, width);
+            Body = new RoomBody(height, width,Location);
 
             //for testing
             SelectedSpawnMap = SpawnMaps[0];
@@ -106,13 +106,10 @@ namespace WPFDungeon
             Location[0] = y;
             Location[1] = x;
 
-            (Body as RoomBody).MoveHitbox(Location);
-
             Canvas.SetTop(Body.Mesh,Location[0]);
             Canvas.SetLeft(Body.Mesh,Location[1]);
 
-
-
+            (Body as RoomBody).MoveHitbox();
             ChangeEntityLocation();
         }
         private void ChangeEntityLocation()

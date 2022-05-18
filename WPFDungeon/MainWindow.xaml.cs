@@ -40,19 +40,19 @@ namespace WPFDungeon
 
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.W)
+            if (e.Key == Key.W )
             {
                 mUp = true;
             }
-            else if (e.Key == Key.S)
+            else if (e.Key == Key.S )
             {
                 mDown = true;
             }
-            else if (e.Key == Key.A)
+            else if (e.Key == Key.A )
             {
                 mLeft = true;
             }
-            else if (e.Key == Key.D)
+            else if (e.Key == Key.D )
             {
                 mRight = true;
             }
@@ -78,8 +78,9 @@ namespace WPFDungeon
             }
             else if (e.Key == Key.Space)
             {
-                int lastBullet = game.Player.Bullets.Count;
                 game.Player.Shoot();
+                Bullet shotBullet = game.Player.Bullets[game.Player.Bullets.Count - 1];
+                Render.AddToCanvas(shotBullet.Body.Mesh, shotBullet.Location[0], shotBullet.Location[1]);
             }
 
         }
@@ -105,10 +106,6 @@ namespace WPFDungeon
                 //put the player to the portal
             }
 
-            foreach (Bullet bullet in game.Player.Bullets)
-            {
-                lable.Content = $"y:{bullet.Location[0]}x:{bullet.Location[1]}";
-            }
 
             GameLogic.GameLoop(mUp, mDown, mLeft, mRight, Width - 25, Height - 50);
         }

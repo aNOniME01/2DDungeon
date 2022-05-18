@@ -25,8 +25,8 @@ namespace WPFDungeon
         {
             D1.ToRoomLocation(roomLoc);
             D2.ToRoomLocation(roomLoc);
-            (Body as HallwayBody).MoveHitbox(roomLoc);
-            Render.RefreshElement(Body.Mesh,D1.Location);
+            Render.RefreshElement(Body.Mesh, D1.Location);
+            (Body as HallwayBody).MoveHitbox();
         }
     }
 }

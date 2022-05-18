@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
 
@@ -14,7 +15,7 @@ namespace WPFDungeon
         public ImageBrush Texture { get; private set; }
         public Rect Hitbox { get; private set; }
         public Rectangle Mesh { get; private set; }
-        public BulletBody(char faceing,double yLoc,double xLoc)
+        public BulletBody(char faceing, double[] location)
         {
 
             Mesh = new Rectangle();
@@ -29,11 +30,11 @@ namespace WPFDungeon
                 Mesh.Height = 2;
             }
             Mesh.Stroke = Brushes.Black;
-            SetHitboxLocation(yLoc, xLoc);
+            Canvas.SetTop(Mesh, location[0]);
+            Canvas.SetLeft(Mesh, location[1]);
+
+            SetHitboxLocation();
         }
-        public void SetHitboxLocation(double yLoc, double xLoc)
-        {
-            Hitbox = new Rect(xLoc, yLoc, Mesh.Width, Mesh.Height);
-        }
+        public void SetHitboxLocation() => Hitbox = new Rect(Canvas.GetLeft(Mesh), Canvas.GetTop(Mesh), Mesh.Width, Mesh.Height);
     }
 }

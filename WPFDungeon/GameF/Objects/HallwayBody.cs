@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
@@ -26,27 +27,39 @@ namespace WPFDungeon
                 Mesh.Width = 15;
                 Mesh.Height = Logic.ToPositive(D1.Location[0] - D2.Location[0]);
                 D1.Location[0] -= D1.Location[0] - D2.Location[0];
+
+                Canvas.SetTop(Mesh, D2.Location[0]);
+                Canvas.SetLeft(Mesh, D2.Location[1]);
             }
             else if (D1.Faceing == 'B')
             {
                 Mesh.Width = 15;
                 Mesh.Height = Logic.ToPositive(D2.Location[0] - D1.Location[0]);
+
+                Canvas.SetTop(Mesh, D1.Location[0]);
+                Canvas.SetLeft(Mesh, D1.Location[1]);
             }
             else if (D1.Faceing == 'L')
             {
                 Mesh.Width = Logic.ToPositive(D1.Location[1] - D2.Location[1]);
                 Mesh.Height = 15;
                 D1.Location[1] -= D1.Location[1] - D2.Location[1];
+
+                Canvas.SetTop(Mesh, D2.Location[0]);
+                Canvas.SetLeft(Mesh, D2.Location[1]);
             }
             else
             {
                 Mesh.Width = Logic.ToPositive(D2.Location[1] - D1.Location[1]);
                 Mesh.Height = 15;
+
+                Canvas.SetTop(Mesh, D1.Location[0]);
+                Canvas.SetLeft(Mesh, D1.Location[1]);
             }
             Mesh.Stroke = Brushes.Black;
             Mesh.Fill = Brushes.Red;
 
-            Hitbox = new Rect(D1.Location[1], D1.Location[0], Mesh.Width, Mesh.Height);
+            MoveHitbox();
         }
         public void FaceTo(char direction)
         {
@@ -61,9 +74,6 @@ namespace WPFDungeon
 
             Texture.RelativeTransform = aRotateTransform;
         }
-        public void MoveHitbox(double[] Loc)
-        {
-            Hitbox = new Rect(Loc[1], Loc[0], Mesh.Width, Mesh.Height);
-        }
+        public void MoveHitbox() => Hitbox = new Rect(Canvas.GetLeft(Mesh), Canvas.GetTop(Mesh), Mesh.Width, Mesh.Height);
     }
 }

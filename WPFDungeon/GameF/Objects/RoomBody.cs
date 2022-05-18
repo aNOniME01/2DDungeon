@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
 
@@ -12,7 +13,7 @@ namespace WPFDungeon
         public Rect Hitbox { get; private set; }
 
         public Rectangle Mesh { get; private set; }
-        public RoomBody(double height,double width)
+        public RoomBody(double height,double width, double[] location)
         {
             Texture = new ImageBrush();
             Hitbox = new Rect(0,0,width,height);
@@ -21,6 +22,11 @@ namespace WPFDungeon
             Mesh.Height = height;
             Mesh.Stroke = Brushes.Black;
             Mesh.Fill = Brushes.Green;
+
+            Canvas.SetTop(Mesh, location[0]);
+            Canvas.SetLeft(Mesh, location[1]);
+
+            MoveHitbox();
         }
         public void FaceTo(char direction)
         {
@@ -35,9 +41,6 @@ namespace WPFDungeon
 
             Texture.RelativeTransform = aRotateTransform;
         }
-        public void MoveHitbox(double[] location)
-        {
-            Hitbox = new Rect(location[1], location[0], Mesh.Width, Mesh.Height);
-        }
+        public void MoveHitbox() => Hitbox = new Rect(Canvas.GetLeft(Mesh), Canvas.GetTop(Mesh), Mesh.Width, Mesh.Height);
     }
 }

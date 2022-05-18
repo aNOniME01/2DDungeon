@@ -29,7 +29,7 @@ namespace WPFDungeon
 
             TurretNum = turretNum;
 
-            Body = new ShooterBody(Height,Width,Location[0],Location[1],Faceing,TurretNum);
+            Body = new ShooterBody(Location,Faceing,TurretNum);
 
             Bullets = new List<Bullet>();
         }
@@ -72,6 +72,8 @@ namespace WPFDungeon
         {
             Location[0] += roomLocation[0];
             Location[1] += roomLocation[1];
+
+            (Body as ShooterBody).MoveHitbox();
         }
 
     }

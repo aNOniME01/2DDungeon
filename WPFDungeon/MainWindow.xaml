@@ -7,7 +7,34 @@
         mc:Ignorable="d" KeyDown="Window_KeyDown" KeyUp="Window_KeyUp" Loaded="Window_Loaded"
         Title="MainWindow" Height="500" Width="500">
     <Canvas x:Name="canvas" >
-        <Label x:Name="lable" Content="Score: 0"/>
+        <Path Stroke="Black" StrokeThickness="1" Fill="LemonChiffon">
+            <Path.Data>
+                <RectangleGeometry>
+                    <RectangleGeometry.Rect>
+                        <Rect X="150" Y="100" Width="100" Height="50" />
+                    </RectangleGeometry.Rect>
+                </RectangleGeometry>
+            </Path.Data>
+        </Path>
+        <Path Stroke="Red" StrokeThickness="1" Fill="Red">
+            <Path.Data>
+                <RectangleGeometry>
+                    <RectangleGeometry.Rect>
+                        <Rect X="200" Y="96" Width="2" Height="2" />
+                    </RectangleGeometry.Rect>
+                </RectangleGeometry>
+            </Path.Data>
+        </Path>                
+        <Path Stroke="Black" StrokeThickness="1" Fill="LemonChiffon">
+            <Path.Data>
+                <RectangleGeometry>
+                    <RectangleGeometry.Rect>
+                        <Rect X="200" Y="100" Width="10" Height="10" />
+                    </RectangleGeometry.Rect>
+                </RectangleGeometry>
+            </Path.Data>
+        </Path>        
+
         <Rectangle Width="465" Height="20" Fill="Red"/>
         <Rectangle Width="465" Height="20" Fill="Red" Canvas.Top="442"/>
         <Rectangle Width="20" Height="422" Fill="Red" Canvas.Top="20"/>

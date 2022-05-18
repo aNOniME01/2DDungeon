@@ -14,15 +14,15 @@ namespace WPFDungeon
 
         public IBody Body { get; private set; }
 
-        public Portal(double yLoc,double xLoc,char faceing)
+        public Portal(double yLoc,double xLoc)
         {
             Location = new double[2];
             Location[0] = yLoc;
             Location[1] = xLoc;
 
-            Faceing = faceing;
+            Faceing = 'T';
 
-            Body = new PortalBody(15,10,Location[0],Location[1],Faceing);
+            Body = new PortalBody(Location);
         }
         public void ToRoomLoc(double[] roomLocation)
         {

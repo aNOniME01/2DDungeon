@@ -38,7 +38,7 @@ namespace WPFDungeon
         }
         public void AddPortal(double yLoc, double xLoc, char faceing)
         {
-            this.Portal = new Portal(yLoc, xLoc, faceing);
+            this.Portal = new Portal(yLoc, xLoc);
         }
     }
 }

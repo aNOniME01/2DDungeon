@@ -20,7 +20,7 @@ namespace WPFDungeon
 
             Faceing = faceing;
 
-            Body = new SwifterBody(20,10,Location[0],Location[1],Faceing);
+            Body = new SwifterBody(Location,Faceing);
         }
         public void Navigate(double width, double height)
         {
@@ -46,12 +46,14 @@ namespace WPFDungeon
                 else Location[1] += speed;
             }
             Body.FaceTo(Faceing);
-            (Body as SwifterBody).MoveHitbox(Location);
+            (Body as SwifterBody).MoveHitbox();
         }
         public void ToRoomLoc(double[] roomLocation)
         {
             Location[0] += roomLocation[0];
             Location[1] += roomLocation[1];
+
+            (Body as SwifterBody).MoveHitbox();
         }
 
     }

@@ -24,7 +24,7 @@ namespace WPFDungeon
             Location[1] = xLoc;
 
             Faceing = faceing;
-            Body = new BulletBody(Faceing,Location[0],Location[1]);
+            Body = new BulletBody(Faceing,Location);
         }
         public void Navigate()
         {
@@ -44,7 +44,7 @@ namespace WPFDungeon
             {
                 Location[1] += 5;
             }
-            (Body as BulletBody).SetHitboxLocation(Location[0], Location[1]);
+            (Body as BulletBody).SetHitboxLocation();
         }
     }
 }

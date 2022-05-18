@@ -28,7 +28,6 @@ namespace WPFDungeon
             {
                 hallway.ToRoomLoc(game.Rooms[0].Location);
             }
-
         }
         public static void GameLoop(bool mUp, bool mDown, bool mLeft, bool mRight, double wWidth, double wHeight)
         {
@@ -53,29 +52,25 @@ namespace WPFDungeon
         }
         private static void PlayerMovement( bool mUp, bool mDown, bool mLeft, bool mRight, double wWidth, double wHeight)
         {
-            if (mUp && game.Player.Location[0] > 0)
+            if (mUp && PlayerMoveCheck('T'))
             {
                 game.Player.FaceTo('T');
                 game.Player.AddToLocation(-2, 0);
-                Render.RefreshEntity(game.Player);
             }
-            if (mDown && game.Player.Location[0] < wHeight)
+            if (mDown && PlayerMoveCheck('B'))
             {
                 game.Player.FaceTo('B');
                 game.Player.AddToLocation(2, 0);
-                Render.RefreshEntity(game.Player);
             }
-            if (mLeft && game.Player.Location[1] > 0)
+            if (mLeft && PlayerMoveCheck('L'))
             {
                 game.Player.FaceTo('L');
                 game.Player.AddToLocation(0, -2);
-                Render.RefreshEntity(game.Player);
             }
-            if (mRight && game.Player.Location[1] < wWidth)
+            if (mRight && PlayerMoveCheck('R'))
             {
                 game.Player.FaceTo('R');
                 game.Player.AddToLocation(0, 2);
-                Render.RefreshEntity(game.Player);
             }
         }
         /// <summary>
@@ -189,6 +184,29 @@ namespace WPFDungeon
                 Canvas.SetLeft(swifter.Body.Mesh,swifter.Location[1]);
             }
         }
+        private static bool PlayerMoveCheck(char dir)
+        {
+            foreach (Room room in game.Rooms)
+            {
+                Rect hitbox = room.Body.Hitbox;
 
+                if (dir == 'T' && game.Player.MoveChecks[0].Check(hitbox)) return true;
+                else if (dir == 'B' && game.Player.MoveChecks[1].Check(hitbox)) return true;
+                else if (dir == 'L' && game.Player.MoveChecks[2].Check(hitbox)) return true;
+                else if(dir == 'R' && game.Player.MoveChecks[3].Check(hitbox)) return true;
+            }
+
+            foreach (Hallway hallway in game.Hallways)
+            {
+                Rect hitbox = hallway.Body.Hitbox;
+
+                if (dir == 'T' && game.Player.MoveChecks[0].Check(hitbox)) return true;
+                else if (dir == 'B' && game.Player.MoveChecks[1].Check(hitbox)) return true;
+                else if (dir == 'L' && game.Player.MoveChecks[2].Check(hitbox)) return true;
+                else if(dir == 'R' && game.Player.MoveChecks[3].Check(hitbox)) return true;
+            }
+
+            return false;
+        }
     }
 }
