@@ -112,22 +112,24 @@ namespace WPFDungeon
                         }
                     }
 
-                    foreach (Shooter shooter in shDeleteNeeded)
-                    {
-                        room.SelectedSpawnMap.DeleteShooter(shooter);
-                    }
-                    foreach (Swifter swifter in swDeleteNeeded)
-                    {
-                        room.SelectedSpawnMap.DeleteSwifter(swifter);
-                    }
-                    if (bHit != null)
-                    {
-                        Render.RemoveEntity(bHit);
-                        game.Player.DeleteBullet(bHit);
-                    }
-
                 }
-            }       
+            }
+            foreach (Room room in game.Rooms)
+            {
+                foreach (Shooter shooter in shDeleteNeeded)
+                {
+                    room.SelectedSpawnMap.DeleteShooter(shooter);
+                }
+                foreach (Swifter swifter in swDeleteNeeded)
+                {
+                    room.SelectedSpawnMap.DeleteSwifter(swifter);
+                }
+                if (bHit != null)
+                {
+                    Render.RemoveEntity(bHit);
+                    game.Player.DeleteBullet(bHit);
+                }
+            }
 
         }
         private static void PBulletDeleteing()
