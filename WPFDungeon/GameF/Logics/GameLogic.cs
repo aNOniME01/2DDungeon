@@ -39,7 +39,7 @@ namespace WPFDungeon
             PBulletNavigation();
 
             //bullet deleting
-            PBulletDeleteing(wWidth, wHeight);
+            PBulletDeleteing();
 
             #endregion
 
@@ -86,53 +86,58 @@ namespace WPFDungeon
             {
                 bullet.Navigate();
                 Render.RefreshEntity(bullet);
-                foreach (Shooter shooter in game.Rooms[0].SpawnMaps[0].Shooters)
+                foreach (Room room in game.Rooms)
                 {
-                    if (shooter.Body.Hitbox.IntersectsWith(bullet.Body.Hitbox))
+                    foreach (Shooter shooter in room.SelectedSpawnMap.Shooters)
                     {
-                        game.GCanvas.Children.Remove(shooter.Body.Mesh);
-                        shDeleteNeeded.Add(shooter);
-                        foreach (Bullet eBullet in shooter.Bullets)
+                        if (shooter.Body.Hitbox.IntersectsWith(bullet.Body.Hitbox))
                         {
-                            game.GCanvas.Children.Remove(eBullet.Body.Mesh);
+                            Render.RemoveEntity(shooter);
+                            shDeleteNeeded.Add(shooter);
+                            foreach (Bullet eBullet in shooter.Bullets)
+                            {
+                                Render.RemoveEntity(bullet);
+                            }
+                            shooter.Bullets.Clear();
+                            bHit = bullet;
                         }
-                        shooter.Bullets.Clear();
-                        bHit = bullet;
                     }
-                }
-                foreach (Swifter swifter in game.Rooms[0].SpawnMaps[0].Swifters)
-                {
-                    if (swifter.Body.Hitbox.IntersectsWith(bullet.Body.Hitbox))
+                    foreach (Swifter swifter in room.SelectedSpawnMap.Swifters)
                     {
-                        game.GCanvas.Children.Remove(swifter.Body.Mesh);
-                        swDeleteNeeded.Add(swifter);
-                        bHit = bullet;
+                        if (swifter.Body.Hitbox.IntersectsWith(bullet.Body.Hitbox))
+                        {
+                            Render.RemoveEntity(swifter);
+                            swDeleteNeeded.Add(swifter);
+                            bHit = bullet;
+                        }
                     }
+
+                    foreach (Shooter shooter in shDeleteNeeded)
+                    {
+                        room.SelectedSpawnMap.DeleteShooter(shooter);
+                    }
+                    foreach (Swifter swifter in swDeleteNeeded)
+                    {
+                        room.SelectedSpawnMap.DeleteSwifter(swifter);
+                    }
+                    if (bHit != null)
+                    {
+                        Render.RemoveEntity(bHit);
+                        game.Player.DeleteBullet(bHit);
+                    }
+
                 }
             }       
 
-            foreach (Shooter shooter in shDeleteNeeded)//<------Deletes the bullets
-            {
-                game.Rooms[0].SpawnMaps[0].DeleteShooter(shooter);
-            }
-            foreach (Swifter swifter in swDeleteNeeded)//<------Deletes the bullets
-            {
-                game.Rooms[0].SpawnMaps[0].DeleteSwifter(swifter);
-            }
-            if (bHit != null)
-            {
-                game.GCanvas.Children.Remove(bHit.Body.Mesh);
-                game.Player.DeleteBullet(bHit);
-            }
         }
-        private static void PBulletDeleteing( double wWidth, double wHeight)
+        private static void PBulletDeleteing()
         {
             List<Bullet> pbDeleteNeeded = new List<Bullet>();
             foreach (Bullet bullet in game.Player.Bullets)
             {
-                if (bullet.Location[0] < 0 || bullet.Location[1] < 0 || bullet.Location[0] > wHeight || bullet.Location[1] > wWidth)
+                if (!isBulletInside(bullet))
                 {
-                    game.GCanvas.Children.Remove(bullet.Body.Mesh);
+                    Render.RemoveEntity(bullet);
                     pbDeleteNeeded.Add(bullet);
                 }
             }
@@ -145,10 +150,10 @@ namespace WPFDungeon
         {
             foreach (Room room in game.Rooms)
             {
-                //foreach (SpawnMap spawnMap in room.SpawnMaps)
-                //{
-                foreach (Shooter shooter in room.SpawnMaps[0].Shooters)
+                foreach (Shooter shooter in room.SelectedSpawnMap.Shooters)
                 {
+                    List<Bullet> bulletDeleteNeeded = new List<Bullet>();
+
                     if (shootTimer > 50)
                     {
                         shooter.Shoot();
@@ -159,17 +164,27 @@ namespace WPFDungeon
                     }
                     foreach (Bullet bullet in shooter.Bullets)
                     {
+                        //navigates the bullet and refreshes the bullet loc
                         bullet.Navigate();
-                        Canvas.SetTop(bullet.Body.Mesh, bullet.Location[0]);
-                        Canvas.SetLeft(bullet.Body.Mesh, bullet.Location[1]);
+
                         if (bullet.Body.Hitbox.IntersectsWith(game.Player.Body.Hitbox))
                         {
+                            //game over
+                        }
 
+                        if (!isBulletInside(bullet))
+                        {
+                            bulletDeleteNeeded.Add(bullet);
+                            Render.RemoveEntity(bullet);
                         }
                     }
-                }
-                //}
 
+                    foreach (Bullet bullet in bulletDeleteNeeded)
+                    {
+                        shooter.DeleteBullet(bullet);
+                    }
+
+                }
             }
 
             if (shootTimer > 50) shootTimer = 0;
@@ -177,11 +192,12 @@ namespace WPFDungeon
         }
         private static void SwifterLogic( double wWidth,double wHeight)
         {
-            foreach (Swifter swifter in game.Rooms[0].SpawnMaps[0].Swifters)
+            foreach (Room room in game.Rooms)
             {
-                swifter.Navigate(wWidth,wHeight);
-                Canvas.SetTop(swifter.Body.Mesh,swifter.Location[0]);
-                Canvas.SetLeft(swifter.Body.Mesh,swifter.Location[1]);
+                foreach (Swifter swifter in room.SelectedSpawnMap.Swifters)
+                {
+                    swifter.Navigate(SwifterMoveCheck(swifter.Faceing));
+                }
             }
         }
         private static bool PlayerMoveCheck(char dir)
@@ -204,6 +220,38 @@ namespace WPFDungeon
                 else if (dir == 'B' && game.Player.MoveChecks[1].Check(hitbox)) return true;
                 else if (dir == 'L' && game.Player.MoveChecks[2].Check(hitbox)) return true;
                 else if(dir == 'R' && game.Player.MoveChecks[3].Check(hitbox)) return true;
+            }
+
+            return false;
+        }
+        private static bool SwifterMoveCheck(char dir)
+        {
+            foreach (Room room in game.Rooms)
+            {
+                foreach (Swifter swifter in room.SelectedSpawnMap.Swifters)
+                {
+                    foreach (Room CheckRoom in game.Rooms)
+                    {
+                        Rect hitbox = CheckRoom.Body.Hitbox;
+
+                        if (dir == 'T' && game.Player.MoveChecks[0].Check(hitbox)) return true;
+                        else if (dir == 'B' && swifter.MoveChecks[1].Check(hitbox)) return true;
+                        else if (dir == 'L' && swifter.MoveChecks[2].Check(hitbox)) return true;
+                        else if (dir == 'R' && swifter.MoveChecks[3].Check(hitbox)) return true;
+                    }
+                }
+            }
+            return false;
+        }
+        private static bool isBulletInside(Bullet bullet)
+        {
+            foreach (Room room in game.Rooms)
+            {
+                if (bullet.Body.Hitbox.IntersectsWith(room.Body.Hitbox)) return true;
+            }
+            foreach (Hallway hallway in game.Hallways)
+            {
+                if (bullet.Body.Hitbox.IntersectsWith(hallway.Body.Hitbox)) return true;
             }
 
             return false;

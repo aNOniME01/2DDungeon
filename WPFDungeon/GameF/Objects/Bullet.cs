@@ -44,6 +44,8 @@ namespace WPFDungeon
             {
                 Location[1] += 5;
             }
+            Render.RefreshEntity(this);
+
             (Body as BulletBody).SetHitboxLocation();
         }
     }

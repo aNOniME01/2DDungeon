@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Media;
-using System.Windows.Shapes;
+﻿using System.Collections.Generic;
 
 namespace WPFDungeon
 {
@@ -52,8 +44,7 @@ namespace WPFDungeon
             Location[0] += x;
             Location[1] += y;
 
-            Canvas.SetTop(Body.Mesh, Location[0]);
-            Canvas.SetLeft(Body.Mesh, Location[1]);
+            Render.RefreshEntity(this);
 
             (Body as PlayerBody).MoveHitbox();
             RefreshMoveCheck();

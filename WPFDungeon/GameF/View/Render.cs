@@ -87,5 +87,9 @@ namespace WPFDungeon
             Canvas.SetTop(element, Loc[0]);
             Canvas.SetLeft(element, Loc[1]);
         }
+        public static void RemoveEntity(IEntity entity)
+        {
+            game.GCanvas.Children.Remove(entity.Body.Mesh);
+        }
     }
 }
