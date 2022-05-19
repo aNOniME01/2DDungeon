@@ -17,14 +17,6 @@ namespace WPFDungeon
         {
             game = gm;
 
-            AddToCanvas(game.Rooms[0].Body.Mesh, game.Rooms[0].Location[0], game.Rooms[0].Location[1]);
-
-            AddToCanvas(game.Rooms[0].SpawnMaps[0].Portal.Body.Mesh, game.Rooms[0].SpawnMaps[0].Portal.Location[0],game.Rooms[0].SpawnMaps[0].Portal.Location[1]);
-
-            foreach (Hallway hallway in game.Hallways)
-            {
-                AddToCanvas(hallway.Body.Mesh, hallway.D1.Location[0], hallway.D1.Location[1]);
-            }
 
             //Draw player
             AddToCanvas(game.Player.Body.Mesh, game.Player.Location[0], game.Player.Location[1], 1);
@@ -48,7 +40,19 @@ namespace WPFDungeon
         }
         public static void AddRoomToCanvas(Room room)
         {
+            AddToCanvas(game.Rooms[0].Body.Mesh, game.Rooms[0].Location[0], game.Rooms[0].Location[1]);
 
+            AddToCanvas(game.Rooms[0].SpawnMaps[0].Portal.Body.Mesh, game.Rooms[0].SpawnMaps[0].Portal.Location[0], game.Rooms[0].SpawnMaps[0].Portal.Location[1]);
+
+            foreach (Hallway hallway in game.Hallways)
+            {
+                try
+                {
+                    game.GCanvas.Children.Remove(hallway.Body.Mesh);
+                }
+                catch { }
+                AddToCanvas(hallway.Body.Mesh, hallway.D1.Location[0], hallway.D1.Location[1]);
+            }
         }
         /// <summary>
         /// Adds a UIElement to the canvas (Layer = 0)
