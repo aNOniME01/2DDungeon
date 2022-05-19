@@ -11,11 +11,14 @@ namespace WPFDungeon
     {
         public Door D1 { get; private set; }
         public Door D2 { get; private set; }
-        public IBody Body { get; set; }
-        public Hallway(Door d1,double hallwayLength)
+        public IBody Body { get; private set; }
+        public int Id { get; private set; }
+        public Hallway(Door d1,double hallwayLength,int hallwayId)
         {
             D1 = new Door(d1);
             D2 = new Door(d1);
+
+            Id = hallwayId;
 
             D2.ModifyLocation(hallwayLength);
 

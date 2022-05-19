@@ -13,16 +13,18 @@ namespace WPFDungeon
         public List<Door> Doors { get; private set; }
         public List<SpawnMap> SpawnMaps { get; private set; }
         public SpawnMap SelectedSpawnMap { get; private set; }
-        public string RoomID { get; private set; }
+        public string Type { get; private set; }
+        public int Id { get; private set; }
 
-        public Room(string fileName)
+        public Room(string fileName,int roomId)
         {
             Location = new double[2] {0,0};
             Faceing = 'T';
             Doors = new List<Door>();
             SpawnMaps = new List<SpawnMap>();
-            RoomID = fileName;
-            ReadInRoomData(RoomID);
+            Type = fileName;
+            Id = roomId;
+            ReadInRoomData(Type);
             //for testing
             SelectedSpawnMap = SpawnMaps[0];
         }
@@ -45,7 +47,7 @@ namespace WPFDungeon
                     }
                     else if (line[0] == 'V')
                     {
-                        SpawnMaps.Add(new SpawnMap());
+                        SpawnMaps.Add(new SpawnMap(Id));
                     }
                     else if (line[0] == 'S')//Shooter
                     {
@@ -75,7 +77,7 @@ namespace WPFDungeon
         }
         public void ChangeFaceing(char newFaceing)
         {
-            ReadInRoomData(RoomID);
+            ReadInRoomData(Type);
             //ChangeEntityFaceing(SelectedSpawnMap.Shooters);
             Faceing = newFaceing;
             if (newFaceing == 'L' || newFaceing == 'R')

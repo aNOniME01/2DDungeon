@@ -16,16 +16,16 @@ namespace WPFDungeon
         public Game(Canvas canvas)
         {
             Rooms = new List<Room>();
-            Rooms.Add(new Room("R1"));
+            Rooms.Add(new Room("R1", Rooms.Count));
 
             Hallways = new List<Hallway>();
-            foreach (Room room in Rooms)
+
+            foreach (Door door in Rooms[0].Doors)
             {
-                foreach (Door door in room.Doors)
-                {
-                    Hallways.Add(new Hallway(door,40));
-                }
+                Hallways.Add(new Hallway(door, 40, Rooms.Count - 1));
             }
+
+
 
             Player = new Player();
 
@@ -33,17 +33,30 @@ namespace WPFDungeon
         }
         public void AddRoom(string roomName, Door hallwayEnd)
         {
-            Room newRoom = new Room(roomName);
+            Room newRoom = new Room(roomName,Rooms.Count);
             Door enterance = newRoom.SearchDoorFaceingOpposit(hallwayEnd.Faceing);
+            
+            //Add halway to door locations except the door where it connects to the mother Room
             foreach (Door door in newRoom.Doors)
             {
                 if (door != enterance)
                 {
-                    Hallways.Add(new Hallway(door, 40));
+                    Hallways.Add(new Hallway(door, 40,Rooms.Count));
                 }
             }
             newRoom.ToDoorLoc(hallwayEnd,enterance);
+
+            //Sets hallway location
+            foreach (Hallway hallway in Hallways)
+            {
+                if (hallway.Id == newRoom.Id)
+                {
+                    hallway.ToRoomLoc(newRoom.Location);
+                }
+            }
+
             Rooms.Add(newRoom);
+            Render.AddRoomToCanvas(newRoom);
         }
     }
 }

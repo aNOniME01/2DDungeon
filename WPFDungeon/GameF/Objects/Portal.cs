@@ -9,13 +9,13 @@ namespace WPFDungeon
     internal class Portal : IEntity
     {
         public double[] Location { get; private set; }
-
         public char Faceing { get; private set; }
-
         public IBody Body { get; private set; }
-
-        public Portal(double yLoc,double xLoc)
+        public int RoomId { get; private set; }
+        public Portal(double yLoc,double xLoc,int roomId)
         {
+            RoomId = roomId;
+
             Location = new double[2];
             Location[0] = yLoc;
             Location[1] = xLoc;
@@ -28,6 +28,7 @@ namespace WPFDungeon
         {
             Location[0] += roomLocation[0];
             Location[1] += roomLocation[1];
+            Render.RefreshEntity(this);
         }
 
     }

@@ -7,10 +7,12 @@ namespace WPFDungeon
         public double[] Location { get; private set; }
         public char Faceing { get; private set; }
         public IBody Body { get; private set; }
+        public int RoomId { get; private set; }
         public List<MoveCheck> MoveChecks { get; private set; }
 
-        public Swifter(double yLoc,double xLoc,char faceing)
+        public Swifter(double yLoc,double xLoc,char faceing,int roomId)
         {
+            RoomId = roomId;
             Location = new double[2];
 
             Location[0] = yLoc;

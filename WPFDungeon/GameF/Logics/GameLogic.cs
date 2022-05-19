@@ -17,6 +17,7 @@ namespace WPFDungeon
         public static void GameLoad(Game gm)
         {
             game = gm;
+            Render.Load(game);
 
             barrierList.Add(new Rect(0,0,465,20));
             barrierList.Add(new Rect(0,442,465,20));
@@ -31,17 +32,21 @@ namespace WPFDungeon
 
             game.AddRoom("R1",game.Hallways[0].D2);
         }
-        public static void GameLoop(bool mUp, bool mDown, bool mLeft, bool mRight, double wWidth, double wHeight)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="mUp"></param>
+        /// <param name="mDown"></param>
+        /// <param name="mLeft"></param>
+        /// <param name="mRight"></param>
+        public static void GameLoop(bool mUp, bool mDown, bool mLeft, bool mRight)
         {
             #region PlayerLogic
             //player movement
-            PlayerMovement(mUp, mDown, mLeft, mRight,wWidth,wHeight);
+            PlayerMovement(mUp, mDown, mLeft, mRight);
 
             //bullet navigation
             PBulletNavigation();
-
-            //bullet deleting
-            PBulletDeleteing();
 
             #endregion
 
@@ -49,10 +54,17 @@ namespace WPFDungeon
             ShooterLogic();
 
             //Swifter logic
-            SwifterLogic(wWidth,wHeight);
+            SwifterLogic();
 
         }
-        private static void PlayerMovement( bool mUp, bool mDown, bool mLeft, bool mRight, double wWidth, double wHeight)
+        /// <summary>
+        /// cheks if a player can move into a direction and if yes moves it
+        /// </summary>
+        /// <param name="mUp">is W pressed</param>
+        /// <param name="mDown">is S pressed</param>
+        /// <param name="mLeft">is A pressed</param>
+        /// <param name="mRight">is D pressed</param>
+        private static void PlayerMovement( bool mUp, bool mDown, bool mLeft, bool mRight)
         {
             if (mUp && PlayerMoveCheck('T'))
             {
@@ -86,8 +98,11 @@ namespace WPFDungeon
             Bullet? bHit = null;
             foreach (Bullet bullet in game.Player.Bullets)
             {
+                //Bullet navigation
                 bullet.Navigate();
                 Render.RefreshEntity(bullet);
+
+                //checks if the bullet is colllideing with any enemy
                 foreach (Room room in game.Rooms)
                 {
                     foreach (Shooter shooter in room.SelectedSpawnMap.Shooters)
@@ -95,12 +110,12 @@ namespace WPFDungeon
                         if (shooter.Body.Hitbox.IntersectsWith(bullet.Body.Hitbox))
                         {
                             Render.RemoveEntity(shooter);
-                            shDeleteNeeded.Add(shooter);
                             foreach (Bullet eBullet in shooter.Bullets)
                             {
-                                Render.RemoveEntity(bullet);
+                                Render.RemoveEntity(eBullet);
                             }
                             shooter.Bullets.Clear();
+                            shDeleteNeeded.Add(shooter);
                             bHit = bullet;
                         }
                     }
@@ -113,9 +128,10 @@ namespace WPFDungeon
                             bHit = bullet;
                         }
                     }
-
                 }
             }
+
+            //deletes entities if they don't needed
             foreach (Room room in game.Rooms)
             {
                 foreach (Shooter shooter in shDeleteNeeded)
@@ -133,9 +149,7 @@ namespace WPFDungeon
                 }
             }
 
-        }
-        private static void PBulletDeleteing()
-        {
+            //checks if the bullet is inside the play area
             List<Bullet> pbDeleteNeeded = new List<Bullet>();
             foreach (Bullet bullet in game.Player.Bullets)
             {
@@ -145,7 +159,9 @@ namespace WPFDungeon
                     pbDeleteNeeded.Add(bullet);
                 }
             }
-            foreach (Bullet bullet in pbDeleteNeeded)//<------Deletes the bullets
+
+            //deletes bullets wich are not needed
+            foreach (Bullet bullet in pbDeleteNeeded)
             {
                 game.Player.DeleteBullet(bullet);
             }
@@ -178,8 +194,8 @@ namespace WPFDungeon
 
                         if (!isBulletInside(bullet))
                         {
-                            bulletDeleteNeeded.Add(bullet);
                             Render.RemoveEntity(bullet);
+                            bulletDeleteNeeded.Add(bullet);
                         }
                     }
 
@@ -194,7 +210,7 @@ namespace WPFDungeon
             if (shootTimer > 50) shootTimer = 0;
             shootTimer++;
         }
-        private static void SwifterLogic( double wWidth,double wHeight)
+        private static void SwifterLogic()
         {
             foreach (Room room in game.Rooms)
             {

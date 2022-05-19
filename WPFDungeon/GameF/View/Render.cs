@@ -17,42 +17,52 @@ namespace WPFDungeon
         {
             game = gm;
 
+            AddRoomToCanvas(game.Rooms[0]);
 
             //Draw player
             AddToCanvas(game.Player.Body.Mesh, game.Player.Location[0], game.Player.Location[1], 1);
 
             //Draw Enemies
-            SetUpEnemy();
+            SetUpEnemy(game.Rooms[0]);
         }
         /// <summary>
         /// Draws all enemies onto the canvas
         /// </summary>
-        private static void SetUpEnemy()
+        private static void SetUpEnemy(Room room)
         {
-            foreach (var enemy in game.Rooms[0].SpawnMaps[0].Swifters)
+            foreach (Swifter swifter in room.SelectedSpawnMap.Swifters)
             {
-                AddToCanvas(enemy.Body.Mesh, enemy.Location[0], enemy.Location[1]);
+                try
+                {
+                    AddToCanvas(swifter.Body.Mesh, swifter.Location[0], swifter.Location[1]);
+                }
+                catch { }
             }
-            foreach (Shooter shooter in game.Rooms[0].SpawnMaps[0].Shooters)
+            foreach (Shooter shooter in room.SelectedSpawnMap.Shooters)
             {
-                AddToCanvas(shooter.Body.Mesh, shooter.Location[0], shooter.Location[1]);
+                try
+                {
+                    AddToCanvas(shooter.Body.Mesh, shooter.Location[0], shooter.Location[1]);
+                }
+                catch { }
             }
         }
         public static void AddRoomToCanvas(Room room)
         {
-            AddToCanvas(game.Rooms[0].Body.Mesh, game.Rooms[0].Location[0], game.Rooms[0].Location[1]);
+            AddToCanvas(room.Body.Mesh, room.Location[0], room.Location[1]);
 
-            AddToCanvas(game.Rooms[0].SpawnMaps[0].Portal.Body.Mesh, game.Rooms[0].SpawnMaps[0].Portal.Location[0], game.Rooms[0].SpawnMaps[0].Portal.Location[1]);
+            AddToCanvas(room.SelectedSpawnMap.Portal.Body.Mesh, room.SelectedSpawnMap.Portal.Location[0], room.SelectedSpawnMap.Portal.Location[1]);
 
             foreach (Hallway hallway in game.Hallways)
             {
                 try
                 {
-                    game.GCanvas.Children.Remove(hallway.Body.Mesh);
+                    AddToCanvas(hallway.Body.Mesh, hallway.D1.Location[0], hallway.D1.Location[1]);
                 }
                 catch { }
-                AddToCanvas(hallway.Body.Mesh, hallway.D1.Location[0], hallway.D1.Location[1]);
             }
+
+            SetUpEnemy(room);
         }
         /// <summary>
         /// Adds a UIElement to the canvas (Layer = 0)

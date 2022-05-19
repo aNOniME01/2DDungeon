@@ -14,9 +14,11 @@ namespace WPFDungeon
         public double Width { get; private set; }
         public int TurretNum { get; private set; }
         public IBody Body { get; private set; }
+        public int RoomId { get; private set; }
         public List<Bullet> Bullets { get; private set; }
-        public Shooter(double yLoc,double xLoc, int turretNum,char faceing)
+        public Shooter(double yLoc,double xLoc, int turretNum,char faceing,int roomId)
         {
+            RoomId = roomId;
             Location = new double[2];
 
             Location[0] = yLoc;

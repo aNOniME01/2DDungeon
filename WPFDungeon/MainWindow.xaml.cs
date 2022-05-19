@@ -90,7 +90,6 @@ namespace WPFDungeon
             game = new Game(canvas);
 
             GameLogic.GameLoad(game);
-            Render.Load(game);
 
             timer = new DispatcherTimer();
             timer.Interval = TimeSpan.FromMilliseconds(20);
