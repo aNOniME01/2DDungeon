@@ -23,11 +23,13 @@ namespace WPFDungeon
             barrierList.Add(new Rect(0,20,20,422));
             barrierList.Add(new Rect(465,0,20,462));
 
-            game.Rooms[0].ChangeLocation(100, 150);
+            game.Rooms[0].ChangeLocation(200, 150);
             foreach (Hallway hallway in game.Hallways)
             {
                 hallway.ToRoomLoc(game.Rooms[0].Location);
             }
+
+            game.AddRoom("R1",game.Hallways[0].D2);
         }
         public static void GameLoop(bool mUp, bool mDown, bool mLeft, bool mRight, double wWidth, double wHeight)
         {

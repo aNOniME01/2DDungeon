@@ -31,5 +31,19 @@ namespace WPFDungeon
 
             GCanvas = canvas;
         }
+        public void AddRoom(string roomName, Door hallwayEnd)
+        {
+            Room newRoom = new Room(roomName);
+            Door enterance = newRoom.SearchDoorFaceingOpposit(hallwayEnd.Faceing);
+            foreach (Door door in newRoom.Doors)
+            {
+                if (door != enterance)
+                {
+                    Hallways.Add(new Hallway(door, 40));
+                }
+            }
+            newRoom.ToDoorLoc(hallwayEnd,enterance);
+            Rooms.Add(newRoom);
+        }
     }
 }

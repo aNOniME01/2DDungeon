@@ -13,17 +13,26 @@ namespace WPFDungeon
         public List<Door> Doors { get; private set; }
         public List<SpawnMap> SpawnMaps { get; private set; }
         public SpawnMap SelectedSpawnMap { get; private set; }
-        
+        public string RoomID { get; private set; }
+
         public Room(string fileName)
         {
             Location = new double[2] {0,0};
             Faceing = 'T';
-            double height = 0;
-            double width = 0;
             Doors = new List<Door>();
             SpawnMaps = new List<SpawnMap>();
-
-            foreach (string line in File.ReadAllLines(Transfer.GetLocation()+"\\WPFDungeon\\Prefabs\\Rooms\\"+fileName+".txt"))
+            RoomID = fileName;
+            ReadInRoomData(RoomID);
+            //for testing
+            SelectedSpawnMap = SpawnMaps[0];
+        }
+        private void ReadInRoomData(string fileName)
+        {
+            Doors.Clear();
+            SpawnMaps.Clear();
+            double height = 0;
+            double width = 0;
+            foreach (string line in File.ReadAllLines(Transfer.GetLocation() + "\\WPFDungeon\\Prefabs\\Rooms\\" + fileName + ".txt"))
             {
                 if (line != "")
                 {
@@ -34,7 +43,7 @@ namespace WPFDungeon
                         string[] sgd = line.Trim('D').Trim().Split(';');
                         Doors.Add(new Door(Convert.ToDouble(sgd[0]), Convert.ToChar(sgd[1]), height, width));
                     }
-                    else if(line[0] == 'V')
+                    else if (line[0] == 'V')
                     {
                         SpawnMaps.Add(new SpawnMap());
                     }
@@ -42,19 +51,19 @@ namespace WPFDungeon
                     {
                         //Shooter x;y;turretNum;faceing
                         string[] sgd = line.Trim('S').Trim().Split(';');
-                        SpawnMaps[SpawnMaps.Count-1].AddShooter(Convert.ToDouble(sgd[0]), Convert.ToDouble(sgd[1]),Convert.ToInt32(sgd[2]),Convert.ToChar(sgd[3]));
+                        SpawnMaps[SpawnMaps.Count - 1].AddShooter(Convert.ToDouble(sgd[0]), Convert.ToDouble(sgd[1]), Convert.ToInt32(sgd[2]), Convert.ToChar(sgd[3]));
                     }
                     else if (line[0] == 'F')//Swifter
                     {
                         //Swifter x;y;faceing
                         string[] sgd = line.Trim('F').Trim().Split(';');
-                        SpawnMaps[SpawnMaps.Count-1].AddSwifter(Convert.ToDouble(sgd[0]), Convert.ToDouble(sgd[1]),Convert.ToChar(sgd[2]));
+                        SpawnMaps[SpawnMaps.Count - 1].AddSwifter(Convert.ToDouble(sgd[0]), Convert.ToDouble(sgd[1]), Convert.ToChar(sgd[2]));
                     }
                     else if (line[0] == 'O')//Portal
                     {
                         //Portal x;y;faceing
                         string[] sgd = line.Trim('O').Trim().Split(';');
-                        SpawnMaps[SpawnMaps.Count-1].AddPortal(Convert.ToDouble(sgd[0]), Convert.ToDouble(sgd[1]),Convert.ToChar(sgd[2]));
+                        SpawnMaps[SpawnMaps.Count - 1].AddPortal(Convert.ToDouble(sgd[0]), Convert.ToDouble(sgd[1]), Convert.ToChar(sgd[2]));
                     }
                     else if (line[0] == 'P')//Point
                     {
@@ -62,14 +71,12 @@ namespace WPFDungeon
                     }
                 }
             }
-
-            Body = new RoomBody(height, width,Location);
-
-            //for testing
-            SelectedSpawnMap = SpawnMaps[0];
+            Body = new RoomBody(height, width, Location);
         }
         public void ChangeFaceing(char newFaceing)
         {
+            ReadInRoomData(RoomID);
+            //ChangeEntityFaceing(SelectedSpawnMap.Shooters);
             Faceing = newFaceing;
             if (newFaceing == 'L' || newFaceing == 'R')
             {
@@ -96,16 +103,23 @@ namespace WPFDungeon
                 }
             }
         }
-        public void ChangeLocation(double y,double x)
+        public void ChangeLocation(double y, double x)
         {
             Location[0] = y;
             Location[1] = x;
 
-            Canvas.SetTop(Body.Mesh,Location[0]);
-            Canvas.SetLeft(Body.Mesh,Location[1]);
+            Canvas.SetTop(Body.Mesh, Location[0]);
+            Canvas.SetLeft(Body.Mesh, Location[1]);
 
             (Body as RoomBody).MoveHitbox();
             ChangeEntityLocation();
+        }
+        public void ToDoorLoc(Door targetDoor,Door door)
+        {
+            double disY = targetDoor.Location[0] - door.Location[0];
+            double disX = targetDoor.Location[1] - door.Location[1];
+
+            ChangeLocation(disY,disX);
         }
         private void ChangeEntityLocation()
         {
@@ -120,6 +134,20 @@ namespace WPFDungeon
             }
 
             SelectedSpawnMap.Portal.ToRoomLoc(Location);
+        }
+        public Door SearchDoorFaceingOpposit(char faceing)
+        {
+            char SearchedFaceing = 'T';
+            if (faceing == 'T') SearchedFaceing = 'B';
+            else if (faceing == 'B') SearchedFaceing = 'T';
+            else if (faceing == 'L') SearchedFaceing = 'R';
+            else SearchedFaceing = 'L';
+
+            foreach (Door door in Doors)
+            {
+                if (door.Faceing == SearchedFaceing) return door;
+            }
+            return null;
         }
     }
 }

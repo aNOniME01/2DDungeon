@@ -46,6 +46,10 @@ namespace WPFDungeon
                 AddToCanvas(shooter.Body.Mesh, shooter.Location[0], shooter.Location[1]);
             }
         }
+        public static void AddRoomToCanvas(Room room)
+        {
+
+        }
         /// <summary>
         /// Adds a UIElement to the canvas (Layer = 0)
         /// </summary>
