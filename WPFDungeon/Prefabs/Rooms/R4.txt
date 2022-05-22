@@ -5,13 +5,19 @@ W200
 D180;T
 D10;T
 D80;R
-D100;B
+D120;B
+D10;B
 ---
 
 V1
 --------
 -shooters-
 -swifters-
+F10;150;L
+F50;130;L
+F80;110;L
+F10;180;T
+F30;140;T
 -points-
 -abylities-
 -portal-

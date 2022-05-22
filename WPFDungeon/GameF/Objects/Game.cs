@@ -36,9 +36,9 @@ namespace WPFDungeon
             BarrierList = new List<Rect>();
 
             BarrierList.Add(new Rect(0, 0, 465, 20));
-            BarrierList.Add(new Rect(0, 442, 465, 20));
+            BarrierList.Add(new Rect(0, 442, 465, 100));
             BarrierList.Add(new Rect(0, 20, 20, 422));
-            BarrierList.Add(new Rect(465, 0, 20, 462));
+            BarrierList.Add(new Rect(460, 0, 100, 462));
 
         }
         public bool AddRoom(string roomName, Hallway entHallway)
@@ -82,7 +82,20 @@ namespace WPFDungeon
                 {
                     if (door != enterance)
                     {
-                        Hallways.Add(new Hallway(door, 40, Rooms.Count, door.Id));
+                        bool hallwayOutside = false;
+                        Hallway hallway = new Hallway(door, 40, Rooms.Count, door.Id);
+
+                        foreach (Rect barrier in BarrierList)
+                        {
+                            if (hallway.Body.Hitbox.IntersectsWith(barrier))
+                            {
+                                hallwayOutside = true;
+                                Render.RemoveElement(hallway.Body.Mesh);
+                            }
+                        }
+
+                        if (!hallwayOutside) Hallways.Add(hallway);
+
                     }
                 }
 

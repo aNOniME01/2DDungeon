@@ -5,6 +5,9 @@ W100
 D20;R
 D30;L
 D60;B
+D80;T
+D30;L
+D10;B
 ---
 
 V1
@@ -13,7 +16,6 @@ V1
 S20;60;3;T
 S40;20;2;L
 -swifters-
-F10;30;L
 -points-
 P30;20
 -abylities-

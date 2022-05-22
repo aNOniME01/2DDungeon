@@ -264,8 +264,8 @@ namespace WPFDungeon
             while (count < 20 && count < game.Hallways.Count)
             {
                 int roomTry = 0;
-                while (!game.AddRoom($"R{Logic.rnd.Next(1, 7)}", game.Hallways[count]) && roomTry < 4) roomTry++;
-
+                while (!game.AddRoom($"R{Logic.rnd.Next(1, 6)}", game.Hallways[count]) && roomTry < 4) roomTry++;
+                if (roomTry <= 4) game.AddRoom($"R6", game.Hallways[count]);
                 count++;
             }
 
