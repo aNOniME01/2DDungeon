@@ -18,22 +18,33 @@ namespace WPFDungeon
             Texture.ImageSource = new BitmapImage(new Uri(Transfer.GetLocation() + "WPFDungeon\\textures\\Player.png"));
 
             Mesh = new Rectangle();
+            SetFaceing(D1, D2);
+            Mesh.Stroke = Brushes.Black;
+            Mesh.Fill = Brushes.Red;
+
+            MoveHitbox();
+        }
+        public void RefreshLocRot(Door D1, Door D2)
+        {
+            SetFaceing(D1, D2);
+            MoveHitbox();
+        }
+        private void SetFaceing(Door D1, Door D2)
+        {
             if (D1.Faceing == 'T')
             {
                 Mesh.Width = 15;
                 Mesh.Height = Logic.ToPositive(D1.Location[0] - D2.Location[0]);
                 D1.Location[0] -= D1.Location[0] - D2.Location[0];
 
-                Canvas.SetTop(Mesh, D2.Location[0]);
-                Canvas.SetLeft(Mesh, D2.Location[1]);
+                Render.RefreshElement(Mesh, D2.Location);
             }
             else if (D1.Faceing == 'B')
             {
                 Mesh.Width = 15;
                 Mesh.Height = Logic.ToPositive(D2.Location[0] - D1.Location[0]);
 
-                Canvas.SetTop(Mesh, D1.Location[0]);
-                Canvas.SetLeft(Mesh, D1.Location[1]);
+                Render.RefreshElement(Mesh, D1.Location);
             }
             else if (D1.Faceing == 'L')
             {
@@ -41,21 +52,16 @@ namespace WPFDungeon
                 Mesh.Height = 15;
                 D1.Location[1] -= D1.Location[1] - D2.Location[1];
 
-                Canvas.SetTop(Mesh, D2.Location[0]);
-                Canvas.SetLeft(Mesh, D2.Location[1]);
+                Render.RefreshElement(Mesh, D2.Location);
             }
             else
             {
                 Mesh.Width = Logic.ToPositive(D2.Location[1] - D1.Location[1]);
                 Mesh.Height = 15;
 
-                Canvas.SetTop(Mesh, D1.Location[0]);
-                Canvas.SetLeft(Mesh, D1.Location[1]);
+                Render.RefreshElement(Mesh, D1.Location);
             }
-            Mesh.Stroke = Brushes.Black;
-            Mesh.Fill = Brushes.Red;
 
-            MoveHitbox();
         }
         public void FaceTo(char direction)
         {

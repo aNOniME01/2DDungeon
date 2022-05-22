@@ -1,5 +1,4 @@
-﻿using System;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
@@ -23,13 +22,27 @@ namespace WPFDungeon
             Mesh.Stroke = Brushes.Black;
             Mesh.Fill = Brushes.Green;
 
-            Canvas.SetTop(Mesh, location[0]);
-            Canvas.SetLeft(Mesh, location[1]);
+            Render.RefreshElement(Mesh, location);
 
+            MoveHitbox();
+        }
+        public void Refresh(double height, double width, double[] location)
+        {
+            Mesh.Width = width;
+            Mesh.Height = height;
+            Render.RefreshElement(Mesh, location);
             MoveHitbox();
         }
         public void FaceTo(char direction)
         {
+            if (direction == 'L' || direction == 'R')
+            {
+                double hlpr = Mesh.Width;
+                Mesh.Width = Mesh.Height;
+                Mesh.Height = hlpr;
+            }
+            MoveHitbox();
+
             RotateTransform aRotateTransform = new RotateTransform();
             aRotateTransform.CenterX = 0.5;
             aRotateTransform.CenterY = 0.5;

@@ -64,6 +64,43 @@ namespace WPFDungeon
 
             SetUpEnemy(room);
         }
+        public static void RemoveRoomFromCanvas(Room room)
+        {
+            try
+            {
+                game.GCanvas.Children.Remove(room.Body.Mesh);
+
+                game.GCanvas.Children.Remove(room.SelectedSpawnMap.Portal.Body.Mesh);
+            }
+            catch { }
+
+            foreach (Hallway hallway in game.Hallways)
+            {
+                try
+                {
+                    game.GCanvas.Children.Remove(hallway.Body.Mesh);
+                }
+                catch { }
+            }
+
+            foreach (Swifter swifter in room.SelectedSpawnMap.Swifters)
+            {
+                try
+                {
+                    game.GCanvas.Children.Remove(swifter.Body.Mesh);
+                }
+                catch { }
+            }
+
+            foreach (Shooter shooter in room.SelectedSpawnMap.Shooters)
+            {
+                try
+                {
+                    game.GCanvas.Children.Remove(shooter.Body.Mesh);
+                }
+                catch { }
+            }
+        }
         /// <summary>
         /// Adds a UIElement to the canvas (Layer = 0)
         /// </summary>

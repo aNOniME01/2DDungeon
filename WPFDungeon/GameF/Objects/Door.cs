@@ -9,6 +9,8 @@ namespace WPFDungeon
         public double X { get; set; }
         public double[] Location { get; private set; }
         public char Faceing { get; private set; }
+        public int RoomId { get; private set; }
+        public int Id { get; private set; }
         /// <summary>
         /// Door constructor
         /// </summary>
@@ -16,14 +18,37 @@ namespace WPFDungeon
         /// <param name="faceing">The direction witch the door is faceing</param>
         /// <param name="rHeight">Room height</param>
         /// <param name="rWidth">Room width</param>
-        public Door(double x, char faceing, double rHeight, double rWidth)
+        public Door(double x, char faceing, double rHeight, double rWidth,int roomId,int id)
         {
+            RoomId = roomId;
+            Id = id;
+
             X = x;
 
-            Faceing = faceing;
+            Location = new double[2];
+            
+            SetLocRot(x, faceing, rHeight, rWidth);
+        }
+        /// <summary>
+        /// Duplicates door without a reference
+        /// </summary>
+        /// <param name="door">The door thats going to be duplicated</param>
+        public Door(Door door)
+        {
+            RoomId = door.RoomId;
+            Id = door.Id;
 
+            X = door.X;
             Location = new double[2];
 
+            Location[0] = door.Location[0];
+            Location[1] = door.Location[1];
+
+            Faceing = door.Faceing;
+        }
+        public void SetLocRot(double x, char faceing, double rHeight, double rWidth)
+        {
+            Faceing = faceing;
             if (faceing == 'T')
             {
                 Location[0] = 0;
@@ -44,20 +69,6 @@ namespace WPFDungeon
                 Location[0] = x;
                 Location[1] = rWidth;
             }
-        }
-        /// <summary>
-        /// Duplicates door without a reference
-        /// </summary>
-        /// <param name="door">The door thats going to be duplicated</param>
-        public Door(Door door)
-        {
-            X = door.X;
-            Location = new double[2];
-
-            Location[0] = door.Location[0];
-            Location[1] = door.Location[1];
-
-            Faceing = door.Faceing;
         }
         /// <summary>
         /// Modifies the hallway location

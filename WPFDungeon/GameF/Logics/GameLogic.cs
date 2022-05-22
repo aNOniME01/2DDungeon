@@ -19,26 +19,15 @@ namespace WPFDungeon
             game = gm;
             Render.Load(game);
 
-            barrierList.Add(new Rect(0,0,465,20));
-            barrierList.Add(new Rect(0,442,465,20));
-            barrierList.Add(new Rect(0,20,20,422));
-            barrierList.Add(new Rect(465,0,20,462));
+            barrierList.Add(new Rect(0, 0, 465, 20));
+            barrierList.Add(new Rect(0, 442, 465, 20));
+            barrierList.Add(new Rect(0, 20, 20, 422));
+            barrierList.Add(new Rect(465, 0, 20, 462));
 
-            game.Rooms[0].ChangeLocation(200, 150);
-            foreach (Hallway hallway in game.Hallways)
-            {
-                hallway.ToRoomLoc(game.Rooms[0].Location);
-            }
+            game.ChangeRoomLocation(game.Rooms[0], 100, 150);
 
-            game.AddRoom("R1",game.Hallways[0].D2);
+            game.ChangeRoomFaceing(game.Rooms[0], 'R');
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="mUp"></param>
-        /// <param name="mDown"></param>
-        /// <param name="mLeft"></param>
-        /// <param name="mRight"></param>
         public static void GameLoop(bool mUp, bool mDown, bool mLeft, bool mRight)
         {
             #region PlayerLogic
@@ -55,7 +44,6 @@ namespace WPFDungeon
 
             //Swifter logic
             SwifterLogic();
-
         }
         /// <summary>
         /// cheks if a player can move into a direction and if yes moves it
@@ -229,7 +217,7 @@ namespace WPFDungeon
                 if (dir == 'T' && game.Player.MoveChecks[0].Check(hitbox)) return true;
                 else if (dir == 'B' && game.Player.MoveChecks[1].Check(hitbox)) return true;
                 else if (dir == 'L' && game.Player.MoveChecks[2].Check(hitbox)) return true;
-                else if(dir == 'R' && game.Player.MoveChecks[3].Check(hitbox)) return true;
+                else if (dir == 'R' && game.Player.MoveChecks[3].Check(hitbox)) return true;
             }
 
             foreach (Hallway hallway in game.Hallways)
@@ -239,7 +227,7 @@ namespace WPFDungeon
                 if (dir == 'T' && game.Player.MoveChecks[0].Check(hitbox)) return true;
                 else if (dir == 'B' && game.Player.MoveChecks[1].Check(hitbox)) return true;
                 else if (dir == 'L' && game.Player.MoveChecks[2].Check(hitbox)) return true;
-                else if(dir == 'R' && game.Player.MoveChecks[3].Check(hitbox)) return true;
+                else if (dir == 'R' && game.Player.MoveChecks[3].Check(hitbox)) return true;
             }
 
             return false;

@@ -22,7 +22,7 @@ namespace WPFDungeon
 
             foreach (Door door in Rooms[0].Doors)
             {
-                Hallways.Add(new Hallway(door, 40, Rooms.Count - 1));
+                Hallways.Add(new Hallway(door, 40, Rooms.Count - 1, door.Id));
             }
 
 
@@ -41,7 +41,7 @@ namespace WPFDungeon
             {
                 if (door != enterance)
                 {
-                    Hallways.Add(new Hallway(door, 40,Rooms.Count));
+                    Hallways.Add(new Hallway(door, 40,Rooms.Count, door.Id));
                 }
             }
             newRoom.ToDoorLoc(hallwayEnd,enterance);
@@ -57,6 +57,30 @@ namespace WPFDungeon
 
             Rooms.Add(newRoom);
             Render.AddRoomToCanvas(newRoom);
+        }
+        public void ChangeRoomFaceing(Room room,char faceing) 
+        {
+            room.ChangeFaceing(faceing);
+
+            foreach (Door door in room.Doors)
+            {
+                foreach (Hallway hallway in Hallways)
+                {
+                    if (hallway.Id == room.Id && hallway.DoorId == door.Id)
+                    {
+                        hallway.ChangeLocRot(door, 40,room.Location);
+                    }
+                }
+            }
+        }
+        public void ChangeRoomLocation(Room room, double y, double x)
+        {
+            room.ChangeLocation(y, x);
+
+            foreach (Hallway hallway in Hallways)
+            {
+                hallway.ToRoomLoc(room.Location);
+            }
         }
     }
 }

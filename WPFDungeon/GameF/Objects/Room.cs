@@ -24,16 +24,10 @@ namespace WPFDungeon
             SpawnMaps = new List<SpawnMap>();
             Type = fileName;
             Id = roomId;
-            ReadInRoomData(Type);
-            //for testing
-            SelectedSpawnMap = SpawnMaps[0];
-        }
-        private void ReadInRoomData(string fileName)
-        {
-            Doors.Clear();
-            SpawnMaps.Clear();
+
             double height = 0;
             double width = 0;
+            int doorId = 0;
             foreach (string line in File.ReadAllLines(Transfer.GetLocation() + "\\WPFDungeon\\Prefabs\\Rooms\\" + fileName + ".txt"))
             {
                 if (line != "")
@@ -43,7 +37,8 @@ namespace WPFDungeon
                     else if (line[0] == 'D')//Door
                     {
                         string[] sgd = line.Trim('D').Trim().Split(';');
-                        Doors.Add(new Door(Convert.ToDouble(sgd[0]), Convert.ToChar(sgd[1]), height, width));
+                        Doors.Add(new Door(Convert.ToDouble(sgd[0]), Convert.ToChar(sgd[1]), height, width,Id,doorId));
+                        doorId++;
                     }
                     else if (line[0] == 'V')
                     {
@@ -73,19 +68,83 @@ namespace WPFDungeon
                     }
                 }
             }
-            Body = new RoomBody(height, width, Location);
+
+            Body = new RoomBody(height, width, Location);            //for testing
+            SelectedSpawnMap = SpawnMaps[0];
+        }
+        private void ResetRoom(string fileName)
+        {
+            Doors.Clear();
+            SpawnMaps.Clear();
+            double height = 0;
+            double width = 0;
+            int doorId = 0;
+            foreach (string line in File.ReadAllLines(Transfer.GetLocation() + "\\WPFDungeon\\Prefabs\\Rooms\\" + fileName + ".txt"))
+            {
+                if (line != "")
+                {
+                    if (line[0] == 'W') width = Convert.ToDouble(line.Trim('W').Trim());
+                    else if (line[0] == 'H') height = Convert.ToDouble(line.Trim('H').Trim());
+                    else if (line[0] == 'D')//Door
+                    {
+                        string[] sgd = line.Trim('D').Trim().Split(';');
+                        Doors.Add(new Door(Convert.ToDouble(sgd[0]), Convert.ToChar(sgd[1]), height, width,Id,doorId));
+                        doorId++;
+                    }
+                    else if (line[0] == 'V')
+                    {
+                        SpawnMaps.Add(new SpawnMap(Id));
+                    }
+                    else if (line[0] == 'S')//Shooter
+                    {
+                        //Shooter x;y;turretNum;faceing
+                        string[] sgd = line.Trim('S').Trim().Split(';');
+                        SpawnMaps[SpawnMaps.Count - 1].AddShooter(Convert.ToDouble(sgd[0]), Convert.ToDouble(sgd[1]), Convert.ToInt32(sgd[2]), Convert.ToChar(sgd[3]));
+                    }
+                    else if (line[0] == 'F')//Swifter
+                    {
+                        //Swifter x;y;faceing
+                        string[] sgd = line.Trim('F').Trim().Split(';');
+                        SpawnMaps[SpawnMaps.Count - 1].AddSwifter(Convert.ToDouble(sgd[0]), Convert.ToDouble(sgd[1]), Convert.ToChar(sgd[2]));
+                    }
+                    else if (line[0] == 'O')//Portal
+                    {
+                        //Portal x;y;faceing
+                        string[] sgd = line.Trim('O').Trim().Split(';');
+                        SpawnMaps[SpawnMaps.Count - 1].AddPortal(Convert.ToDouble(sgd[0]), Convert.ToDouble(sgd[1]), Convert.ToChar(sgd[2]));
+                    }
+                    else if (line[0] == 'P')//Point
+                    {
+                        //Point x;y
+                    }
+                }
+            }
+            (Body as RoomBody).Refresh(height,width,Location);
         }
         public void ChangeFaceing(char newFaceing)
         {
-            ReadInRoomData(Type);
-            //ChangeEntityFaceing(SelectedSpawnMap.Shooters);
+            //Resets the room to defaoult (faceing, height, width)
+            ResetRoom(Type);
+
+            //Assign new faceing
             Faceing = newFaceing;
-            if (newFaceing == 'L' || newFaceing == 'R')
+
+            //Set RoomFaceing
+            Body.FaceTo(newFaceing);
+
+            ChangeDoorFaceing();
+
+        }
+        private void ChangeDoorFaceing()
+        {
+            foreach (Door door in Doors)
             {
-                double hlpr = Body.Mesh.Width;
-                Body.Mesh.Width = Body.Mesh.Height;
-                Body.Mesh.Height = hlpr;
+                if (Faceing != 'T')
+                {
+                    door.SetLocRot(door.X, Logic.RotateFaceingWithRoom(Faceing, door.Faceing), Body.Mesh.Height, Body.Mesh.Width);
+                }
             }
+
         }
         private void ChangeEntityFaceing(List<IEntity> entities)
         {

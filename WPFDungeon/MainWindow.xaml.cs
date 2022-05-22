@@ -35,7 +35,6 @@ namespace WPFDungeon
             mDown = false;
             mLeft = false;
             mRight = false;
-
         }
 
         private void Window_KeyDown(object sender, KeyEventArgs e)
@@ -106,7 +105,7 @@ namespace WPFDungeon
             }
 
 
-            GameLogic.GameLoop(mUp, mDown, mLeft, mRight, Width - 25, Height - 50);
+            GameLogic.GameLoop(mUp, mDown, mLeft, mRight);
         }
     }
 }
