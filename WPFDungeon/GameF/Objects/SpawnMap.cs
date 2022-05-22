@@ -9,8 +9,8 @@ namespace WPFDungeon
     internal class SpawnMap
     {
         public int RoomId { get; private set; }
-        public List<Shooter> Shooters { get; private set; }
-        public List<Swifter> Swifters { get; private set; }
+        public List<IEntity> Shooters { get; private set; }
+        public List<IEntity> Swifters { get; private set; }
         public Portal Portal { get; private set; }
         //point list
         //ammo list
@@ -18,8 +18,8 @@ namespace WPFDungeon
         public SpawnMap(int roomId)
         {
             RoomId = roomId;
-            Shooters = new List<Shooter>();
-            Swifters = new List<Swifter>();
+            Shooters = new List<IEntity>();
+            Swifters = new List<IEntity>();
             this.Portal = null;
         }
         public void AddShooter(double yLoc,double xLoc,int turretNum, char faceing)

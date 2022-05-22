@@ -24,9 +24,9 @@ namespace WPFDungeon
             barrierList.Add(new Rect(0, 20, 20, 422));
             barrierList.Add(new Rect(465, 0, 20, 462));
 
-            game.ChangeRoomLocation(game.Rooms[0], 100, 150);
+            game.ChangeRoomLocation(game.Rooms[0], 200, 50);
 
-            game.ChangeRoomFaceing(game.Rooms[0], 'R');
+            game.ChangeRoomFaceing(game.Rooms[0], 'L');
         }
         public static void GameLoop(bool mUp, bool mDown, bool mLeft, bool mRight)
         {
@@ -242,7 +242,7 @@ namespace WPFDungeon
                     {
                         Rect hitbox = CheckRoom.Body.Hitbox;
 
-                        if (dir == 'T' && game.Player.MoveChecks[0].Check(hitbox)) return true;
+                        if (dir == 'T' && swifter.MoveChecks[0].Check(hitbox)) return true;
                         else if (dir == 'B' && swifter.MoveChecks[1].Check(hitbox)) return true;
                         else if (dir == 'L' && swifter.MoveChecks[2].Check(hitbox)) return true;
                         else if (dir == 'R' && swifter.MoveChecks[3].Check(hitbox)) return true;

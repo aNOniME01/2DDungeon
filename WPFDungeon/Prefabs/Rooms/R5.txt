@@ -1,20 +1,16 @@
-R1
+R5
 ---
-H50
-W100
-D70;T
-D20;R
-D30;L
-D60;B
+H70
+W120
+D90;B
+D50;R
+D0;L
 ---
 
 V1
 --------
 -shooters-
-S20;60;3;T
-S40;20;2;L
 -swifters-
-F10;30;L
 -points-
 P30;20
 -abylities-

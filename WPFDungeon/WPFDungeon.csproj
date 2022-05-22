@@ -7,9 +7,4 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Folder Include="Prefabs\" />
-    <Folder Include="Prefabs\Rooms\" />
-  </ItemGroup>
-
 </Project>

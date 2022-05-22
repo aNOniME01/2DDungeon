@@ -79,6 +79,20 @@ namespace WPFDungeon
 
             (Body as ShooterBody).MoveHitbox();
         }
+        public void GoTo(double[] location)
+        {
+            Location[0] = location[0];
+            Location[1] = location[1];
 
+            Render.RefreshEntity(this);
+
+            (Body as ShooterBody).MoveHitbox();
+
+        }
+        public void FaceTo(char faceing)
+        {
+            Faceing = faceing;
+            (Body as ShooterBody).FaceTo(Faceing);
+        }
     }
 }

@@ -73,6 +73,22 @@ namespace WPFDungeon
             (Body as SwifterBody).MoveHitbox();
             RefreshMoveCheck();
         }
+        public void GoTo(double[] location)
+        {
+            Location[0] = location[0];
+            Location[1] = location[1];
+
+            Render.RefreshEntity(this);
+
+            (Body as SwifterBody).MoveHitbox();
+
+        }
+        public void FaceTo(char faceing)
+        {
+            Faceing = faceing;
+            (Body as SwifterBody).FaceTo(Faceing);
+            RefreshMoveCheck();
+        }
 
     }
 }

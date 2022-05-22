@@ -25,7 +25,6 @@ namespace WPFDungeon
             Texture = new ImageBrush();
             Texture.ImageSource = new BitmapImage(new Uri(Transfer.GetLocation() + "WPFDungeon\\textures\\Swifter.png"));//shooter body texture
 
-            FaceTo(faceing);
 
             Mesh = new Rectangle();
             if (faceing == 'T'|| faceing == 'B')
@@ -41,6 +40,8 @@ namespace WPFDungeon
             Mesh.Stroke = Brushes.Black;
             Mesh.Fill = Texture;
 
+            FaceTo(faceing);
+
             Canvas.SetTop(Mesh, location[0]);
             Canvas.SetLeft(Mesh, location[1]);
 
@@ -48,6 +49,17 @@ namespace WPFDungeon
         }
         public void FaceTo(char faceing)
         {
+            if (faceing == 'T' || faceing == 'B')
+            {
+                Mesh.Height = 20;
+                Mesh.Width = 10;
+            }
+            else
+            {
+                Mesh.Height = 10;
+                Mesh.Width = 20;
+            }
+
             RotateTransform aRotateTransform = new RotateTransform();
             aRotateTransform.CenterX = 0.5;
             aRotateTransform.CenterY = 0.5;

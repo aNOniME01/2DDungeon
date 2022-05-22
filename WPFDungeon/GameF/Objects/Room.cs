@@ -134,6 +134,8 @@ namespace WPFDungeon
 
             ChangeDoorFaceing();
 
+            ChangeEntityFaceingWithRoom(SelectedSpawnMap.Shooters);
+            ChangeEntityFaceingWithRoom(SelectedSpawnMap.Swifters);
         }
         private void ChangeDoorFaceing()
         {
@@ -146,21 +148,37 @@ namespace WPFDungeon
             }
 
         }
-        private void ChangeEntityFaceing(List<IEntity> entities)
+        private void ChangeEntityFaceingWithRoom(List<IEntity> entities)
         {
-            foreach (var entity in entities)
+            if (Faceing != 'T')
             {
-                if (Faceing == 'B')
+                foreach (var entity in entities)
                 {
+                    double[] newLoc = new double[2];
 
-                }
-                else if (Faceing == 'L')
-                {
+                    if (Faceing == 'B')
+                    {
+                        newLoc[0] = Location[0] + Body.Mesh.Height - (entity.Location[0] - Location[0]) - entity.Body.Mesh.Height;
+                        newLoc[1] = Location[1] + Body.Mesh.Width - (entity.Location[1] - Location[1]) - entity.Body.Mesh.Width;
+                    }
+                    else if (Faceing == 'L')
+                    {
+                        double hlpr = entity.Location[0];
+                        newLoc[0] = entity.Location[1] - Location[1] + Location[0];
+                        newLoc[1] = hlpr - Location[0] + Location[1];
+                        //newLoc[0] = Body.Mesh.Width - (entity.Location[1] - Location[1]) - entity.Body.Mesh.Width + Location[0];
+                        //newLoc[1] = Body.Mesh.Height - (entity.Location[0] - Location[0]) - entity.Body.Mesh.Height + Location[1];
+                    }
+                    else if (Faceing == 'R')
+                    {
+                        double hlpr = entity.Location[0];
+                        newLoc[0] = entity.Location[1] - Location[1] + Location[0];
+                        newLoc[1] = hlpr - Location[0] + Location[1];
+                    }
 
-                }
-                else if (Faceing == 'R')
-                {
+                    entity.GoTo(newLoc);
 
+                    entity.FaceTo(Logic.RotateFaceingWithRoom(Faceing, entity.Faceing));
                 }
             }
         }
@@ -194,11 +212,14 @@ namespace WPFDungeon
                 entity.ToRoomLoc(Location);
             }
 
-            SelectedSpawnMap.Portal.ToRoomLoc(Location);
+            if (SelectedSpawnMap.Portal != null)
+            {
+                SelectedSpawnMap.Portal.ToRoomLoc(Location);
+            }
         }
         public Door SearchDoorFaceingOpposit(char faceing)
         {
-            char SearchedFaceing = 'T';
+            char SearchedFaceing;
             if (faceing == 'T') SearchedFaceing = 'B';
             else if (faceing == 'B') SearchedFaceing = 'T';
             else if (faceing == 'L') SearchedFaceing = 'R';

@@ -51,7 +51,10 @@ namespace WPFDungeon
         {
             AddToCanvas(room.Body.Mesh, room.Location[0], room.Location[1]);
 
-            AddToCanvas(room.SelectedSpawnMap.Portal.Body.Mesh, room.SelectedSpawnMap.Portal.Location[0], room.SelectedSpawnMap.Portal.Location[1]);
+            if (room.SelectedSpawnMap.Portal != null)
+            {
+                AddToCanvas(room.SelectedSpawnMap.Portal.Body.Mesh, room.SelectedSpawnMap.Portal.Location[0], room.SelectedSpawnMap.Portal.Location[1]);
+            }
 
             foreach (Hallway hallway in game.Hallways)
             {
