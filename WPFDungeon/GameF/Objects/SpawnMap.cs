@@ -17,6 +17,7 @@ namespace WPFDungeon
         //ability list
         public SpawnMap(int roomId)
         {
+
             RoomId = roomId;
             Shooters = new List<IEntity>();
             Swifters = new List<IEntity>();

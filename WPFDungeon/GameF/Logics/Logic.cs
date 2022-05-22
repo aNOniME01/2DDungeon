@@ -8,7 +8,7 @@ namespace WPFDungeon
 {
     internal class Logic
     {
-        private static Random rnd = new Random();
+        public static Random rnd = new Random();
         public static double ToPositive(double x) => Math.Sqrt(x*x);
         public static char RotateFaceing90(char faceing)
         {

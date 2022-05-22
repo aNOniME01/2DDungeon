@@ -13,20 +13,17 @@ namespace WPFDungeon
     {
         private static int shootTimer = 0;
         private static Game game;
-        private static List<Rect> barrierList = new List<Rect>();
         public static void GameLoad(Game gm)
         {
             game = gm;
             Render.Load(game);
 
-            barrierList.Add(new Rect(0, 0, 465, 20));
-            barrierList.Add(new Rect(0, 442, 465, 20));
-            barrierList.Add(new Rect(0, 20, 20, 422));
-            barrierList.Add(new Rect(465, 0, 20, 462));
 
             game.ChangeRoomLocation(game.Rooms[0], 200, 50);
 
             game.ChangeRoomFaceing(game.Rooms[0], 'L');
+
+            GenerateDungeon();
         }
         public static void GameLoop(bool mUp, bool mDown, bool mLeft, bool mRight)
         {
@@ -204,7 +201,7 @@ namespace WPFDungeon
             {
                 foreach (Swifter swifter in room.SelectedSpawnMap.Swifters)
                 {
-                    swifter.Navigate(SwifterMoveCheck(swifter.Faceing));
+                    swifter.Navigate(SwifterMoveCheck(swifter, swifter.Faceing));
                 }
             }
         }
@@ -232,21 +229,18 @@ namespace WPFDungeon
 
             return false;
         }
-        private static bool SwifterMoveCheck(char dir)
+        private static bool SwifterMoveCheck(Swifter swifter,char dir)
         {
             foreach (Room room in game.Rooms)
             {
-                foreach (Swifter swifter in room.SelectedSpawnMap.Swifters)
+                foreach (Room CheckRoom in game.Rooms)
                 {
-                    foreach (Room CheckRoom in game.Rooms)
-                    {
-                        Rect hitbox = CheckRoom.Body.Hitbox;
+                    Rect hitbox = CheckRoom.Body.Hitbox;
 
-                        if (dir == 'T' && swifter.MoveChecks[0].Check(hitbox)) return true;
-                        else if (dir == 'B' && swifter.MoveChecks[1].Check(hitbox)) return true;
-                        else if (dir == 'L' && swifter.MoveChecks[2].Check(hitbox)) return true;
-                        else if (dir == 'R' && swifter.MoveChecks[3].Check(hitbox)) return true;
-                    }
+                    if (dir == 'T' && swifter.MoveChecks[0].Check(hitbox)) return true;
+                    else if (dir == 'B' && swifter.MoveChecks[1].Check(hitbox)) return true;
+                    else if (dir == 'L' && swifter.MoveChecks[2].Check(hitbox)) return true;
+                    else if (dir == 'R' && swifter.MoveChecks[3].Check(hitbox)) return true;
                 }
             }
             return false;
@@ -263,6 +257,30 @@ namespace WPFDungeon
             }
 
             return false;
+        }
+        private static void GenerateDungeon()
+        {
+            int count = 0;
+            while (count < 20 && count < game.Hallways.Count)
+            {
+                int roomTry = 0;
+                while (!game.AddRoom($"R{Logic.rnd.Next(1, 7)}", game.Hallways[count]) && roomTry < 4) roomTry++;
+
+                count++;
+            }
+
+            List<Hallway> hallwayDeleteNeeded = new List<Hallway>();
+            foreach (Hallway hallway in game.Hallways)
+            {
+                if (!hallway.IsConnected) hallwayDeleteNeeded.Add(hallway);
+            }
+
+            //Deletes unconnectedRooms
+            foreach (Hallway hallway in hallwayDeleteNeeded)
+            {
+                game.Hallways.Remove(hallway);
+                Render.RemoveElement(hallway.Body.Mesh);
+            }
         }
     }
 }

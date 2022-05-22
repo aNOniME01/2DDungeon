@@ -14,8 +14,8 @@ namespace WPFDungeon
         public Player()
         {
             Location = new double[2];
-            Location[0] = 100;
-            Location[1] = 200;
+            Location[0] = 250;
+            Location[1] = 70;
 
             Width = 10;
             Height = 10;

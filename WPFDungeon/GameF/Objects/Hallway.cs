@@ -14,6 +14,7 @@ namespace WPFDungeon
         public IBody Body { get; private set; }
         public int Id { get; private set; }
         public int DoorId { get; private set; }
+        public bool IsConnected { get; private set; }
         public Hallway(Door d1,double hallwayLength, int hallwayId, int doorId)
         {
             D1 = new Door(d1);
@@ -25,7 +26,8 @@ namespace WPFDungeon
             D2.ModifyLocation(hallwayLength);
 
             Body = new HallwayBody(D1, D2);
-            DoorId = doorId;
+
+            IsConnected = false;
         }
         public void ChangeLocRot(Door d1, double hallwayLength, double[] location)
         {
@@ -43,5 +45,6 @@ namespace WPFDungeon
             Render.RefreshElement(Body.Mesh, D1.Location);
             (Body as HallwayBody).MoveHitbox();
         }
+        public void Connected() => IsConnected = true;
     }
 }

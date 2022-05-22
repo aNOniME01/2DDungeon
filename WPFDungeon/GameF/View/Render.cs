@@ -149,5 +149,9 @@ namespace WPFDungeon
         {
             game.GCanvas.Children.Remove(entity.Body.Mesh);
         }
+        public static void RemoveElement(UIElement uIElement)
+        {
+            game.GCanvas.Children.Remove(uIElement);
+        }
     }
 }
