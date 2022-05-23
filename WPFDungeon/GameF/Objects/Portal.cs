@@ -30,6 +30,12 @@ namespace WPFDungeon
             Location[1] += roomLocation[1];
             Render.RefreshEntity(this);
         }
+        public void FaceTo(char faceing)
+        {
+            Faceing = faceing;
+            (Body as PortalBody).FaceTo(Faceing);
+        }
+
 
     }
 }

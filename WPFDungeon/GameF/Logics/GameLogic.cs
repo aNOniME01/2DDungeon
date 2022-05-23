@@ -21,9 +21,9 @@ namespace WPFDungeon
 
             game.ChangeRoomLocation(game.Rooms[0], 200, 50);
 
-            game.ChangeRoomFaceing(game.Rooms[0], 'B');
+            game.ChangeRoomFaceing(game.Rooms[0], 'L');
 
-            //GenerateDungeon();
+            GenerateDungeon();
         }
         public static void GameLoop(bool mUp, bool mDown, bool mLeft, bool mRight)
         {
@@ -201,7 +201,7 @@ namespace WPFDungeon
             {
                 foreach (Swifter swifter in room.SelectedSpawnMap.Swifters)
                 {
-                    swifter.Navigate(SwifterMoveCheck(swifter, swifter.Faceing));
+                    swifter.Navigate(SwifterMoveCheck(swifter));
                 }
             }
         }
@@ -229,22 +229,49 @@ namespace WPFDungeon
 
             return false;
         }
-        private static bool SwifterMoveCheck(Swifter swifter,char dir)
+        private static bool SwifterMoveCheck(Swifter swifter)
         {
             foreach (Room room in game.Rooms)
             {
-                foreach (Room CheckRoom in game.Rooms)
-                {
-                    Rect hitbox = CheckRoom.Body.Hitbox;
-
-                    if (dir == 'T' && swifter.MoveChecks[0].Check(hitbox)) return true;
-                    else if (dir == 'B' && swifter.MoveChecks[1].Check(hitbox)) return true;
-                    else if (dir == 'L' && swifter.MoveChecks[2].Check(hitbox)) return true;
-                    else if (dir == 'R' && swifter.MoveChecks[3].Check(hitbox)) return true;
-                }
+                bool IsOutside = IsSwifterOutside(swifter);
+                //bool ShooterInFront = IsEntityInfrontOfSwifter(swifter, dir, room.SelectedSpawnMap.Shooters);
+                bool SwifterInFront = IsEntityInfrontOfSwifter(swifter, room.SelectedSpawnMap.Swifters);
+                if (IsOutside /*&& ShooterInFront*/ && SwifterInFront) return true;
             }
             return false;
         }
+        private static bool IsSwifterOutside(Swifter swifter)
+        {
+            foreach (Room room in game.Rooms)
+            {
+                Rect hitbox = room.Body.Hitbox;
+
+                if (swifter.Faceing == 'T' && swifter.MoveChecks[0].Check(hitbox)) return true;
+                else if (swifter.Faceing == 'B' && swifter.MoveChecks[1].Check(hitbox)) return true;
+                else if (swifter.Faceing == 'L' && swifter.MoveChecks[2].Check(hitbox)) return true;
+                else if (swifter.Faceing == 'R' && swifter.MoveChecks[3].Check(hitbox)) return true;
+            }
+
+            return false;
+        }
+        private static bool IsEntityInfrontOfSwifter(Swifter swifter, List<IEntity> entities)
+        {
+            foreach (IEntity entity in entities)
+            {
+                Rect hitbox = entity.Body.Hitbox;
+
+                if (entity != swifter)
+                {
+                    if (swifter.Faceing == 'T' && swifter.MoveChecks[0].Check(hitbox)) return false;
+                    else if (swifter.Faceing == 'B' && swifter.MoveChecks[1].Check(hitbox)) return false;
+                    else if (swifter.Faceing == 'L' && swifter.MoveChecks[2].Check(hitbox)) return false;
+                    else if (swifter.Faceing == 'R' && swifter.MoveChecks[3].Check(hitbox)) return false;
+                }
+            }
+
+            return true;
+        }
+        
         private static bool isBulletInside(Bullet bullet)
         {
             foreach (Room room in game.Rooms)

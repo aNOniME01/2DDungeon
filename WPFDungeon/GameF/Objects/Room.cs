@@ -46,20 +46,20 @@ namespace WPFDungeon
                     else if (line[0] == 'S')//Shooter
                     {
                         //Shooter x;y;turretNum;faceing
-                        //if (Id != 0)
-                        //{
+                        if (Id != 0)
+                        {
                             string[] sgd = line.Trim('S').Trim().Split(';');
                             SpawnMaps[SpawnMaps.Count - 1].AddShooter(Convert.ToDouble(sgd[0]), Convert.ToDouble(sgd[1]), Convert.ToInt32(sgd[2]), Convert.ToChar(sgd[3]));
-                        //}
+                        }
                     }
                     else if (line[0] == 'F')//Swifter
                     {
                         //Swifter x;y;faceing
-                        //if (Id != 0)
-                        //{
+                        if (Id != 0)
+                        {
                             string[] sgd = line.Trim('F').Trim().Split(';');
                             SpawnMaps[SpawnMaps.Count - 1].AddSwifter(Convert.ToDouble(sgd[0]), Convert.ToDouble(sgd[1]), Convert.ToChar(sgd[2]));
-                        //}
+                        }
                     }
                     else if (line[0] == 'O')//Portal
                     {
@@ -140,8 +140,12 @@ namespace WPFDungeon
             //Assign new faceing
             Faceing = newFaceing;
 
-            ChangeEntityFaceingWithRoom(SelectedSpawnMap.Shooters);
-            ChangeEntityFaceingWithRoom(SelectedSpawnMap.Swifters);
+            RotateEntityWithRoom(SelectedSpawnMap.Shooters);
+            RotateEntityWithRoom(SelectedSpawnMap.Swifters);
+            if (SelectedSpawnMap.Portal != null)
+            {
+                ChangeEntityFaceingWithRoom(SelectedSpawnMap.Portal);
+            }
 
             //Set RoomFaceing
             Body.FaceTo(newFaceing);
@@ -160,35 +164,39 @@ namespace WPFDungeon
             }
 
         }
-        private void ChangeEntityFaceingWithRoom(List<IEntity> entities)
+        private void RotateEntityWithRoom(List<IEntity> entities)
         {
             if (Faceing != 'T')
             {
                 foreach (var entity in entities)
                 {
-                    double[] newLoc = new double[2];
-
-                    if (Faceing == 'B')
-                    {
-                        newLoc[0] = Location[0] + Body.Mesh.Height - (entity.Location[0] - Location[0]) - entity.Body.Mesh.Height;
-                        newLoc[1] = Location[1] + Body.Mesh.Width - (entity.Location[1] - Location[1]) - entity.Body.Mesh.Width;
-                    }
-                    else if (Faceing == 'L')
-                    {
-                        newLoc[0] = entity.Location[1] - Location[1] + Location[0];
-                        newLoc[1] = entity.Location[0] - Location[0] + Location[1];
-                    }
-                    else if (Faceing == 'R')
-                    {
-                        newLoc[0] = Location[0] + Body.Mesh.Width - (entity.Location[1] - Location[1]) - entity.Body.Mesh.Width;
-                        newLoc[1] = Location[1] + Body.Mesh.Height - (entity.Location[0] - Location[0]) - entity.Body.Mesh.Height;
-                    }
-
-                    entity.GoTo(newLoc);
-
-                    entity.FaceTo(Logic.RotateFaceingWithRoom(Faceing, entity.Faceing));
+                    ChangeEntityFaceingWithRoom(entity);
                 }
             }
+        }
+        private void ChangeEntityFaceingWithRoom(IEntity entity)
+        {
+            double[] newLoc = new double[2];
+
+            if (Faceing == 'B')
+            {
+                newLoc[0] = Body.Mesh.Height - (entity.Location[0] - Location[0]) - entity.Body.Mesh.Height;
+                newLoc[1] = Body.Mesh.Width - (entity.Location[1] - Location[1]) - entity.Body.Mesh.Width;
+            }
+            else if (Faceing == 'L')
+            {
+                newLoc[0] = entity.Location[1] - Location[1] + Location[0];
+                newLoc[1] = entity.Location[0] - Location[0] + Location[1];
+            }
+            else if (Faceing == 'R')
+            {
+                newLoc[0] =Body.Mesh.Width - (entity.Location[1] - Location[1]) - entity.Body.Mesh.Width;
+                newLoc[1] =Body.Mesh.Height - (entity.Location[0] - Location[0]) - entity.Body.Mesh.Height;
+            }
+
+            entity.GoTo(newLoc);
+
+            entity.FaceTo(Logic.RotateFaceingWithRoom(Faceing, entity.Faceing));
         }
         public void ChangeLocation(double y, double x)
         {
