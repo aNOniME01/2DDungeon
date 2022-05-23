@@ -73,7 +73,7 @@ namespace WPFDungeon
                     }
                 }
             }
-            Body = new RoomBody(height, width, Location);
+            Body = new RoomBody(height, width, Location, Type);
 
             SelectedSpawnMap = SpawnMaps[Logic.rnd.Next(0, SpawnMaps.Count)];
         }

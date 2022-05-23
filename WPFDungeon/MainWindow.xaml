@@ -5,11 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WPFDungeon" 
         mc:Ignorable="d" KeyDown="Window_KeyDown" KeyUp="Window_KeyUp" Loaded="Window_Loaded"
-        Title="MainWindow" Height="500" Width="500">
-    <Canvas x:Name="canvas" >
-        <Rectangle Width="465" Height="20" Fill="Red"/>
-        <Rectangle Width="465" Height="20" Fill="Red" Canvas.Top="442"/>
-        <Rectangle Width="20" Height="422" Fill="Red" Canvas.Top="20"/>
-        <Rectangle Width="20" Height="462" Fill="Red" Canvas.Left="465"/>
-    </Canvas>
+        Title="MainWindow" Height="500" Width="500" Background="#040404">
+    <Canvas x:Name="canvas" />
+
 </Window>

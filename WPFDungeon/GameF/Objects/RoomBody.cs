@@ -1,6 +1,8 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
 namespace WPFDungeon
@@ -12,15 +14,17 @@ namespace WPFDungeon
         public Rect Hitbox { get; private set; }
 
         public Rectangle Mesh { get; private set; }
-        public RoomBody(double height,double width, double[] location)
+        public RoomBody(double height,double width, double[] location,string type)
         {
             Texture = new ImageBrush();
+            Texture.ImageSource = new BitmapImage(new Uri(Transfer.GetLocation() + $"WPFDungeon\\textures\\{type}Texture.png"));
+
             Hitbox = new Rect(0,0,width,height);
             Mesh = new Rectangle();
             Mesh.Width = width;
             Mesh.Height = height;
             Mesh.Stroke = Brushes.Black;
-            Mesh.Fill = Brushes.Green;
+            Mesh.Fill = Texture;
 
             Render.RefreshElement(Mesh, location);
 
