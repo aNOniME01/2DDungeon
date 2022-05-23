@@ -21,9 +21,9 @@ namespace WPFDungeon
 
             game.ChangeRoomLocation(game.Rooms[0], 200, 50);
 
-            game.ChangeRoomFaceing(game.Rooms[0], 'L');
+            game.ChangeRoomFaceing(game.Rooms[0], 'B');
 
-            GenerateDungeon();
+            //GenerateDungeon();
         }
         public static void GameLoop(bool mUp, bool mDown, bool mLeft, bool mRight)
         {

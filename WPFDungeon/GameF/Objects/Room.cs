@@ -46,20 +46,20 @@ namespace WPFDungeon
                     else if (line[0] == 'S')//Shooter
                     {
                         //Shooter x;y;turretNum;faceing
-                        if (Id != 0)
-                        {
+                        //if (Id != 0)
+                        //{
                             string[] sgd = line.Trim('S').Trim().Split(';');
                             SpawnMaps[SpawnMaps.Count - 1].AddShooter(Convert.ToDouble(sgd[0]), Convert.ToDouble(sgd[1]), Convert.ToInt32(sgd[2]), Convert.ToChar(sgd[3]));
-                        }
+                        //}
                     }
                     else if (line[0] == 'F')//Swifter
                     {
                         //Swifter x;y;faceing
-                        if (Id != 0)
-                        {
+                        //if (Id != 0)
+                        //{
                             string[] sgd = line.Trim('F').Trim().Split(';');
                             SpawnMaps[SpawnMaps.Count - 1].AddSwifter(Convert.ToDouble(sgd[0]), Convert.ToDouble(sgd[1]), Convert.ToChar(sgd[2]));
-                        }
+                        //}
                     }
                     else if (line[0] == 'O')//Portal
                     {
@@ -140,13 +140,14 @@ namespace WPFDungeon
             //Assign new faceing
             Faceing = newFaceing;
 
+            ChangeEntityFaceingWithRoom(SelectedSpawnMap.Shooters);
+            ChangeEntityFaceingWithRoom(SelectedSpawnMap.Swifters);
+
             //Set RoomFaceing
             Body.FaceTo(newFaceing);
 
             ChangeDoorFaceing();
 
-            ChangeEntityFaceingWithRoom(SelectedSpawnMap.Shooters);
-            ChangeEntityFaceingWithRoom(SelectedSpawnMap.Swifters);
         }
         private void ChangeDoorFaceing()
         {
@@ -174,17 +175,13 @@ namespace WPFDungeon
                     }
                     else if (Faceing == 'L')
                     {
-                        double hlpr = entity.Location[0];
                         newLoc[0] = entity.Location[1] - Location[1] + Location[0];
-                        newLoc[1] = hlpr - Location[0] + Location[1];
-                        //newLoc[0] = Body.Mesh.Width - (entity.Location[1] - Location[1]) - entity.Body.Mesh.Width + Location[0];
-                        //newLoc[1] = Body.Mesh.Height - (entity.Location[0] - Location[0]) - entity.Body.Mesh.Height + Location[1];
+                        newLoc[1] = entity.Location[0] - Location[0] + Location[1];
                     }
                     else if (Faceing == 'R')
                     {
-                        double hlpr = entity.Location[0];
-                        newLoc[0] = entity.Location[1] - Location[1] + Location[0];
-                        newLoc[1] = hlpr - Location[0] + Location[1];
+                        newLoc[0] = Location[0] + Body.Mesh.Width - (entity.Location[1] - Location[1]) - entity.Body.Mesh.Width;
+                        newLoc[1] = Location[1] + Body.Mesh.Height - (entity.Location[0] - Location[0]) - entity.Body.Mesh.Height;
                     }
 
                     entity.GoTo(newLoc);
