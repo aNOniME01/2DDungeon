@@ -142,6 +142,7 @@ namespace WPFDungeon
 
             RotateEntityWithRoom(SelectedSpawnMap.Shooters);
             RotateEntityWithRoom(SelectedSpawnMap.Swifters);
+
             if (SelectedSpawnMap.Portal != null)
             {
                 ChangeEntityFaceingWithRoom(SelectedSpawnMap.Portal);

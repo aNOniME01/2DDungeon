@@ -15,6 +15,8 @@ namespace WPFDungeon
         public int TurretNum { get; private set; }
         public IBody Body { get; private set; }
         public int RoomId { get; private set; }
+        public int ShootTime { get; private set; }
+        public int ShootTimer { get; private set; }
         public List<Bullet> Bullets { get; private set; }
         public Shooter(double yLoc,double xLoc, int turretNum,char faceing,int roomId)
         {
@@ -30,6 +32,8 @@ namespace WPFDungeon
             Width = 10;
 
             TurretNum = turretNum;
+            ShootTime = 0;
+            ShootTimer = Logic.rnd.Next(10,51);
 
             Body = new ShooterBody(Location,Faceing,TurretNum);
 
@@ -65,6 +69,13 @@ namespace WPFDungeon
                 Bullets.Add(new Bullet("eB", Location[0] + (Height / 2), Location[1] + (Width / 2) - 1, 'L'));
                 Bullets.Add(new Bullet("eB", Location[0] + (Height / 2), Location[1] + (Width / 2) - 1, 'R'));
             }
+
+            ShootTimer = Logic.rnd.Next(10, 51);
+            ShootTime = 0;
+        }
+        public void AddToShootTime()
+        {
+            ShootTime++;
         }
         public void DeleteBullet(Bullet bullet)
         {

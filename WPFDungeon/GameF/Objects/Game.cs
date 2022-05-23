@@ -15,8 +15,12 @@ namespace WPFDungeon
         public Player Player { get; private set; }
         public Canvas GCanvas { get; private set; }
         public List<Rect> BarrierList { get; private set; }
+        public int Score { get; private set; }
+       
         public Game(Canvas canvas)
         {
+            Score = 0;
+
             Rooms = new List<Room>();
             Rooms.Add(new Room("R1", Rooms.Count));
 
@@ -143,5 +147,6 @@ namespace WPFDungeon
                 hallway.ToRoomLoc(room.Location);
             }
         }
+        public void AddToScore(int amaunt) => Score += amaunt;
     }
 }

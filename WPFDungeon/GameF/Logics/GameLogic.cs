@@ -11,7 +11,6 @@ namespace WPFDungeon
 {
     internal class GameLogic
     {
-        private static int shootTimer = 0;
         private static Game game;
         public static void GameLoad(Game gm)
         {
@@ -159,7 +158,7 @@ namespace WPFDungeon
                 {
                     List<Bullet> bulletDeleteNeeded = new List<Bullet>();
 
-                    if (shootTimer > 50)
+                    if (shooter.ShootTime > shooter.ShootTimer)
                     {
                         shooter.Shoot();
                         for (int i = shooter.Bullets.Count - 1; i >= shooter.Bullets.Count - shooter.TurretNum; i--)
@@ -182,6 +181,28 @@ namespace WPFDungeon
                             Render.RemoveEntity(bullet);
                             bulletDeleteNeeded.Add(bullet);
                         }
+
+                        //Checks if an entity is hit by the bullet
+                        foreach (Room room1 in game.Rooms)
+                        {
+                            foreach (Shooter shooter1 in room1.SelectedSpawnMap.Shooters)
+                            {
+                                if (shooter1 != shooter && shooter1.Body.Hitbox.IntersectsWith(bullet.Body.Hitbox))
+                                {
+                                    Render.RemoveEntity(bullet);
+                                    bulletDeleteNeeded.Add(bullet);
+                                }
+                            }
+                            foreach (Swifter swifter in room1.SelectedSpawnMap.Swifters)
+                            {
+                                if (swifter.Body.Hitbox.IntersectsWith(bullet.Body.Hitbox))
+                                {
+                                    Render.RemoveEntity(bullet);
+                                    bulletDeleteNeeded.Add(bullet);
+                                }
+                            }
+
+                        }
                     }
 
                     foreach (Bullet bullet in bulletDeleteNeeded)
@@ -189,11 +210,9 @@ namespace WPFDungeon
                         shooter.DeleteBullet(bullet);
                     }
 
+                    shooter.AddToShootTime();
                 }
             }
-
-            if (shootTimer > 50) shootTimer = 0;
-            shootTimer++;
         }
         private static void SwifterLogic()
         {

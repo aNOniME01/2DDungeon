@@ -10,9 +10,7 @@ namespace WPFDungeon
     internal class RoomBody : IBody
     {
         public ImageBrush Texture { get; private set; }
-
         public Rect Hitbox { get; private set; }
-
         public Rectangle Mesh { get; private set; }
         public RoomBody(double height,double width, double[] location,string type)
         {
