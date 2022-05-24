@@ -23,7 +23,6 @@ namespace ConsoleDungeon
                 }
                 if (Transfer.IsAvailable())
                 {
-                    Console.WriteLine("Transfer is avaleble!!!!!!!!!!!");
                     gameOver = false;
                 }
                 
