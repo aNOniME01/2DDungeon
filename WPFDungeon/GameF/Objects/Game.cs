@@ -16,9 +16,10 @@ namespace WPFDungeon
         public Canvas GCanvas { get; private set; }
         public List<Rect> BarrierList { get; private set; }
         public int Score { get; private set; }
-       
+        public Room portalRoom{ get; private set; }
         public Game(Canvas canvas)
         {
+            
             Score = 0;
 
             Rooms = new List<Room>();
@@ -31,7 +32,7 @@ namespace WPFDungeon
                 Hallways.Add(new Hallway(door, 40, Rooms.Count - 1, door.Id));
             }
 
-
+            portalRoom = Rooms[0];
 
             Player = new Player();
 
@@ -113,6 +114,8 @@ namespace WPFDungeon
                 }
 
                 Rooms.Add(newRoom);
+
+                portalRoom = newRoom;
 
                 Render.AddRoomToCanvas(newRoom);
 

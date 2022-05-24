@@ -22,20 +22,27 @@ namespace WPFDungeon
     /// </summary>
     public partial class MainWindow : Window
     {
-        private static Page gamePage;
+        private static DispatcherTimer? timer;
+        private static Game game;
+        private static bool mUp;
+        private static bool mDown;
+        private static bool mLeft;
+        private static bool mRight;
         public MainWindow()
         {
             InitializeComponent();
 
-            gamePage = new GamePage();
-            frame.Content = gamePage;
+            mUp = false;
+            mDown = false;
+            mLeft = false;
+            mRight = false;
         }
 
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.W)
             {
-                gamePage.KeyDown();
+                mUp = true;
             }
             else if (e.Key == Key.S)
             {
@@ -49,12 +56,55 @@ namespace WPFDungeon
             {
                 mRight = true;
             }
-
         }
 
         private void Window_KeyUp(object sender, KeyEventArgs e)
         {
+            if (e.Key == Key.W)
+            {
+                mUp = false;
+            }
+            else if (e.Key == Key.S)
+            {
+                mDown = false;
+            }
+            else if (e.Key == Key.A)
+            {
+                mLeft = false;
+            }
+            else if (e.Key == Key.D)
+            {
+                mRight = false;
+            }
+            else if (e.Key == Key.Space)
+            {
+                game.Player.Shoot();
+                Bullet shotBullet = game.Player.Bullets[game.Player.Bullets.Count - 1];
+                Render.AddToCanvas(shotBullet.Body.Mesh, shotBullet.Location[0], shotBullet.Location[1]);
+            }
+        }
 
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            game = new Game(canvas);
+
+            GameLogic.GameLoad(game);
+
+            timer = new DispatcherTimer();
+            timer.Interval = TimeSpan.FromMilliseconds(20);
+            timer.Tick += timer_Tick;
+            timer.Start();
+
+        }
+
+        void timer_Tick(object sender, EventArgs e)
+        {
+            GameLogic.GameLoop(mUp, mDown, mLeft, mRight);
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            GameLogic.StopConsoleWindow();
         }
     }
 }

@@ -4,10 +4,11 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WPFDungeon" 
-        mc:Ignorable="d" KeyDown="Window_KeyDown" KeyUp="Window_KeyUp"
+        mc:Ignorable="d" KeyDown="Window_KeyDown" KeyUp="Window_KeyUp" Loaded="Window_Loaded" Closing="Window_Closing"
         Title="MainWindow" Height="500" Width="500" Background="#040404">
-    <Frame x:Name="frame">
-        
-    </Frame>
+    <Grid>
+        <Label Content="Score: 0" Foreground="White"/>
+        <Canvas x:Name="canvas" />
+    </Grid>
 
 </Window>

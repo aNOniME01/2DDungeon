@@ -13,7 +13,7 @@ namespace WPFDungeon
             double dis = 2;
 
             //checker width
-            double w = 2;
+            double w = 4;
 
             //checker height
             double h = 2;
@@ -32,15 +32,15 @@ namespace WPFDungeon
             }
             else if (faceing == 'L')
             {
-                C1 = new Rect(Canvas.GetLeft(body.Mesh) - dis - w, Canvas.GetTop(body.Mesh),w,h);
+                C1 = new Rect(Canvas.GetLeft(body.Mesh) - dis - h, Canvas.GetTop(body.Mesh),h,w);
 
-                C2 = new Rect(Canvas.GetLeft(body.Mesh) - dis - w, Canvas.GetTop(body.Mesh) + body.Mesh.Height - h, w, h);
+                C2 = new Rect(Canvas.GetLeft(body.Mesh) - dis - h, Canvas.GetTop(body.Mesh) + body.Mesh.Height - w, h, w);
             }
             else if (faceing == 'R')
             {
-                C1 = new Rect(Canvas.GetLeft(body.Mesh) + body.Mesh.Width + dis, Canvas.GetTop(body.Mesh), w, h);
+                C1 = new Rect(Canvas.GetLeft(body.Mesh) + body.Mesh.Width + dis, Canvas.GetTop(body.Mesh), h, w);
 
-                C2 = new Rect(Canvas.GetLeft(body.Mesh) + body.Mesh.Width + dis, Canvas.GetTop(body.Mesh) + body.Mesh.Height - h, w, h);
+                C2 = new Rect(Canvas.GetLeft(body.Mesh) + body.Mesh.Width + dis, Canvas.GetTop(body.Mesh) + body.Mesh.Height - w, h, w);
             }
         }
         public bool Check(Rect hitbox)

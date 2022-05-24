@@ -16,7 +16,6 @@ namespace ConsoleDungeon
             transferFileLoc = Transfer.GetLocation();
             gameOver = false;
             map = new Map();
-            Thread.Sleep(4000);
             Logic.GameLogic(map, gameOver);
         }
     }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,6 +12,7 @@ namespace WPFDungeon
 {
     internal class GameLogic
     {
+        private static Process ConsoleDungeonExe = null;
         private static Game game;
         public static void GameLoad(Game gm)
         {
@@ -32,6 +34,8 @@ namespace WPFDungeon
 
             //bullet navigation
             PBulletNavigation();
+
+            PortalCheck();
 
             #endregion
 
@@ -93,6 +97,10 @@ namespace WPFDungeon
                     {
                         if (shooter.Body.Hitbox.IntersectsWith(bullet.Body.Hitbox))
                         {
+                            //AddsToScore
+                            game.AddToScore(shooter.TurretNum);
+
+                            //Removes entity and the bullets
                             Render.RemoveEntity(shooter);
                             foreach (Bullet eBullet in shooter.Bullets)
                             {
@@ -107,6 +115,9 @@ namespace WPFDungeon
                     {
                         if (swifter.Body.Hitbox.IntersectsWith(bullet.Body.Hitbox))
                         {
+                            //AddsToScore
+                            game.AddToScore(2);
+
                             Render.RemoveEntity(swifter);
                             swDeleteNeeded.Add(swifter);
                             bHit = bullet;
@@ -248,6 +259,23 @@ namespace WPFDungeon
 
             return false;
         }
+        private static void PortalCheck()
+        {
+            if (game.portalRoom.SelectedSpawnMap.Portal.Body.Hitbox.IntersectsWith(game.Player.Body.Hitbox))
+            {
+                if (ConsoleDungeonExe == null)
+                {
+                    ConsoleDungeonExe = Process.Start(Transfer.GetLocation() + "\\ConsoleDungeon\\bin\\Debug\\net5.0\\ConsoleDungeon.exe");
+                }
+            }
+        }
+        public static void StopConsoleWindow()
+        {
+            if (ConsoleDungeonExe != null)
+            {
+                ConsoleDungeonExe.Kill();
+            }
+        }
         private static bool SwifterMoveCheck(Swifter swifter)
         {
             foreach (Room room in game.Rooms)
@@ -281,16 +309,15 @@ namespace WPFDungeon
 
                 if (entity != swifter)
                 {
-                    if (swifter.Faceing == 'T' && swifter.MoveChecks[0].Check(hitbox)) return false;
-                    else if (swifter.Faceing == 'B' && swifter.MoveChecks[1].Check(hitbox)) return false;
-                    else if (swifter.Faceing == 'L' && swifter.MoveChecks[2].Check(hitbox)) return false;
-                    else if (swifter.Faceing == 'R' && swifter.MoveChecks[3].Check(hitbox)) return false;
+                    if (swifter.Faceing == 'T' && !swifter.MoveChecks[0].Check(hitbox)) return true;
+                    else if (swifter.Faceing == 'B' && !swifter.MoveChecks[1].Check(hitbox)) return true;
+                    else if (swifter.Faceing == 'L' && !swifter.MoveChecks[2].Check(hitbox)) return true;
+                    else if (swifter.Faceing == 'R' && !swifter.MoveChecks[3].Check(hitbox)) return true;
                 }
             }
 
-            return true;
+            return false;
         }
-        
         private static bool isBulletInside(Bullet bullet)
         {
             foreach (Room room in game.Rooms)
@@ -327,6 +354,8 @@ namespace WPFDungeon
                 game.Hallways.Remove(hallway);
                 Render.RemoveElement(hallway.Body.Mesh);
             }
+
+            Render.AddEntityToCanvas(game.portalRoom.SelectedSpawnMap.Portal);
         }
     }
 }

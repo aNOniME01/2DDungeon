@@ -51,11 +51,6 @@ namespace WPFDungeon
         {
             AddToCanvas(room.Body.Mesh, room.Location[0], room.Location[1]);
 
-            if (room.SelectedSpawnMap.Portal != null)
-            {
-                AddToCanvas(room.SelectedSpawnMap.Portal.Body.Mesh, room.SelectedSpawnMap.Portal.Location[0], room.SelectedSpawnMap.Portal.Location[1]);
-            }
-
             foreach (Hallway hallway in game.Hallways)
             {
                 try
@@ -130,6 +125,12 @@ namespace WPFDungeon
             game.GCanvas.Children.Add(uiElement);
 
             Canvas.SetZIndex(uiElement, z);
+        }
+        public static void AddEntityToCanvas(IEntity entity)
+        {
+            Canvas.SetTop(entity.Body.Mesh, entity.Location[0]);
+            Canvas.SetLeft(entity.Body.Mesh, entity.Location[1]);
+            game.GCanvas.Children.Add(entity.Body.Mesh);
         }
         /// <summary>
         /// Refreshes the entity location on the canvas

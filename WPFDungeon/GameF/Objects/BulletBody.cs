@@ -17,14 +17,14 @@ namespace WPFDungeon
             if (faceing == 'T' || faceing == 'B')
             {
                 Mesh.Width = 2;
-                Mesh.Height = 5;
+                Mesh.Height = 3;
             }
             else
             {
-                Mesh.Width = 5;
+                Mesh.Width = 3;
                 Mesh.Height = 2;
             }
-            Mesh.Stroke = Brushes.Black;
+            Mesh.Stroke = Brushes.Yellow;
             Canvas.SetTop(Mesh, location[0]);
             Canvas.SetLeft(Mesh, location[1]);
 

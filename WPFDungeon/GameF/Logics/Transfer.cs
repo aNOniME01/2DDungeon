@@ -40,5 +40,12 @@ namespace WPFDungeon
                 return false;
             }
         }
+        public static void ReadInfoFromConsole()
+        {
+            if (Transfer.IsAvailable())
+            {
+                //put the player to the portal
+            }
+        }
     }
 }

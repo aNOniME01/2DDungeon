@@ -29,6 +29,8 @@ namespace WPFDungeon
             Location[0] += roomLocation[0];
             Location[1] += roomLocation[1];
             Render.RefreshEntity(this);
+
+            (Body as PortalBody).MoveHitbox();
         }
         public void FaceTo(char faceing)
         {
