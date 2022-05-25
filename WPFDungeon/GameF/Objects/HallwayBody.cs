@@ -15,12 +15,11 @@ namespace WPFDungeon
         public HallwayBody(Door D1, Door D2)
         {
             Texture = new ImageBrush();
-            Texture.ImageSource = new BitmapImage(new Uri(Transfer.GetLocation() + "WPFDungeon\\textures\\Player.png"));
+            Texture.ImageSource = new BitmapImage(new Uri(Transfer.GetLocation() + "WPFDungeon\\textures\\R1Texture.png"));
 
             Mesh = new Rectangle();
             SetFaceing(D1, D2);
-            Mesh.Stroke = Brushes.Black;
-            Mesh.Fill = Brushes.Red;
+            Mesh.Fill = Texture;
 
             MoveHitbox();
         }

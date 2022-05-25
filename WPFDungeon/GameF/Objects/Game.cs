@@ -44,7 +44,7 @@ namespace WPFDungeon
             Player = new Player();
 
             GScore = new TextBlock();
-            GScore.Foreground = Brushes.White;
+            GScore.Foreground = Brushes.Gray;
             GScore.Text = "Score: 0";
             GCanvas = new Canvas();
             GGrid = gGrid;

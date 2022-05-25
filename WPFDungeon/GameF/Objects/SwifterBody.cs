@@ -37,7 +37,6 @@ namespace WPFDungeon
                 Mesh.Width = height;
                 Mesh.Height = width;
             }
-            Mesh.Stroke = Brushes.Black;
             Mesh.Fill = Texture;
 
             FaceTo(faceing);

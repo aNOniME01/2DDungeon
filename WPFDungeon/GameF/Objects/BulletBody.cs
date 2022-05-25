@@ -24,7 +24,7 @@ namespace WPFDungeon
                 Mesh.Width = 3;
                 Mesh.Height = 2;
             }
-            Mesh.Stroke = Brushes.Yellow;
+            Mesh.Stroke = Brushes.Black;
             Canvas.SetTop(Mesh, location[0]);
             Canvas.SetLeft(Mesh, location[1]);
 

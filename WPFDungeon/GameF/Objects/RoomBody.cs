@@ -21,7 +21,6 @@ namespace WPFDungeon
             Mesh = new Rectangle();
             Mesh.Width = width;
             Mesh.Height = height;
-            Mesh.Stroke = Brushes.Black;
             Mesh.Fill = Texture;
 
             Render.RefreshElement(Mesh, location);

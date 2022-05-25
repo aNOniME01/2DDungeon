@@ -20,7 +20,6 @@ namespace WPFDungeon
             Mesh = new Rectangle();
             Mesh.Width = 10;
             Mesh.Height = 10;
-            Mesh.Stroke = Brushes.Black;
             Mesh.Fill = Texture;
 
             Canvas.SetTop(Mesh, location[0]);

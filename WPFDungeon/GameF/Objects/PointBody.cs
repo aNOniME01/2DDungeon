@@ -21,13 +21,12 @@ namespace WPFDungeon
         public PointBody(double[] location)
         {
             Texture = new ImageBrush();
-            Texture.ImageSource = new BitmapImage(new Uri(Transfer.GetLocation() + "WPFDungeon\\textures\\Player.png"));
+            Texture.ImageSource = new BitmapImage(new Uri(Transfer.GetLocation() + "WPFDungeon\\textures\\Point.png"));
 
             Mesh = new Rectangle();
             Mesh.Width = 10;
             Mesh.Height = 10;
-            Mesh.Stroke = Brushes.Black;
-            Mesh.Fill = Brushes.Green;
+            Mesh.Fill = Texture;
 
             Render.RefreshElement(Mesh, location);
 

@@ -7,11 +7,10 @@ D10;L
 
 V1
 --------
--shooters-
--swifters-
 -points-
--abylities-
--ability:20;10;L
+P5;10
+P10;5
+P15;10
 -portal-
 O10;10;L
 --------
