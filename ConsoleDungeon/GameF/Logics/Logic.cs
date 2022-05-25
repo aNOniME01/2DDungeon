@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,25 +9,21 @@ namespace ConsoleDungeon
 {
     internal class Logic
     {
-        public static void GameLogic(Map map, bool gameOver)
+        private static int Score;
+        public static int GameLogic(Map map, bool gameOver,int score)
         {
-            Render.FullGameRenderer(map);
-            do
+            Score = score;
+
+            Render.FullGameRenderer(map, score);
+            while (!gameOver)
             {
-                while (!gameOver)
-                {
-                    PlayerController(map);
-                    SeekerController(map);
-                    gameOver = InteractionChecker(map);
-                    Render.SeekerStepRender(map);
-                    Render.PlayerStepRender(map);
-                }
-                if (Transfer.IsAvailable())
-                {
-                    gameOver = false;
-                }
-                
-            } while (true);
+                PlayerController(map);
+                SeekerController(map);
+                gameOver = InteractionChecker(map);
+                Render.SeekerStepRender(map);
+                Render.PlayerStepRender(map);
+            }
+            return score;
         }
         private static void PlayerController(Map map)
         {
@@ -66,7 +63,7 @@ namespace ConsoleDungeon
                 }
                 if (keypress.Key == ConsoleKey.Enter)
                 {
-                    Render.FullGameRenderer(map);
+                    Render.FullGameRenderer(map,Score);
                 }
 
             }
@@ -84,18 +81,38 @@ namespace ConsoleDungeon
             if (map.Player.Location[0] == map.PortalPos[0]&& map.Player.Location[1] == map.PortalPos[1])
             {
                 map.Player.DissapearEntity();
-                Render.FullGameRenderer(map);
+                Render.FullGameRenderer(map,Score);
+            }
+            foreach (Point point in map.Points)
+            {
+                if (map.Player.Location[0] == point.Location[0] && map.Player.Location[1] == point.Location[1])
+                {
+                    Score++;
+                    Render.WriteAt($"Score: {Score}", ConsoleColor.White, ConsoleColor.Black, 0, 0);
+                    map.PointToNewLocation(point);
+                    Render.WriteAt("C", ConsoleColor.Green, ConsoleColor.Black, (int)point.Location[0]+2, (int)point.Location[1]+1);
+                }
             }
             //Enemy collision checking
             foreach (Seeker seeker in map.Seekers)
             {
                 if (map.Player.Location[0] == seeker.Location[0] && map.Player.Location[1] == seeker.Location[1])
                 {
-                    Render.FullGameRenderer(map);
+                    Render.FullGameRenderer(map,Score);
                     map.Player.DissapearEntity();
                     Render.GameOver();
                     return true;
                 }
+
+                foreach (Point point in map.Points)
+                {
+                    if (seeker.Location[0] == point.Location[0] && seeker.Location[1] == point.Location[1])
+                    {
+                        map.PointToNewLocation(point);
+                        Render.WriteAt("C", ConsoleColor.Green, ConsoleColor.Black, (int)point.Location[0] + 2, (int)point.Location[1] + 1);
+                    }
+                }
+
             }
             return false;
         }

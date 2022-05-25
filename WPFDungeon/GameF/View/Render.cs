@@ -12,7 +12,7 @@ namespace WPFDungeon
 {
     class Render
     {
-        private static Game game = null;
+        private static Game? game = null;
         public static void Load(Game gm)
         {
             game = gm;
@@ -43,6 +43,14 @@ namespace WPFDungeon
                 try
                 {
                     AddToCanvas(shooter.Body.Mesh, shooter.Location[0], shooter.Location[1]);
+                }
+                catch { }
+            }
+            foreach (Point point in room.SelectedSpawnMap.Points)
+            {
+                try
+                {
+                    AddToCanvas(point.Body.Mesh, point.Location[0], point.Location[1]);
                 }
                 catch { }
             }

@@ -26,19 +26,15 @@ namespace ConsoleDungeon
             return transferFileLoc += "transfer.txt";
 
         }
-        public static bool IsAvailable()
+        public static string ReadInData()
         {
-            string transferFileLoc = GetLocation();
-            try
-            {
-                StreamReader sr = File.OpenText(transferFileLoc);
-                sr.Close();
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
+            string info = "";
+            StreamReader sr = File.OpenText(GetLocation());            
+            info = sr.ReadLine();
+            sr.Close();
+
+            return info;
         }
+
     }
 }

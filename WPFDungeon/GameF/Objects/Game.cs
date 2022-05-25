@@ -14,10 +14,11 @@ namespace WPFDungeon
         public List<Hallway> Hallways { get; private set; }
         public Player Player { get; private set; }
         public Canvas GCanvas { get; private set; }
+        public Grid GGrid { get; private set; }
         public List<Rect> BarrierList { get; private set; }
         public int Score { get; private set; }
         public Room portalRoom{ get; private set; }
-        public Game(Canvas canvas)
+        public Game(Grid gGrid)
         {
             
             Score = 0;
@@ -36,7 +37,9 @@ namespace WPFDungeon
 
             Player = new Player();
 
-            GCanvas = canvas;
+            GCanvas = new Canvas();
+            GGrid = gGrid;
+            gGrid.Children.Add(GCanvas);
 
             BarrierList = new List<Rect>();
 
@@ -151,5 +154,6 @@ namespace WPFDungeon
             }
         }
         public void AddToScore(int amaunt) => Score += amaunt;
+        public void SetScore(int amaunt) => Score = amaunt;
     }
 }

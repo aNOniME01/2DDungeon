@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -12,12 +13,14 @@ namespace WPFDungeon
 {
     internal class GameLogic
     {
-        private static Process ConsoleDungeonExe = null;
-        private static Game game;
+        private static Process? ConsoleDungeonExe = null;
+        private static Game? game;
+        private static bool gameOver;
         public static void GameLoad(Game gm)
         {
             game = gm;
             Render.Load(game);
+            gameOver = false;
 
 
             game.ChangeRoomLocation(game.Rooms[0], 200, 50);
@@ -28,22 +31,30 @@ namespace WPFDungeon
         }
         public static void GameLoop(bool mUp, bool mDown, bool mLeft, bool mRight)
         {
-            #region PlayerLogic
-            //player movement
-            PlayerMovement(mUp, mDown, mLeft, mRight);
+            if (ConsoleDungeonExe == null && !gameOver)
+            {
+                #region PlayerLogic
+                //player movement
+                PlayerMovement(mUp, mDown, mLeft, mRight);
 
-            //bullet navigation
-            PBulletNavigation();
+                //bullet navigation
+                PBulletNavigation();
 
-            PortalCheck();
+                PlayerIntersectionCheck();
 
-            #endregion
+                #endregion
 
-            //Shooter logic
-            ShooterLogic();
+                //Shooter logic
+                ShooterLogic();
 
-            //Swifter logic
-            SwifterLogic();
+                //Swifter logic
+                SwifterLogic();
+            }
+            else if(!gameOver)
+            {
+                string info = Transfer.ReadInfoFromConsole();
+                if (info != "") game.SetScore(Convert.ToInt32(info));
+            }
         }
         /// <summary>
         /// cheks if a player can move into a direction and if yes moves it
@@ -259,14 +270,47 @@ namespace WPFDungeon
 
             return false;
         }
-        private static void PortalCheck()
+        private static void PlayerIntersectionCheck()
         {
+            //Portal Check
             if (game.portalRoom.SelectedSpawnMap.Portal.Body.Hitbox.IntersectsWith(game.Player.Body.Hitbox))
             {
                 if (ConsoleDungeonExe == null)
                 {
                     ConsoleDungeonExe = Process.Start(Transfer.GetLocation() + "\\ConsoleDungeon\\bin\\Debug\\net5.0\\ConsoleDungeon.exe");
+                    Thread.Sleep(2000);
                 }
+            }
+
+            foreach (Room room in game.Rooms)
+            {
+                //Point Check
+                foreach (Point point in room.SelectedSpawnMap.Points)
+                {
+                    if (point.Body.Hitbox.IntersectsWith(game.Player.Body.Hitbox))
+                    {
+                        game.AddToScore(1);
+                    }
+                }
+
+                //Swifter Check 
+                //foreach (Swifter swifter in room.SelectedSpawnMap.Swifters)
+                //{
+                //    if (swifter.Body.Hitbox.IntersectsWith(game.Player.Body.Hitbox))
+                //    {
+                //        gameOver = true;
+                //    }
+                //}
+
+                //Shooter Check
+                //foreach (Shooter shooter in room.SelectedSpawnMap.Shooters)
+                //{
+                //    if (shooter.Body.Hitbox.IntersectsWith(game.Player.Body.Hitbox))
+                //    {
+                //        gameOver = true;
+                //    }
+                //}
+
             }
         }
         public static void StopConsoleWindow()
@@ -274,6 +318,7 @@ namespace WPFDungeon
             if (ConsoleDungeonExe != null)
             {
                 ConsoleDungeonExe.Kill();
+                ConsoleDungeonExe = null;
             }
         }
         private static bool SwifterMoveCheck(Swifter swifter)

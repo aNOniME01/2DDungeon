@@ -9,9 +9,10 @@ namespace ConsoleDungeon
 {
     internal class Render
     {
-        public static void FullGameRenderer(Map map)//Palya, Jatekos, Falak, Penz megjelenitese
+        public static void FullGameRenderer(Map map,int score)//Palya, Jatekos, Falak, Penz megjelenitese
         {
             Console.Clear();
+            Console.WriteLine($"Score: {score}");
             RenderMapSide(map);
             for (int i = 0; i < map.GameArea.GetLength(0); i++)
             {
@@ -95,7 +96,7 @@ namespace ConsoleDungeon
             }
 
         }
-        private static void WriteAt(string s, ConsoleColor fColor,ConsoleColor bColor, int x, int y)
+        public static void WriteAt(string s, ConsoleColor fColor,ConsoleColor bColor, int x, int y)
         {
             Console.SetCursorPosition(y, x);
 

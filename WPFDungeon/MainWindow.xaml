@@ -6,9 +6,7 @@
         xmlns:local="clr-namespace:WPFDungeon" 
         mc:Ignorable="d" KeyDown="Window_KeyDown" KeyUp="Window_KeyUp" Loaded="Window_Loaded" Closing="Window_Closing"
         Title="MainWindow" Height="500" Width="500" Background="#040404">
-    <Grid>
-        <Label Content="Score: 0" Foreground="White"/>
-        <Canvas x:Name="canvas" />
-    </Grid>
+    <Grid x:Name="grid"/>
+
 
 </Window>

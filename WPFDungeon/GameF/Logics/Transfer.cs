@@ -40,12 +40,33 @@ namespace WPFDungeon
                 return false;
             }
         }
-        public static void ReadInfoFromConsole()
+        public static void WriteInfoToConsole(int score)
         {
+            try
+            {
+                StreamWriter? sw = File.CreateText(GetLocation() + "transfer.txt");
+                sw.WriteLine(score);
+                sw.Close();
+            }
+            catch { }
+        }
+        public static string ReadInfoFromConsole()
+        {
+            string info = "";
+
             if (Transfer.IsAvailable())
             {
-                //put the player to the portal
+                GameLogic.StopConsoleWindow();
+
+                StreamReader sr = File.OpenText(GetLocation() + "transfer.txt");
+                if (sr.ReadLine() != "")
+                {
+                    info = sr.ReadLine();
+                }
+                sr.Close();
             }
+
+            return info;
         }
     }
 }

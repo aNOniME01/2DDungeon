@@ -15,8 +15,13 @@ namespace ConsoleDungeon
         {
             transferFileLoc = Transfer.GetLocation();
             gameOver = false;
+
             map = new Map();
-            Logic.GameLogic(map, gameOver);
+
+            int score = Convert.ToInt32(Transfer.ReadInData());
+            StreamWriter sw = File.CreateText(transferFileLoc);
+            sw.Write(Logic.GameLogic(map, gameOver,score));
+            sw.Close();
         }
     }
 }

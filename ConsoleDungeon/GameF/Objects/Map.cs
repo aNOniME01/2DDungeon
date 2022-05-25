@@ -10,6 +10,7 @@ namespace ConsoleDungeon
     {
         public Player Player { get; private set; }
         public List<Seeker> Seekers { get; private set; }
+        public List<Point> Points { get; private set; }
         public double[] PortalPos { get; private set; }
         public char[,] GameArea { get; private set; }
 
@@ -30,8 +31,10 @@ namespace ConsoleDungeon
                     GameArea[i, j] = '0';
                 }
             }
-            GenerateStarterWalls(20);//put the amaunt of seekers you want to spawn here
-            GenerateStarterMoney(6);//put the amaunt of seekers you want to spawn here
+            GenerateStarterWalls(20);//put the amaunt of walls you want to spawn here
+
+            Points = new List<Point>();
+            GenerateStarterPoint(6);//put the amaunt of money you want to spawn here
 
             this.Player = new Player(GameArea);
             GameArea[(int)this.Player.Location[0], (int)this.Player.Location[1]] = '1';
@@ -72,7 +75,7 @@ namespace ConsoleDungeon
                 GameArea[x, y] = '2';
             }
         }
-        private void GenerateStarterMoney(int num)
+        private void GenerateStarterPoint(int num)
         {
             for (int i = 0; i < num; i++)
             {
@@ -82,8 +85,20 @@ namespace ConsoleDungeon
                     x = rnd.Next(0, GameArea.GetLength(0));
                     y = rnd.Next(GameArea.GetLength(1) / 10, GameArea.GetLength(1));
                 } while (GameArea[x, y] == '1' || GameArea[x, y] == '2'|| GameArea[x, y] == '3');
+                Points.Add(new Point(x, y));
                 GameArea[x, y] = '3';
             }
+        }
+        public void PointToNewLocation(Point point)
+        {
+            int x, y;
+            do
+            {
+                x = rnd.Next(0, GameArea.GetLength(0));
+                y = rnd.Next(GameArea.GetLength(1) / 10, GameArea.GetLength(1));
+            } while (GameArea[x, y] == '1' || GameArea[x, y] == '2' || GameArea[x, y] == '3');
+            point.SetLocation(x,y);
+            GameArea[x, y] = '3';
         }
         private void GenerateSeekers(int num)
         {

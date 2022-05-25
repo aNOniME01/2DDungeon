@@ -86,7 +86,7 @@ namespace WPFDungeon
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            game = new Game(canvas);
+            game = new Game(grid);
 
             GameLogic.GameLoad(game);
 
@@ -99,6 +99,7 @@ namespace WPFDungeon
 
         void timer_Tick(object sender, EventArgs e)
         {
+
             GameLogic.GameLoop(mUp, mDown, mLeft, mRight);
         }
 

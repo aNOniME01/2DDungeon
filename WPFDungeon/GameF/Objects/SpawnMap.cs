@@ -11,6 +11,7 @@ namespace WPFDungeon
         public int RoomId { get; private set; }
         public List<IEntity> Shooters { get; private set; }
         public List<IEntity> Swifters { get; private set; }
+        public List<IEntity> Points { get; private set; }
         public Portal Portal { get; private set; }
         //point list
         //ammo list
@@ -21,6 +22,7 @@ namespace WPFDungeon
             RoomId = roomId;
             Shooters = new List<IEntity>();
             Swifters = new List<IEntity>();
+            Points = new List<IEntity>();
             this.Portal = null;
         }
         public void AddShooter(double yLoc,double xLoc,int turretNum, char faceing)
@@ -34,6 +36,10 @@ namespace WPFDungeon
         public void AddSwifter(double yLoc,double xLoc, char faceing)
         {
             Swifters.Add(new Swifter(yLoc, xLoc, faceing, RoomId));
+        }
+        public void AddPoint(double yLoc,double xLoc)
+        {
+            Points.Add(new Point(yLoc, xLoc, RoomId));
         }
         public void DeleteSwifter(Swifter swifter)
         {

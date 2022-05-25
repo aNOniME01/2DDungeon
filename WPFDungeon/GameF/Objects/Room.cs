@@ -70,6 +70,8 @@ namespace WPFDungeon
                     else if (line[0] == 'P')//Point
                     {
                         //Point x;y
+                        string[] sgd = line.Trim('P').Trim().Split(';');
+                        SpawnMaps[SpawnMaps.Count - 1].AddPoint(Convert.ToDouble(sgd[0]), Convert.ToDouble(sgd[1]));
                     }
                 }
             }
@@ -142,6 +144,7 @@ namespace WPFDungeon
 
             RotateEntityWithRoom(SelectedSpawnMap.Shooters);
             RotateEntityWithRoom(SelectedSpawnMap.Swifters);
+            RotateEntityWithRoom(SelectedSpawnMap.Points);
 
             if (SelectedSpawnMap.Portal != null)
             {
@@ -226,6 +229,10 @@ namespace WPFDungeon
             foreach (Swifter entity in SelectedSpawnMap.Swifters)
             {
                 entity.ToRoomLoc(Location);
+            }
+            foreach (Point point in SelectedSpawnMap.Points)
+            {
+                point.ToRoomLoc(Location);
             }
 
             if (SelectedSpawnMap.Portal != null)
