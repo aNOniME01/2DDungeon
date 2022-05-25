@@ -197,7 +197,7 @@ namespace WPFDungeon
 
                         if (bullet.Body.Hitbox.IntersectsWith(game.Player.Body.Hitbox))
                         {
-                            //gameOver = true;
+                            game.Over();
                         }
 
                         if (!isBulletInside(bullet))
@@ -314,22 +314,22 @@ namespace WPFDungeon
 
 
                 //Swifter Check 
-                //foreach (Swifter swifter in room.SelectedSpawnMap.Swifters)
-                //{
-                //    if (swifter.Body.Hitbox.IntersectsWith(game.Player.Body.Hitbox))
-                //    {
-                //        gameOver = true;
-                //    }
-                //}
+                foreach (Swifter swifter in room.SelectedSpawnMap.Swifters)
+                {
+                    if (swifter.Body.Hitbox.IntersectsWith(game.Player.Body.Hitbox))
+                    {
+                        game.Over();
+                    }
+                }
 
                 //Shooter Check
-                //foreach (Shooter shooter in room.SelectedSpawnMap.Shooters)
-                //{
-                //    if (shooter.Body.Hitbox.IntersectsWith(game.Player.Body.Hitbox))
-                //    {
-                //        gameOver = true;
-                //    }
-                //}
+                foreach (Shooter shooter in room.SelectedSpawnMap.Shooters)
+                {
+                    if (shooter.Body.Hitbox.IntersectsWith(game.Player.Body.Hitbox))
+                    {
+                        game.Over();
+                    }
+                }
 
             }
         }
