@@ -273,12 +273,13 @@ namespace WPFDungeon
         private static void PlayerIntersectionCheck()
         {
             //Portal Check
-            if (game.portalRoom.SelectedSpawnMap.Portal.Body.Hitbox.IntersectsWith(game.Player.Body.Hitbox))
+            if (game.portalRoom.SelectedSpawnMap.Portal != null && game.portalRoom.SelectedSpawnMap.Portal.Body.Hitbox.IntersectsWith(game.Player.Body.Hitbox))
             {
                 if (ConsoleDungeonExe == null)
                 {
+                    game.portalRoom.SelectedSpawnMap.DeletePortal();
                     ConsoleDungeonExe = Process.Start(Transfer.GetLocation() + "\\ConsoleDungeon\\bin\\Debug\\net5.0\\ConsoleDungeon.exe");
-                    Thread.Sleep(2000);
+                    Thread.Sleep(5000);
                 }
             }
 
@@ -326,9 +327,9 @@ namespace WPFDungeon
             foreach (Room room in game.Rooms)
             {
                 bool IsOutside = IsSwifterOutside(swifter);
-                //bool ShooterInFront = IsEntityInfrontOfSwifter(swifter, dir, room.SelectedSpawnMap.Shooters);
-                bool SwifterInFront = IsEntityInfrontOfSwifter(swifter, room.SelectedSpawnMap.Swifters);
-                if (IsOutside /*&& ShooterInFront*/ && SwifterInFront) return true;
+                bool ShooterInFront = IsEntityInfrontOfSwifter(swifter, room.SelectedSpawnMap.Shooters);
+                //bool SwifterInFront = IsEntityInfrontOfSwifter(swifter, room.SelectedSpawnMap.Swifters);
+                if (!IsOutside && ShooterInFront /*&& SwifterInFront*/) return true;
             }
             return false;
         }
@@ -338,13 +339,13 @@ namespace WPFDungeon
             {
                 Rect hitbox = room.Body.Hitbox;
 
-                if (swifter.Faceing == 'T' && swifter.MoveChecks[0].Check(hitbox)) return true;
-                else if (swifter.Faceing == 'B' && swifter.MoveChecks[1].Check(hitbox)) return true;
-                else if (swifter.Faceing == 'L' && swifter.MoveChecks[2].Check(hitbox)) return true;
-                else if (swifter.Faceing == 'R' && swifter.MoveChecks[3].Check(hitbox)) return true;
+                if (swifter.Faceing == 'T' && swifter.MoveChecks[0].Check(hitbox)) return false;
+                else if (swifter.Faceing == 'B' && swifter.MoveChecks[1].Check(hitbox)) return false;
+                else if (swifter.Faceing == 'L' && swifter.MoveChecks[2].Check(hitbox)) return false;
+                else if (swifter.Faceing == 'R' && swifter.MoveChecks[3].Check(hitbox)) return false;
             }
 
-            return false;
+            return true;
         }
         private static bool IsEntityInfrontOfSwifter(Swifter swifter, List<IEntity> entities)
         {

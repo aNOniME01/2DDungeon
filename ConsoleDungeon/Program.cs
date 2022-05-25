@@ -19,9 +19,7 @@ namespace ConsoleDungeon
             map = new Map();
 
             int score = Convert.ToInt32(Transfer.ReadInData());
-            StreamWriter sw = File.CreateText(transferFileLoc);
-            sw.Write(Logic.GameLogic(map, gameOver,score));
-            sw.Close();
+            Logic.GameLogic(map, gameOver, score);
         }
     }
 }

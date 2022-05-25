@@ -54,9 +54,8 @@ namespace WPFDungeon
         {
             string info = "";
 
-            if (Transfer.IsAvailable())
+            if (IsAvailable())
             {
-                GameLogic.StopConsoleWindow();
 
                 StreamReader sr = File.OpenText(GetLocation() + "transfer.txt");
                 if (sr.ReadLine() != "")
@@ -64,6 +63,7 @@ namespace WPFDungeon
                     info = sr.ReadLine();
                 }
                 sr.Close();
+                GameLogic.StopConsoleWindow();
             }
 
             return info;

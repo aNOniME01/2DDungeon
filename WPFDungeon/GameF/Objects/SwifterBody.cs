@@ -42,8 +42,7 @@ namespace WPFDungeon
 
             FaceTo(faceing);
 
-            Canvas.SetTop(Mesh, location[0]);
-            Canvas.SetLeft(Mesh, location[1]);
+            Render.RefreshElement(Mesh, location);
 
             MoveHitbox();
         }

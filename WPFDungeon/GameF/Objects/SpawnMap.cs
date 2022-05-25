@@ -12,7 +12,7 @@ namespace WPFDungeon
         public List<IEntity> Shooters { get; private set; }
         public List<IEntity> Swifters { get; private set; }
         public List<IEntity> Points { get; private set; }
-        public Portal Portal { get; private set; }
+        public Portal? Portal { get; private set; }
         //point list
         //ammo list
         //ability list
@@ -48,6 +48,11 @@ namespace WPFDungeon
         public void AddPortal(double yLoc, double xLoc, char faceing)
         {
             this.Portal = new Portal(yLoc, xLoc, RoomId);
+        }
+        public void DeletePortal()
+        {
+            Render.RemoveEntity(Portal);
+            Portal = null;
         }
     }
 }

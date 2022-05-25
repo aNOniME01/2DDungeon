@@ -34,7 +34,7 @@ namespace WPFDungeon
             {
                 try
                 {
-                    AddToCanvas(swifter.Body.Mesh, swifter.Location[0], swifter.Location[1]);
+                    AddToCanvas(swifter.Body.Mesh, swifter.Location[0], swifter.Location[1], 1);
                 }
                 catch { }
             }
@@ -42,7 +42,7 @@ namespace WPFDungeon
             {
                 try
                 {
-                    AddToCanvas(shooter.Body.Mesh, shooter.Location[0], shooter.Location[1]);
+                    AddToCanvas(shooter.Body.Mesh, shooter.Location[0], shooter.Location[1], 1);
                 }
                 catch { }
             }
@@ -50,7 +50,7 @@ namespace WPFDungeon
             {
                 try
                 {
-                    AddToCanvas(point.Body.Mesh, point.Location[0], point.Location[1]);
+                    AddToCanvas(point.Body.Mesh, point.Location[0], point.Location[1], 0);
                 }
                 catch { }
             }

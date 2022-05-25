@@ -10,7 +10,8 @@ namespace ConsoleDungeon
     internal class Logic
     {
         private static int Score;
-        public static int GameLogic(Map map, bool gameOver,int score)
+        private static StreamWriter sw = File.CreateText(Transfer.GetLocation());
+        public static void GameLogic(Map map, bool gameOver,int score)
         {
             Score = score;
 
@@ -23,7 +24,8 @@ namespace ConsoleDungeon
                 Render.SeekerStepRender(map);
                 Render.PlayerStepRender(map);
             }
-            return score;
+            sw.WriteLine(score);
+            sw.Close();
         }
         private static void PlayerController(Map map)
         {
@@ -89,6 +91,7 @@ namespace ConsoleDungeon
                 {
                     Score++;
                     Render.WriteAt($"Score: {Score}", ConsoleColor.White, ConsoleColor.Black, 0, 0);
+                    map.GenerateWall();
                     map.PointToNewLocation(point);
                     Render.WriteAt("C", ConsoleColor.Green, ConsoleColor.Black, (int)point.Location[0]+2, (int)point.Location[1]+1);
                 }
