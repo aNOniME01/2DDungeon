@@ -108,6 +108,11 @@ namespace WPFDungeon
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
+            if (game.gameOver)
+            {
+                RestartWindow restartWindow = new RestartWindow();
+                restartWindow.Show();
+            }
             timer.Stop();
             GameLogic.StopConsoleWindow();
         }

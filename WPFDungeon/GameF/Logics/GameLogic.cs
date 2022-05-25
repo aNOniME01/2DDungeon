@@ -14,8 +14,6 @@ namespace WPFDungeon
     internal class GameLogic
     {
         private static Process? ConsoleDungeonExe = null;
-        private static RestartWindow restartWindow = new RestartWindow();
-        private static GameWindow gameWindow = new GameWindow();
         private static Game? game;
         public static void GameLoad(Game gm)
         {
@@ -56,7 +54,6 @@ namespace WPFDungeon
                 if (info != "0") 
                 {
                     game.SetScore(Convert.ToInt32(info));
-                    restartWindow.Show();
                     game.Over();
                 }
             }

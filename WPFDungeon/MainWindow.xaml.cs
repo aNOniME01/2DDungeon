@@ -27,13 +27,21 @@ namespace WPFDungeon
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            if (gameWindow != null)
+            {
+                gameWindow.Close();
+            }
+
             gameWindow = new GameWindow();
             gameWindow.Show();
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            gameWindow.Close();
+            if (gameWindow != null)
+            {
+                gameWindow.Close();
+            }
         }
     }
 }
