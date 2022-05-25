@@ -181,6 +181,7 @@ namespace WPFDungeon
         public void Over()
         {
             gameOver = true;
+            Transfer.WriteInfoToConsole(Score);
         }
     }
 }

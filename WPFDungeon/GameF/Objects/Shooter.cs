@@ -33,7 +33,7 @@ namespace WPFDungeon
 
             TurretNum = turretNum;
             ShootTime = 0;
-            ShootTimer = Logic.rnd.Next(10,51);
+            ShootTimer = Logic.rnd.Next(20,51);
 
             Body = new ShooterBody(Location,Faceing,TurretNum);
 
@@ -70,7 +70,7 @@ namespace WPFDungeon
                 Bullets.Add(new Bullet("eB", Location[0] + (Height / 2), Location[1] + (Width / 2) - 1, 'R'));
             }
 
-            ShootTimer = Logic.rnd.Next(10, 51);
+            ShootTimer = Logic.rnd.Next(20, 51);
             ShootTime = 0;
         }
         public void AddToShootTime()

@@ -35,7 +35,7 @@ namespace WPFDungeon
         }
         public void Navigate(bool canMove)
         {
-            double speed = 2.5;
+            double speed = 1.5;
             if (Faceing == 'T')
             {
                 if (!canMove) Faceing = 'B';
