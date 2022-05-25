@@ -14,13 +14,13 @@ namespace WPFDungeon
     internal class GameLogic
     {
         private static Process? ConsoleDungeonExe = null;
+        private static RestartWindow restartWindow = new RestartWindow();
+        private static GameWindow gameWindow = new GameWindow();
         private static Game? game;
-        private static bool gameOver;
         public static void GameLoad(Game gm)
         {
             game = gm;
             Render.Load(game);
-            gameOver = false;
 
 
             game.ChangeRoomLocation(game.Rooms[0], 200, 50);
@@ -31,7 +31,7 @@ namespace WPFDungeon
         }
         public static void GameLoop(bool mUp, bool mDown, bool mLeft, bool mRight)
         {
-            if (ConsoleDungeonExe == null && !gameOver)
+            if (ConsoleDungeonExe == null && !game.gameOver)
             {
                 #region PlayerLogic
                 //player movement
@@ -50,10 +50,15 @@ namespace WPFDungeon
                 //Swifter logic
                 SwifterLogic();
             }
-            else if(!gameOver)
+            else if(!game.gameOver)
             {
                 string info = Transfer.ReadInfoFromConsole();
-                if (info != "") game.SetScore(Convert.ToInt32(info));
+                if (info != "0") 
+                {
+                    game.SetScore(Convert.ToInt32(info));
+                    restartWindow.Show();
+                    game.Over();
+                }
             }
         }
         /// <summary>
@@ -195,7 +200,7 @@ namespace WPFDungeon
 
                         if (bullet.Body.Hitbox.IntersectsWith(game.Player.Body.Hitbox))
                         {
-                            //game over
+                            //gameOver = true;
                         }
 
                         if (!isBulletInside(bullet))
@@ -273,16 +278,26 @@ namespace WPFDungeon
         private static void PlayerIntersectionCheck()
         {
             //Portal Check
-            if (game.portalRoom.SelectedSpawnMap.Portal != null && game.portalRoom.SelectedSpawnMap.Portal.Body.Hitbox.IntersectsWith(game.Player.Body.Hitbox))
+            if (game.PortalRoom.SelectedSpawnMap.Portal != null && game.PortalRoom.SelectedSpawnMap.Portal.Body.Hitbox.IntersectsWith(game.Player.Body.Hitbox))
             {
                 if (ConsoleDungeonExe == null)
                 {
-                    game.portalRoom.SelectedSpawnMap.DeletePortal();
+                    game.PortalRoom.SelectedSpawnMap.DeletePortal();
+
+                    Transfer.WriteInfoToConsole(game.Score);
                     ConsoleDungeonExe = Process.Start(Transfer.GetLocation() + "\\ConsoleDungeon\\bin\\Debug\\net5.0\\ConsoleDungeon.exe");
                     Thread.Sleep(5000);
                 }
             }
 
+            //Portal Check
+            if (game.ExitPortal != null && game.ExitPortal.Body.Hitbox.IntersectsWith(game.Player.Body.Hitbox))
+            {
+                game.PortalRoom.SelectedSpawnMap.DeletePortal();
+                //Show continue window
+            }
+
+            List<Point> deletPoints = new List<Point>();
             foreach (Room room in game.Rooms)
             {
                 //Point Check
@@ -291,8 +306,15 @@ namespace WPFDungeon
                     if (point.Body.Hitbox.IntersectsWith(game.Player.Body.Hitbox))
                     {
                         game.AddToScore(1);
+                        deletPoints.Add(point);
+                        Render.RemoveEntity(point);
                     }
                 }
+                foreach (Point point in deletPoints)
+                {
+                    room.SelectedSpawnMap.Points.Remove(point);
+                }
+
 
                 //Swifter Check 
                 //foreach (Swifter swifter in room.SelectedSpawnMap.Swifters)
@@ -337,7 +359,19 @@ namespace WPFDungeon
         {
             foreach (Room room in game.Rooms)
             {
-                Rect hitbox = room.Body.Hitbox;
+                if (room!= game.Rooms[0])
+                {
+                    Rect hitbox = room.Body.Hitbox;
+
+                    if (swifter.Faceing == 'T' && swifter.MoveChecks[0].Check(hitbox)) return false;
+                    else if (swifter.Faceing == 'B' && swifter.MoveChecks[1].Check(hitbox)) return false;
+                    else if (swifter.Faceing == 'L' && swifter.MoveChecks[2].Check(hitbox)) return false;
+                    else if (swifter.Faceing == 'R' && swifter.MoveChecks[3].Check(hitbox)) return false;
+                }
+            }
+            foreach (Hallway hallway in game.Hallways)
+            {
+                Rect hitbox = hallway.Body.Hitbox;
 
                 if (swifter.Faceing == 'T' && swifter.MoveChecks[0].Check(hitbox)) return false;
                 else if (swifter.Faceing == 'B' && swifter.MoveChecks[1].Check(hitbox)) return false;
@@ -401,7 +435,7 @@ namespace WPFDungeon
                 Render.RemoveElement(hallway.Body.Mesh);
             }
 
-            Render.AddEntityToCanvas(game.portalRoom.SelectedSpawnMap.Portal);
+            Render.AddEntityToCanvas(game.PortalRoom.SelectedSpawnMap.Portal);
         }
     }
 }

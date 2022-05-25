@@ -44,7 +44,7 @@ namespace WPFDungeon
         {
             try
             {
-                StreamWriter? sw = File.CreateText(GetLocation() + "transfer.txt");
+                StreamWriter sw = File.CreateText(GetLocation() + "transfer.txt");
                 sw.WriteLine(score);
                 sw.Close();
             }
@@ -52,16 +52,13 @@ namespace WPFDungeon
         }
         public static string ReadInfoFromConsole()
         {
-            string info = "";
+            string info = "0";
 
             if (IsAvailable())
             {
 
                 StreamReader sr = File.OpenText(GetLocation() + "transfer.txt");
-                if (sr.ReadLine() != "")
-                {
-                    info = sr.ReadLine();
-                }
+                info = sr.ReadLine();
                 sr.Close();
                 GameLogic.StopConsoleWindow();
             }

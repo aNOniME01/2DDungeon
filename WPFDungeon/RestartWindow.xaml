@@ -1,14 +1,21 @@
-﻿<Window x:Class="WPFDungeon.MainWindow"
+﻿<Window x:Class="WPFDungeon.RestartWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WPFDungeon"
-        mc:Ignorable="d" Closing="Window_Closing"
+        mc:Ignorable="d"
         Title="RestartWindow" Height="400" Width="300">
     <Grid>
         <StackPanel Orientation="Vertical" VerticalAlignment="Center">
-            <Button Content="Start" Height="50" Width="150" Click="Button_Click"/>
+            <TextBlock Text="Score: 0" x:Name="score"
+                       FontSize="20"
+                       HorizontalAlignment="Center"/>
+
+
+            <Button Content="ExitToMenu" 
+                    Height="50" Width="150" 
+                    Click="Button_Click"/>
 
 
         </StackPanel>

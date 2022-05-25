@@ -24,7 +24,7 @@ namespace ConsoleDungeon
                 Render.SeekerStepRender(map);
                 Render.PlayerStepRender(map);
             }
-            sw.WriteLine(score);
+            sw.WriteLine(Score);
             sw.Close();
         }
         private static void PlayerController(Map map)
@@ -84,6 +84,8 @@ namespace ConsoleDungeon
             {
                 map.Player.DissapearEntity();
                 Render.FullGameRenderer(map,Score);
+
+                return true;
             }
             foreach (Point point in map.Points)
             {

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,25 +16,22 @@ using System.Windows.Shapes;
 namespace WPFDungeon
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for RestartWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class RestartWindow : Window
     {
-        private GameWindow gameWindow ;
-        public MainWindow()
+        public RestartWindow()
         {
             InitializeComponent();
+
+            StreamReader sr = File.OpenText(Transfer.GetLocation() + "transfer.txt");
+            score.Text = $"Score: {sr.ReadLine()}";
+            sr.Close();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            gameWindow = new GameWindow();
-            gameWindow.Show();
-        }
-
-        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            gameWindow.Close();
+            Close();
         }
     }
 }

@@ -69,9 +69,12 @@ namespace WPFDungeon
                     }
                     else if (line[0] == 'P')//Point
                     {
-                        //Point x;y
-                        string[] sgd = line.Trim('P').Trim().Split(';');
-                        SpawnMaps[SpawnMaps.Count - 1].AddPoint(Convert.ToDouble(sgd[0]), Convert.ToDouble(sgd[1]));
+                        if (Id != 0)
+                        {
+                            //Point x;y
+                            string[] sgd = line.Trim('P').Trim().Split(';');
+                            SpawnMaps[SpawnMaps.Count - 1].AddPoint(Convert.ToDouble(sgd[0]), Convert.ToDouble(sgd[1]));
+                        }
                     }
                 }
             }

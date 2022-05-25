@@ -136,8 +136,8 @@ namespace WPFDungeon
         }
         public static void AddEntityToCanvas(IEntity entity)
         {
-            Canvas.SetTop(entity.Body.Mesh, entity.Location[0]);
-            Canvas.SetLeft(entity.Body.Mesh, entity.Location[1]);
+            RefreshEntity(entity);
+
             game.GCanvas.Children.Add(entity.Body.Mesh);
         }
         /// <summary>

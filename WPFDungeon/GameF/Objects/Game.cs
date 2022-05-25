@@ -5,26 +5,32 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace WPFDungeon
 {
     internal class Game
     {
+        public bool gameOver { get; private set; }
         public List<Room> Rooms { get; private set; }
         public List<Hallway> Hallways { get; private set; }
         public Player Player { get; private set; }
+        public TextBlock GScore { get; private set; }
         public Canvas GCanvas { get; private set; }
         public Grid GGrid { get; private set; }
         public List<Rect> BarrierList { get; private set; }
         public int Score { get; private set; }
-        public Room portalRoom{ get; private set; }
+        public Room PortalRoom { get; private set; }
+        public Portal ExitPortal { get; private set; }
         public Game(Grid gGrid)
         {
-            
+            gameOver = false;
+
             Score = 0;
 
             Rooms = new List<Room>();
             Rooms.Add(new Room("R1", Rooms.Count));
+            ExitPortal = null;
 
             Hallways = new List<Hallway>();
 
@@ -33,13 +39,17 @@ namespace WPFDungeon
                 Hallways.Add(new Hallway(door, 40, Rooms.Count - 1, door.Id));
             }
 
-            portalRoom = Rooms[0];
+            PortalRoom = Rooms[0];
 
             Player = new Player();
 
+            GScore = new TextBlock();
+            GScore.Foreground = Brushes.White;
+            GScore.Text = "Score: 0";
             GCanvas = new Canvas();
             GGrid = gGrid;
             gGrid.Children.Add(GCanvas);
+            gGrid.Children.Add(GScore);
 
             BarrierList = new List<Rect>();
 
@@ -51,7 +61,7 @@ namespace WPFDungeon
         }
         public bool AddRoom(string roomName, Hallway entHallway)
         {
-            Room newRoom = new Room(roomName,Rooms.Count);
+            Room newRoom = new Room(roomName, Rooms.Count);
             Door enterance = null;
             int count = 0;
 
@@ -77,7 +87,7 @@ namespace WPFDungeon
 
                 if (enterance == null)
                 {
-                    ChangeRoomFaceing(newRoom,Logic.RotateFaceing90(newRoom.Faceing)); 
+                    ChangeRoomFaceing(newRoom, Logic.RotateFaceing90(newRoom.Faceing));
                 }
                 count++;
             }
@@ -118,7 +128,7 @@ namespace WPFDungeon
 
                 Rooms.Add(newRoom);
 
-                portalRoom = newRoom;
+                PortalRoom = newRoom;
 
                 Render.AddRoomToCanvas(newRoom);
 
@@ -129,7 +139,7 @@ namespace WPFDungeon
             }
             return false;
         }
-        public void ChangeRoomFaceing(Room room,char faceing) 
+        public void ChangeRoomFaceing(Room room, char faceing)
         {
             room.ChangeFaceing(faceing);
 
@@ -139,7 +149,7 @@ namespace WPFDungeon
                 {
                     if (hallway.Id == room.Id && hallway.DoorId == door.Id)
                     {
-                        hallway.ChangeLocRot(door, 40,room.Location);
+                        hallway.ChangeLocRot(door, 40, room.Location);
                     }
                 }
             }
@@ -153,7 +163,24 @@ namespace WPFDungeon
                 hallway.ToRoomLoc(room.Location);
             }
         }
-        public void AddToScore(int amaunt) => Score += amaunt;
-        public void SetScore(int amaunt) => Score = amaunt;
+        public void AddToScore(int amaunt)
+        {
+            Score += amaunt;
+            GScore.Text = $"Score: {Score}";
+        }
+        public void SetScore(int amaunt)
+        {
+            Score = amaunt;
+            GScore.Text = $"Score: {Score}";
+        }
+        public void AddExitPortal()
+        {
+            ExitPortal = new Portal(Rooms[0].Location[0], Rooms[1].Location[1], 0);
+            Render.AddEntityToCanvas(ExitPortal);
+        }
+        public void Over()
+        {
+            gameOver = true;
+        }
     }
 }
