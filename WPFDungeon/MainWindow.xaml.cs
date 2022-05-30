@@ -19,29 +19,25 @@ namespace WPFDungeon
     /// </summary>
     public partial class MainWindow : Window
     {
-        private GameWindow gameWindow ;
+        MainMenu menu;
         public MainWindow()
         {
             InitializeComponent();
+
+            menu = new MainMenu();
+            frame.Content = menu;
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void LogIn_Click(object sender, RoutedEventArgs e)
         {
-            if (gameWindow != null)
-            {
-                gameWindow.Close();
-            }
-
-            gameWindow = new GameWindow();
-            gameWindow.Show();
+        }
+        private void Register_Click(object sender, RoutedEventArgs e)
+        {
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            if (gameWindow != null)
-            {
-                gameWindow.Close();
-            }
+            menu.Closeing();
         }
     }
 }

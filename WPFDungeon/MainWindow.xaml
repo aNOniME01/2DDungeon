@@ -7,10 +7,11 @@
         mc:Ignorable="d" Closing="Window_Closing"
         Title="RestartWindow" Height="400" Width="300">
     <Grid>
-        <StackPanel Orientation="Vertical" VerticalAlignment="Center">
-            <Button Content="Start" Height="50" Width="150" Click="Button_Click"/>
-
-
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Right">
+            <Button Content="LogIn" Height="20" Width="60" Click="LogIn_Click"/>
+            <Button Content="Register" Height="20" Width="60" Click="Register_Click"/>
         </StackPanel>
+        <Frame x:Name="frame"
+               Height="350" VerticalAlignment="Bottom"/>
     </Grid>
 </Window>
