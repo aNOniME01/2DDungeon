@@ -8,11 +8,11 @@
         Title="RestartWindow" Height="400" Width="300">
     <Grid>
         <Button x:Name="backToMenu"
-                Style="{DynamicResource BackToMenu}" Visibility="Visible"
+                Style="{DynamicResource BackToMenu}" Visibility="Hidden"
                 Height="30" Width="30" Margin="5,5,0,0"
                 HorizontalAlignment="Left" VerticalAlignment="Top" Click="BackToMenu_Click">
             
-            <Image Source="/Textures/Back_Arrow.png" Width="15" Margin="0,0,1,0"/>
+            <Image Source="\Textures\Back_Arrow.png" Width="15" Margin="0,0,1,0"/>
 
         </Button>
 
