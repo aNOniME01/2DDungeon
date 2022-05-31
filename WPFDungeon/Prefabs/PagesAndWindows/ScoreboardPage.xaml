@@ -9,16 +9,16 @@
       Title="ScoreboardPage">
 
     <Grid>
-        <ScrollViewer>
+        <StackPanel Orientation="Horizontal" Margin="0,0,0,5" x:Name="Stack" VerticalAlignment="Top">
+            <Border x:Name="UserBorder" Style="{DynamicResource ScoreBackground}" Background="#495057" Width="170">
+                <TextBlock x:Name="UserText" Text="Username" Style="{DynamicResource Score}" Foreground="Black"/>
+            </Border>
+            <Border x:Name="ScoreBorder" Style="{DynamicResource ScoreBackground}" Background="#495057" Width="80" Margin="5,0,0,0">
+                <TextBlock x:Name="ScoreText" Text="Score" Style="{DynamicResource Score}" Foreground="Black"/>
+            </Border>
+        </StackPanel>
+        <ScrollViewer Height="255" VerticalAlignment="Bottom">
             <StackPanel x:Name="scoreboard">
-                <StackPanel Orientation="Horizontal" Margin="0,0,0,5" x:Name="Stack">
-                    <Border x:Name="UserBorder" Style="{DynamicResource ScoreBackground}" Background="#495057" Width="170">
-                        <TextBlock x:Name="UserText" Text="Username" Style="{DynamicResource Score}" Foreground="Black"/>
-                    </Border>
-                    <Border x:Name="ScoreBorder" Style="{DynamicResource ScoreBackground}" Background="#495057" Width="80" Margin="10,0,0,0">
-                        <TextBlock x:Name="ScoreText" Text="Score" Style="{DynamicResource Score}" Foreground="Black"/>
-                    </Border>
-                </StackPanel>
             </StackPanel>
         </ScrollViewer>
     </Grid>

@@ -20,25 +20,21 @@ namespace WPFDungeon
     /// </summary>
     public partial class ScoreboardPage : Page
     {
-        private bool firstLoaded;
         public ScoreboardPage()
         {
             InitializeComponent();
-            firstLoaded = true;
 
         }
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            if (firstLoaded)
-            {
-                List<int[]> scores = SQLOperations.ReadInScores();
+            scoreboard.Children.Clear();
 
-                foreach (int[] score in scores)
-                {
-                    CreateScoreTab(score[0], score[1]);
-                }
-                firstLoaded = false;
+            List<int[]> scores = SQLOperations.ReadInScores();
+
+            foreach (int[] score in scores)
+            {
+                CreateScoreTab(score[0], score[1]);
             }
         }
         private void CreateScoreTab(int userId, int score)
