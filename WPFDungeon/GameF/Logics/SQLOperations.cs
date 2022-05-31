@@ -10,42 +10,43 @@ namespace WPFDungeon
 {
     internal class SQLOperations
     {
-    
+
         private static MySqlConnection connection;
-        public static void Connect(bool IsConnected)
+        private static bool IsConnected = false;
+        public static void Connect()
         {
             var csb = new MySqlConnectionStringBuilder
             {
                 Server = "34.65.208.119",
-                UserID = "test",
-                Password = "",
+                UserID = "player",
+                Password = "TtE7q4h'*%&=~4)#",
                 Database = "scoreboard",
                 SslMode = MySqlSslMode.Disabled,
             };
 
             connection = new MySqlConnection();
-            if (IsConnected)
-            {
-                connection.Close();
-            }
-            else
+            if (!IsConnected)
             {
                 try
                 {
                     connection.ConnectionString = csb.ConnectionString;
                     connection.Open();
+                    IsConnected = true;
                 }
                 catch (MySqlException ex)
                 {
                     MessageBox.Show(ex.Message);
                 }
+
             }
-
         }
-
         public static void Disconnect()
         {
-            Connect(true);
+            if (IsConnected)
+            {
+                connection.Close();
+                IsConnected = false;
+            }
         }
         public static string ReturnLastId()
         {
@@ -54,7 +55,7 @@ namespace WPFDungeon
         }
         public static void CreatePlayer(string username, string password)
         {
-            if (SearchFor("UserName","Player",username))
+            if (!IsInDatabase("UserName", "Player", username))
             {
                 int id = Convert.ToInt32(ReturnLastId()) + 1;
 
@@ -69,22 +70,34 @@ namespace WPFDungeon
                 cmd.ExecuteNonQuery();
             }
         }
-        private static bool SearchFor(string type,string table,string sText)
+        public static bool IsInDatabase(string type, string table, string sText)
         {
             string sql = $"SELECT {type} FROM {table}";
-            using var cmd = new MySqlCommand(sql, connection);
+            var cmd = new MySqlCommand(sql, connection);
 
-            using MySqlDataReader rdr = cmd.ExecuteReader();
+            MySqlDataReader rdr = cmd.ExecuteReader();
 
             while (rdr.Read())
             {
                 if (rdr.GetString(0) == sText)
                 {
-                    MessageBox.Show($"\"{sText}\" is aleardy inside the database");
-                    return false;
+                    rdr.Close();
+                    return true;
                 }
             }
-            return true;
+            rdr.Close();
+            return false;
+        }
+        public static string CheckPassword(string sText)
+        {
+            string sql = $"SELECT Password FROM Player WHERE UserName = \'{sText}\'";
+            var cmd = new MySqlCommand(sql, connection);
+            MySqlDataReader rdr = cmd.ExecuteReader();
+
+            rdr.Read();
+            string ret = rdr.GetString(0);
+            rdr.Close();
+            return ret;
         }
     }
 }

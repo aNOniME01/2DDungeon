@@ -20,24 +20,125 @@ namespace WPFDungeon
     public partial class MainWindow : Window
     {
         MainMenu menu;
+        RegisterPage registerPage;
         public MainWindow()
         {
             InitializeComponent();
 
             menu = new MainMenu();
+            registerPage = new RegisterPage();
+
             frame.Content = menu;
+            SQLOperations.Connect();
         }
 
         private void LogIn_Click(object sender, RoutedEventArgs e)
         {
+            frame.Content = registerPage;
+            publish.Visibility = Visibility.Visible;
+            publish.Content = "LogIn";
+
+            backToMenu.Visibility = Visibility.Visible;
         }
         private void Register_Click(object sender, RoutedEventArgs e)
         {
+            frame.Content = registerPage;
+            publish.Visibility = Visibility.Visible;
+            publish.Content = "Register";
+
+            backToMenu.Visibility = Visibility.Visible;
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
+            SQLOperations.Disconnect();
             menu.Closeing();
+        }
+
+        private void BackToMenu_Click(object sender, RoutedEventArgs e)
+        {
+            frame.Content = menu;
+            publish.Visibility= Visibility.Hidden;
+
+            registerPage.UsernameBox.Text = "";
+            registerPage.PasswordBox.Password = "";
+        }
+
+        private void Publish_Click(object sender, RoutedEventArgs e)
+        {
+            if (publish.Content == "Register")
+            {
+                int[] errors = RegistAndLogIn.Register(registerPage.UsernameBox.Text, registerPage.PasswordBox.Password);
+                if (errors[0] == 1)
+                {
+                    registerPage.UsernameError.Text = $"The username \"{registerPage.UsernameBox.Text}\" is already used.";
+                }
+                else if (errors[0] == 2)
+                {
+                    registerPage.UsernameError.Text = $"The username has to be at more than 4 and less than 20 characters";
+                }
+                else if (errors[0] == 3)
+                {
+                    registerPage.UsernameError.Text = $"The username can\'t contain special characters like \'space\',\',\",~,/...";
+                }
+
+                if (errors[1] == 1)
+                {
+                    registerPage.PasswordError.Text = $"The password has to be at more than 8 and less than 16 characters";
+                }
+                else if (errors[1] == 2)
+                {
+                    registerPage.PasswordError.Text = $"The password can\'t contain special characters like \'space\',\',\",~,/...";
+                }
+                if (errors[0] == 0 && errors[1] == 0)
+                {
+                    SQLOperations.CreatePlayer(registerPage.UsernameBox.Text, registerPage.PasswordBox.Password);
+                    frame.Content = menu;
+
+                    publish.Visibility = Visibility.Hidden;
+                    publish.Content = "";
+
+                    register.Visibility = Visibility.Hidden;
+                    login.Visibility = Visibility.Hidden;
+
+                    backToMenu.Visibility = Visibility.Hidden;
+
+                    userText.Text = $"@{registerPage.UsernameBox.Text}";
+                    userText.Visibility = Visibility.Visible;
+
+                    registerPage.UsernameBox.Text = "";
+                    registerPage.PasswordBox.Password = "";
+                }
+
+            }
+            else if (publish.Content == "LogIn") 
+            {
+                int[] errors = RegistAndLogIn.LoggingIn(registerPage.UsernameBox.Text, registerPage.PasswordBox.Password);
+                if (errors[0] == 1 || errors[1] == 1)
+                {
+                    registerPage.UsernameError.Text = $"Your username or password dosn\'t match";
+                    registerPage.PasswordError.Text = $"Your username or password dosn\'t match";
+                }
+
+                if (errors[0] == 0 && errors[1] == 0)
+                {
+                    frame.Content = menu;
+
+                    publish.Visibility = Visibility.Hidden;
+                    publish.Content = "";
+
+                    register.Visibility = Visibility.Hidden;
+                    login.Visibility = Visibility.Hidden;
+
+                    backToMenu.Visibility = Visibility.Hidden;
+
+                    userText.Text = $"@{registerPage.UsernameBox.Text}";
+                    userText.Visibility = Visibility.Visible;
+
+                    registerPage.UsernameBox.Text = "";
+                    registerPage.PasswordBox.Password = "";
+                }
+            }
         }
     }
 }

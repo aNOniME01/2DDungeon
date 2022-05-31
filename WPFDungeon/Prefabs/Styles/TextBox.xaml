@@ -1,0 +1,11 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Style x:Key="RoundedDef" TargetType="{x:Type TextBox}">
+        <Setter Property="Background" Value="#DEE2E6" />
+        <Setter Property="BorderThickness" Value="0" />
+
+        <Setter Property="Height" Value="20" />
+    </Style>
+
+</ResourceDictionary>

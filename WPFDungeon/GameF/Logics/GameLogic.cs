@@ -200,6 +200,12 @@ namespace WPFDungeon
                             game.Over();
                         }
 
+                        if (bullet.Body.Hitbox.IntersectsWith(game.Rooms[0].Body.Hitbox))
+                        {
+                            Render.RemoveEntity(bullet);
+                            bulletDeleteNeeded.Add(bullet);
+                        }
+
                         if (!isBulletInside(bullet))
                         {
                             Render.RemoveEntity(bullet);
