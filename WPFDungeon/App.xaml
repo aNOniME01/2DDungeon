@@ -14,6 +14,8 @@
                 <ResourceDictionary Source="\Prefabs\Styles\PasswordBox.xaml"/>
                 
                 <ResourceDictionary Source="\Prefabs\Styles\TextBox.xaml"/>
+                
+                <ResourceDictionary Source="\Prefabs\Styles\Border.xaml"/>
             </ResourceDictionary.MergedDictionaries>
             
         </ResourceDictionary>

@@ -4,18 +4,29 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WPFDungeon"
-        mc:Ignorable="d"
+        mc:Ignorable="d" Loaded="Window_Loaded"
         Title="RestartWindow" Height="400" Width="300">
     <Grid>
+        <TextBlock Text="@username" x:Name="userText" Visibility="Hidden"
+                   FontSize="12" FontWeight="Bold" Style="{DynamicResource Dark}"
+                   TextAlignment="Right" TextDecorations="Underline"
+                   Height="30" Width="200" Margin="0,10,5,0"
+                   HorizontalAlignment="Right" VerticalAlignment="Top"/>
+
         <StackPanel Orientation="Vertical" VerticalAlignment="Center">
             <TextBlock Text="Score: 0" x:Name="score"
-                       FontSize="20"
+                       FontSize="20" Style="{DynamicResource Dark}"
                        HorizontalAlignment="Center"/>
 
 
-            <Button Content="ExitToMenu" 
-                    Height="50" Width="150" 
-                    Click="Button_Click"/>
+            <Button Content="Upload Score And Exit" x:Name="saveAndExit"
+                    Style="{DynamicResource LightCorner8}"
+                    Height="50" Width="150" Margin="10"
+                    Click="SaveAndExit_Click"/>
+            <Button Content="Exit Without Saveing" 
+                    Style="{DynamicResource DarkCorner8}"
+                    Height="50" Width="150"
+                    Click="Exit_Click"/>
 
 
         </StackPanel>

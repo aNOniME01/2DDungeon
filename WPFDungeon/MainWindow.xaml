@@ -27,6 +27,10 @@
                    HorizontalAlignment="Right" VerticalAlignment="Top"/>
         <Frame x:Name="frame" NavigationUIVisibility="Hidden"
                Height="280" VerticalAlignment="Center"/>
+        
+        <Button Content="Scoreboard" x:Name="scoreButton" Style="{DynamicResource DarkCorner8}"
+                    Height="50" Width="150" Margin="0,55,0,0"
+                    Click="Scoreboard_Click"/>
 
         <Button x:Name="publish" Style="{DynamicResource DarkCorner8}" Visibility="Hidden"
                 Height="40" Width="100" Margin="5,5,0,30"

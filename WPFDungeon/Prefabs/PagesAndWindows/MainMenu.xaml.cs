@@ -21,9 +21,11 @@ namespace WPFDungeon
     public partial class MainMenu : Page
     {
         private GameWindow gameWindow;
+        private ScoreboardPage scorePage;
         public MainMenu()
         {
             InitializeComponent();
+            
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -33,13 +35,11 @@ namespace WPFDungeon
                 gameWindow.Close();
             }
 
+
             gameWindow = new GameWindow();
             gameWindow.Show();
-        }
 
-        private void Button_Click_1(object sender, RoutedEventArgs e)
-        {
-            
+            scorePage = new ScoreboardPage();
         }
         public void Closeing()
         {

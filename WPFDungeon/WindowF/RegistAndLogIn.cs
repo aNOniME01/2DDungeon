@@ -85,7 +85,7 @@ namespace WPFDungeon
             if (AccError[0] == 0 && AccError[1] == 0)
             {
                 SQLOperations.CreatePlayer(AccName,AccPssw);
-                LoggedData.Log(AccName);
+                LoggedData.Log(SQLOperations.GetUserId(AccName));
             }
 
             return AccError;
@@ -114,7 +114,7 @@ namespace WPFDungeon
             //Logging Information
             if (AccError[0] == 0 && AccError[1] == 0)
             {
-                LoggedData.Log(AccName);
+                LoggedData.Log(SQLOperations.GetUserId(AccName));
             }
 
             return AccError;

@@ -20,18 +20,41 @@ namespace WPFDungeon
     /// </summary>
     public partial class RestartWindow : Window
     {
+        private static int Score;
         public RestartWindow()
         {
             InitializeComponent();
-
-            StreamReader sr = File.OpenText(Transfer.GetLocation() + "transfer.txt");
-            score.Text = $"Score: {sr.ReadLine()}";
-            sr.Close();
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            StreamReader sr = File.OpenText(Transfer.GetLocation() + "transfer.txt");
+            Score = Convert.ToInt32(sr.ReadLine());
+            sr.Close();
+
+            score.Text = $"Score: {Score}";
+
+            if (LoggedData.UserId == null)
+            {
+                saveAndExit.Visibility = Visibility.Hidden;
+            }
+            else
+            {
+                userText.Text = $"@{SQLOperations.GetUserById(LoggedData.UserId)}";
+                userText.Visibility = Visibility.Visible;
+            }
+        }
+
+        private void SaveAndExit_Click(object sender, RoutedEventArgs e)
+        {
+            SQLOperations.UploadScore(LoggedData.UserId,Score);
+            Close();
+        }
+
+        private void Exit_Click(object sender, RoutedEventArgs e)
         {
             Close();
         }
+
     }
 }

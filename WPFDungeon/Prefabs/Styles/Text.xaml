@@ -15,5 +15,14 @@
         <Setter Property="Foreground" Value="Red"/>
         <Setter Property="FontFamily" Value="\Prefabs\Fonts\Dosis.ttf"/>
     </Style>
+    
+    <Style x:Key="Score" TargetType="{x:Type TextBlock}">
+        <Setter Property="Foreground" Value="Black"/>
+        <Setter Property="FontFamily" Value="\Prefabs\Fonts\Dosis.ttf"/>
+        <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="HorizontalAlignment" Value="Center"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        
+    </Style>
 
 </ResourceDictionary>

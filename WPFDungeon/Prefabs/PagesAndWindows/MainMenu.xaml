@@ -9,13 +9,8 @@
       Title="MainMenu">
 
     <Grid>
-        <StackPanel VerticalAlignment="Center">
-            <Button Content="Start" Style="{DynamicResource DarkCorner8}"
-                    Height="50" Width="150" Margin="5"
+        <Button Content="Start" Style="{DynamicResource DarkCorner8}"
+                    Height="50" Width="150" Margin="0,0,0,55"
                     Click="Button_Click"/>
-            <Button Content="Scoreboard" Style="{DynamicResource DarkCorner8}"
-                    Height="50" Width="150" 
-                    Click="Button_Click_1"/>
-        </StackPanel>
     </Grid>
 </Page>

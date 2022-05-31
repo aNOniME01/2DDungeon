@@ -21,15 +21,18 @@ namespace WPFDungeon
     {
         MainMenu menu;
         RegisterPage registerPage;
+        ScoreboardPage scoreboardPage;
         public MainWindow()
         {
             InitializeComponent();
 
             menu = new MainMenu();
             registerPage = new RegisterPage();
+            scoreboardPage = new ScoreboardPage();
 
             frame.Content = menu;
             SQLOperations.Connect();
+
         }
 
         private void LogIn_Click(object sender, RoutedEventArgs e)
@@ -39,7 +42,10 @@ namespace WPFDungeon
             publish.Content = "LogIn";
 
             backToMenu.Visibility = Visibility.Visible;
+
+            scoreButton.Visibility = Visibility.Hidden;
         }
+
         private void Register_Click(object sender, RoutedEventArgs e)
         {
             frame.Content = registerPage;
@@ -47,21 +53,30 @@ namespace WPFDungeon
             publish.Content = "Register";
 
             backToMenu.Visibility = Visibility.Visible;
+
+            scoreButton.Visibility = Visibility.Hidden;
         }
 
-        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        private void Scoreboard_Click(object sender, RoutedEventArgs e)
         {
-            SQLOperations.Disconnect();
-            menu.Closeing();
+            frame.Content = scoreboardPage;
+
+            backToMenu.Visibility = Visibility.Visible;
+
+            scoreButton.Visibility = Visibility.Hidden;
         }
 
         private void BackToMenu_Click(object sender, RoutedEventArgs e)
         {
+            backToMenu.Visibility = Visibility.Hidden;
+
             frame.Content = menu;
             publish.Visibility= Visibility.Hidden;
 
             registerPage.UsernameBox.Text = "";
             registerPage.PasswordBox.Password = "";
+
+            scoreButton.Visibility = Visibility.Visible;
         }
 
         private void Publish_Click(object sender, RoutedEventArgs e)
@@ -108,6 +123,8 @@ namespace WPFDungeon
 
                     registerPage.UsernameBox.Text = "";
                     registerPage.PasswordBox.Password = "";
+
+                    scoreButton.Visibility = Visibility.Visible;
                 }
 
             }
@@ -137,8 +154,17 @@ namespace WPFDungeon
 
                     registerPage.UsernameBox.Text = "";
                     registerPage.PasswordBox.Password = "";
+
+                    scoreButton.Visibility = Visibility.Visible;
                 }
             }
         }
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            SQLOperations.Disconnect();
+            menu.Closeing();
+        }
+
+
     }
 }
