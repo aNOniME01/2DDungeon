@@ -201,13 +201,13 @@ namespace WPFDungeon
             }
             else if (Faceing == 'L')
             {
-                newLoc[0] = entity.Location[1] - Location[1] + Location[0];
-                newLoc[1] = entity.Location[0] - Location[0] + Location[1];
+                newLoc[0] = Body.Mesh.Width - (entity.Location[1] - Location[1]) - entity.Body.Mesh.Width + Location[0];
+                newLoc[1] = Body.Mesh.Height - (entity.Location[0] - Location[0]) - entity.Body.Mesh.Height + Location[1];
             }
             else if (Faceing == 'R')
             {
-                newLoc[0] =Body.Mesh.Width - (entity.Location[1] - Location[1]) - entity.Body.Mesh.Width;
-                newLoc[1] =Body.Mesh.Height - (entity.Location[0] - Location[0]) - entity.Body.Mesh.Height;
+                newLoc[0] = entity.Location[1] - Location[1] + Location[0];
+                newLoc[1] = entity.Location[0] - Location[0] + Location[1];
             }
 
             entity.GoTo(newLoc);
@@ -222,7 +222,7 @@ namespace WPFDungeon
             Render.RefreshElement(Body.Mesh,Location);
 
             (Body as RoomBody).MoveHitbox();
-            ChangeEntityLocation();
+            ChangeEntityLocation(y,x);
         }
         public void ToDoorLoc(Door targetDoor,Door door)
         {
@@ -231,25 +231,25 @@ namespace WPFDungeon
 
             ChangeLocation(disY,disX);
         }
-        private void ChangeEntityLocation()
+        private void ChangeEntityLocation(double y, double x)
         {
             foreach (Shooter entity in SelectedSpawnMap.Shooters)
             {
-                entity.ToRoomLoc(Location);
+                entity.ChangeLocationBy(y,x);
             }
 
             foreach (Swifter entity in SelectedSpawnMap.Swifters)
             {
-                entity.ToRoomLoc(Location);
+                entity.ChangeLocationBy(y, x);
             }
             foreach (Point point in SelectedSpawnMap.Points)
             {
-                point.ToRoomLoc(Location);
+                point.ChangeLocationBy(y, x);
             }
 
             if (SelectedSpawnMap.Portal != null)
             {
-                SelectedSpawnMap.Portal.ToRoomLoc(Location);
+                SelectedSpawnMap.Portal.ChangeLocationBy(y,x);
             }
         }
         public Door SearchDoorFaceingOpposit(char faceing)

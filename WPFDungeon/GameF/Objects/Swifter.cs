@@ -63,15 +63,14 @@ namespace WPFDungeon
             (Body as SwifterBody).MoveHitbox();
             RefreshMoveCheck();
         }
-        public void ToRoomLoc(double[] roomLocation)
+        public void ChangeLocationBy(double y, double x)
         {
-            Location[0] += roomLocation[0];
-            Location[1] += roomLocation[1];
+            Location[0] += y;
+            Location[1] += x;
 
             Render.RefreshEntity(this);
 
             (Body as SwifterBody).MoveHitbox();
-            RefreshMoveCheck();
         }
         public void GoTo(double[] location)
         {
