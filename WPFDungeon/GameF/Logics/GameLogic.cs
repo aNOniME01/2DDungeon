@@ -439,6 +439,64 @@ namespace WPFDungeon
             }
 
             Render.AddEntityToCanvas(game.PortalRoom.SelectedSpawnMap.Portal);
+
+
+            foreach (Room room in game.Rooms)
+            {
+                List<Shooter> shDelete = new List<Shooter>();
+                foreach (Shooter shooter in room.SelectedSpawnMap.Shooters)
+                {
+                    if (!IsEntityOutside(shooter))
+                    {
+                        Render.RemoveEntity(shooter);
+                        shDelete.Add(shooter);
+                    }
+                }
+                foreach (Shooter shooter in shDelete)
+                {
+                    room.SelectedSpawnMap.Shooters.Remove(shooter);
+                }
+
+                List<Swifter> swDelete = new List<Swifter>();
+                foreach (Swifter swifter in room.SelectedSpawnMap.Swifters)
+                {
+                    if (!IsEntityOutside(swifter))
+                    {
+                        Render.RemoveEntity(swifter);
+                        swDelete.Add(swifter);
+                    }
+                }
+                foreach (Swifter swifter in swDelete)
+                {
+                    room.SelectedSpawnMap.Shooters.Remove(swifter);
+                }
+                
+            }
+
+            if (!IsEntityOutside(game.PortalRoom.SelectedSpawnMap.Portal))
+            {
+                game.PortalRoom.SelectedSpawnMap.Portal.ToRoomCenter(game.PortalRoom);
+            }
+
+        }
+        private static bool IsEntityOutside(IEntity entity)
+        {
+            foreach (Room room in game.Rooms)
+            {
+                if (entity.Body.Hitbox.IntersectsWith(room.Body.Hitbox))
+                {
+                    return true;
+                }
+            }
+            foreach (Hallway hallway in game.Hallways)
+            {
+                if (entity.Body.Hitbox.IntersectsWith(hallway.Body.Hitbox))
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }

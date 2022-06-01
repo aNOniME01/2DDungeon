@@ -39,6 +39,15 @@ namespace WPFDungeon
             (Body as PortalBody).FaceTo(Faceing);
         }
 
+        public void ToRoomCenter(Room room)
+        {
+            Location[0] = room.Location[0] + room.Body.Mesh.Height / 2;
+            Location[1] = room.Location[1] + room.Body.Mesh.Width / 2;
 
+            Render.RefreshEntity(this);
+
+            (Body as PortalBody).MoveHitbox();
+
+        }
     }
 }
