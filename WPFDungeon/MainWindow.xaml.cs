@@ -31,7 +31,19 @@ namespace WPFDungeon
             scoreboardPage = new ScoreboardPage();
 
             frame.Content = menu;
-            SQLOperations.Connect();
+            if (!SQLOperations.Connect())
+            {
+                login.Visibility = Visibility.Hidden;
+
+                register.Visibility = Visibility.Hidden;
+
+                usernameHolder.Visibility = Visibility.Visible;
+                userText.Text = "offline";
+                userText.Foreground = Brushes.Red;
+
+                scoreButton.Visibility = Visibility.Hidden; 
+            }
+            
 
         }
 
@@ -119,7 +131,7 @@ namespace WPFDungeon
                     backToMenu.Visibility = Visibility.Hidden;
 
                     userText.Text = $"@{registerPage.UsernameBox.Text}";
-                    userText.Visibility = Visibility.Visible;
+                    usernameHolder.Visibility = Visibility.Visible;
 
                     registerPage.UsernameBox.Text = "";
                     registerPage.PasswordBox.Password = "";
@@ -150,7 +162,7 @@ namespace WPFDungeon
                     backToMenu.Visibility = Visibility.Hidden;
 
                     userText.Text = $"@{registerPage.UsernameBox.Text}";
-                    userText.Visibility = Visibility.Visible;
+                    usernameHolder.Visibility = Visibility.Visible;
 
                     registerPage.UsernameBox.Text = "";
                     registerPage.PasswordBox.Password = "";

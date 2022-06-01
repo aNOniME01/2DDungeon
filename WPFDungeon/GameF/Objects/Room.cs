@@ -13,6 +13,7 @@ namespace WPFDungeon
         public List<Door> Doors { get; private set; }
         public List<SpawnMap> SpawnMaps { get; private set; }
         public SpawnMap SelectedSpawnMap { get; private set; }
+        public int SelectedSpawnMapIndex { get; private set; }
         public string Type { get; private set; }
         public int Id { get; private set; }
         public Room(string fileName,int roomId)
@@ -80,7 +81,8 @@ namespace WPFDungeon
             }
             Body = new RoomBody(height, width, Location, Type);
 
-            SelectedSpawnMap = SpawnMaps[Logic.rnd.Next(0, SpawnMaps.Count)];
+            SelectedSpawnMapIndex = Logic.rnd.Next(0, SpawnMaps.Count);
+            SelectedSpawnMap = SpawnMaps[SelectedSpawnMapIndex];
         }
         private void ResetRoom(string fileName)
         {
@@ -131,11 +133,18 @@ namespace WPFDungeon
                     }
                     else if (line[0] == 'P')//Point
                     {
-                        //Point x;y
+                        if (Id != 0)
+                        {
+                            //Point x;y
+                            string[] sgd = line.Trim('P').Trim().Split(';');
+                            SpawnMaps[SpawnMaps.Count - 1].AddPoint(Convert.ToDouble(sgd[0]), Convert.ToDouble(sgd[1]));
+                        }
                     }
                 }
             }
             (Body as RoomBody).Refresh(height,width,Location);
+
+            SelectedSpawnMap = SpawnMaps[SelectedSpawnMapIndex];
         }
         public void ChangeFaceing(char newFaceing)
         {
@@ -155,7 +164,7 @@ namespace WPFDungeon
             }
 
             //Set RoomFaceing
-            Body.FaceTo(newFaceing);
+            Body.FaceTo(Faceing);
 
             ChangeDoorFaceing();
 
@@ -187,8 +196,8 @@ namespace WPFDungeon
 
             if (Faceing == 'B')
             {
-                newLoc[0] = Body.Mesh.Height - (entity.Location[0] - Location[0]) - entity.Body.Mesh.Height;
-                newLoc[1] = Body.Mesh.Width - (entity.Location[1] - Location[1]) - entity.Body.Mesh.Width;
+                newLoc[0] = Body.Mesh.Height - entity.Body.Mesh.Height - (entity.Location[0] - Location[0]) - Location[0];
+                newLoc[1] = Body.Mesh.Width - entity.Body.Mesh.Width - (entity.Location[1] - Location[1]) - Location[1];
             }
             else if (Faceing == 'L')
             {

@@ -13,7 +13,7 @@ namespace WPFDungeon
 
         private static MySqlConnection connection;
         private static bool IsConnected = false;
-        public static void Connect()
+        public static bool Connect()
         {
             var csb = new MySqlConnectionStringBuilder
             {
@@ -30,8 +30,15 @@ namespace WPFDungeon
                 try
                 {
                     connection.ConnectionString = csb.ConnectionString;
-                    connection.Open();
                     IsConnected = true;
+                    try
+                    {
+                        connection.Open();
+                    }
+                    catch 
+                    {
+                        IsConnected = false;
+                    }
                 }
                 catch (MySqlException ex)
                 {
@@ -39,6 +46,7 @@ namespace WPFDungeon
                 }
 
             }
+            return IsConnected;
         }
         public static void Disconnect()
         {
