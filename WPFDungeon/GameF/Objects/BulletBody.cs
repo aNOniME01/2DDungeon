@@ -10,6 +10,8 @@ namespace WPFDungeon
         public ImageBrush Texture { get; private set; }
         public Rect Hitbox { get; private set; }
         public Rectangle Mesh { get; private set; }
+        public double HitboxGap => throw new System.NotImplementedException();
+
         public BulletBody(char faceing, double[] location)
         {
 

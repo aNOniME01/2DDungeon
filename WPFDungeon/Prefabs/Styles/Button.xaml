@@ -10,7 +10,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Button}">
-                    <Border x:Name="border" CornerRadius="8" Background="#24282C">
+                    <Border x:Name="border" CornerRadius="8" Background="#011627">
                         <ContentPresenter HorizontalAlignment="Center"
                                           VerticalAlignment="Center"
                                           TextElement.FontWeight="Bold">
@@ -20,7 +20,7 @@
             </Setter.Value>
         </Setter>
     </Style>
-    <Style x:Key="LightCorner8" TargetType="{x:Type Button}">
+    <Style x:Key="RedCorner8" TargetType="{x:Type Button}">
         <Setter Property="Foreground" Value="#DEE2E6"/>
         <Setter Property="FontFamily" Value="\Prefabs\Fonts\Dosis.ttf"/>
         <Setter Property="HorizontalContentAlignment" Value="Center"/>
@@ -29,7 +29,26 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Button}">
-                    <Border x:Name="border" CornerRadius="8" Background="#495057">
+                    <Border x:Name="border" CornerRadius="8" Background="#e71d36">
+                        <ContentPresenter HorizontalAlignment="Center"
+                                          VerticalAlignment="Center"
+                                          TextElement.FontWeight="Bold">
+                        </ContentPresenter>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style x:Key="GreenCorner8" TargetType="{x:Type Button}">
+        <Setter Property="Foreground" Value="#DEE2E6"/>
+        <Setter Property="FontFamily" Value="\Prefabs\Fonts\Dosis.ttf"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="Padding" Value="1"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border x:Name="border" CornerRadius="8" Background="#2ec4b6">
                         <ContentPresenter HorizontalAlignment="Center"
                                           VerticalAlignment="Center"
                                           TextElement.FontWeight="Bold">

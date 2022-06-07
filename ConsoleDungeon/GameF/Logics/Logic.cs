@@ -11,7 +11,7 @@ namespace ConsoleDungeon
     {
         private static int Score;
         private static StreamWriter sw = File.CreateText(Transfer.GetLocation());
-        public static void GameLogic(Map map, bool gameOver,int score)
+        public static void GameLogic(Map map, bool gameOver, int score)
         {
             Score = score;
 
@@ -24,7 +24,9 @@ namespace ConsoleDungeon
                 Render.SeekerStepRender(map);
                 Render.PlayerStepRender(map);
             }
-            sw.WriteLine(Score);
+            sw.Write(Score);
+            if (map.Player.Location[0] == -1) sw.WriteLine(";F");
+            else sw.WriteLine(";T");
             sw.Close();
         }
         private static void PlayerController(Map map)
@@ -82,9 +84,8 @@ namespace ConsoleDungeon
             //Entered portal check
             if (map.Player.Location[0] == map.PortalPos[0]&& map.Player.Location[1] == map.PortalPos[1])
             {
-                map.Player.DissapearEntity();
                 Render.FullGameRenderer(map,Score);
-
+                map.Player.DissapearEntity();
                 return true;
             }
             foreach (Point point in map.Points)
@@ -104,7 +105,6 @@ namespace ConsoleDungeon
                 if (map.Player.Location[0] == seeker.Location[0] && map.Player.Location[1] == seeker.Location[1])
                 {
                     Render.FullGameRenderer(map,Score);
-                    map.Player.DissapearEntity();
                     Render.GameOver();
                     return true;
                 }

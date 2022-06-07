@@ -14,6 +14,7 @@ namespace WPFDungeon
         public ImageBrush Texture { get;}
         public Rect Hitbox { get;}
         public Rectangle Mesh { get;}
+        public double HitboxGap { get;}
 
         public void FaceTo(char faceing)
         {

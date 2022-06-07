@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WPFDungeon" ResizeMode="NoResize"
         mc:Ignorable="d" Closing="Window_Closing"
-        Title="RestartWindow" Height="400" Width="300">
+        Title="RestartWindow" Height="400" Width="300" Background="#fdfffc">
     <Grid>
         <Button x:Name="backToMenu"
                 Style="{DynamicResource BackToMenu}" Visibility="Hidden"
@@ -17,10 +17,10 @@
         </Button>
 
         <StackPanel Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Right">
-            <Button Content="LogIn" Style="{DynamicResource LightCorner8}" x:Name="login"
+            <Button Content="LogIn" Style="{DynamicResource GreenCorner8}" x:Name="login"
                     Height="30" Width="60" Margin="0,5,2.5,0"
                     Click="LogIn_Click"/>
-            <Button Content="Register" Style="{DynamicResource DarkCorner8}" x:Name="register"
+            <Button Content="Register" Style="{DynamicResource RedCorner8}" x:Name="register"
                     Height="30" Width="60" Margin="2.5,5,5,0"
                     Click="Register_Click"/>
         </StackPanel>

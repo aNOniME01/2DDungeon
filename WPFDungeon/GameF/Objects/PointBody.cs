@@ -18,8 +18,13 @@ namespace WPFDungeon
         public Rect Hitbox { get; private set; }
 
         public Rectangle Mesh { get; private set; }
+
+        public double HitboxGap { get; private set; }
+
         public PointBody(double[] location)
         {
+            HitboxGap = 2;
+
             Texture = new ImageBrush();
             Texture.ImageSource = new BitmapImage(new Uri(Transfer.GetLocation() + "WPFDungeon\\textures\\Point.png"));
 
@@ -47,6 +52,6 @@ namespace WPFDungeon
             Texture.RelativeTransform = aRotateTransform;
         }
 
-        public void MoveHitbox() => Hitbox = new Rect(Canvas.GetLeft(Mesh), Canvas.GetTop(Mesh), Mesh.Width, Mesh.Height);
+        public void MoveHitbox() => Hitbox = new Rect(Canvas.GetLeft(Mesh) + HitboxGap, Canvas.GetTop(Mesh) + HitboxGap, Mesh.Width - HitboxGap, Mesh.Height - HitboxGap);
     }
 }

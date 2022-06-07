@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WPFDungeon" ResizeMode="NoResize"
         mc:Ignorable="d" Loaded="Window_Loaded"
-        Title="RestartWindow" Height="400" Width="300">
+        Title="RestartWindow" Height="400" Width="300" Background="#fdfffc">
     <Grid>
         <TextBlock Text="@username" x:Name="userText" Visibility="Hidden"
                    FontSize="12" FontWeight="Bold" Style="{DynamicResource Dark}"
@@ -19,14 +19,18 @@
                        HorizontalAlignment="Center"/>
 
 
+            <Button Content="Exit Without Saveing" 
+                    Style="{DynamicResource RedCorner8}"
+                    Height="50" Width="150" Margin="10"
+                    Click="Exit_Click"/>
             <Button Content="Upload Score And Exit" x:Name="saveAndExit"
-                    Style="{DynamicResource LightCorner8}"
+                    Style="{DynamicResource DarkCorner8}"
+                    Height="50" Width="150" 
+                    Click="SaveAndExit_Click"/>
+            <Button Content="Continue" x:Name="Continue"
+                    Style="{DynamicResource GreenCorner8}"
                     Height="50" Width="150" Margin="10"
                     Click="SaveAndExit_Click"/>
-            <Button Content="Exit Without Saveing" 
-                    Style="{DynamicResource DarkCorner8}"
-                    Height="50" Width="150"
-                    Click="Exit_Click"/>
 
 
         </StackPanel>

@@ -17,8 +17,12 @@ namespace WPFDungeon
         public Rect Hitbox { get; private set; }
         public Rectangle Mesh { get; private set; }
 
+        public double HitboxGap {get; private set; }
+
         public PortalBody( double[] location)
         {
+            HitboxGap = 2;
+
             //entity width
             double width = 10;
 
@@ -62,6 +66,6 @@ namespace WPFDungeon
             else aRotateTransform.Angle = 90;
             Texture.RelativeTransform = aRotateTransform;
         }
-        public void MoveHitbox() => Hitbox = new Rect(Canvas.GetLeft(Mesh), Canvas.GetTop(Mesh), Mesh.Width, Mesh.Height);
+        public void MoveHitbox() => Hitbox = new Rect(Canvas.GetLeft(Mesh) + HitboxGap, Canvas.GetTop(Mesh) + HitboxGap, Mesh.Width - HitboxGap, Mesh.Height - HitboxGap);
     }
 }

@@ -14,14 +14,14 @@ namespace WPFDungeon
         public bool gameOver { get; private set; }
         public List<Room> Rooms { get; private set; }
         public List<Hallway> Hallways { get; private set; }
-        public Player Player { get; private set; }
+        public Player? Player { get; private set; }
         public TextBlock GScore { get; private set; }
         public Canvas GCanvas { get; private set; }
         public Grid GGrid { get; private set; }
         public List<Rect> BarrierList { get; private set; }
         public int Score { get; private set; }
         public Room PortalRoom { get; private set; }
-        public Portal ExitPortal { get; private set; }
+        public Portal? ExitPortal { get; private set; }
         public Game(Grid gGrid)
         {
             gameOver = false;
@@ -175,13 +175,25 @@ namespace WPFDungeon
         }
         public void AddExitPortal()
         {
-            ExitPortal = new Portal(Rooms[0].Location[0], Rooms[1].Location[1], 0);
+            ExitPortal = new Portal(Rooms[0].Location[0] + Rooms[0].Body.Mesh.Height /  2, Rooms[0].Location[1] + Rooms[0].Body.Mesh.Width / 2, 0);
             Render.AddEntityToCanvas(ExitPortal);
         }
         public void Over()
         {
+            this.Player = null; 
             gameOver = true;
             Transfer.WriteInfoToConsole(Score);
         }
+        public void Exit()
+        {
+            gameOver = true;
+            Transfer.WriteInfoToConsole(Score);
+        }
+        public void DeleteExitPortal()
+        {
+            Render.RemoveEntity(ExitPortal);
+            ExitPortal = null;
+        }
+
     }
 }

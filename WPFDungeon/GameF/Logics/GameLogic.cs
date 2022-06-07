@@ -31,6 +31,11 @@ namespace WPFDungeon
         {
             if (ConsoleDungeonExe == null && !game.gameOver)
             {
+                if (game.ExitPortal == null && !game.Player.Body.Hitbox.IntersectsWith(game.Rooms[0].Body.Hitbox))
+                {
+                    game.AddExitPortal();
+                }
+
                 #region PlayerLogic
                 //player movement
                 PlayerMovement(mUp, mDown, mLeft, mRight);
@@ -50,11 +55,17 @@ namespace WPFDungeon
             }
             else if(!game.gameOver)
             {
-                string info = Transfer.ReadInfoFromConsole();
-                if (info != "0") 
+                string[] info = Transfer.ReadInfoFromConsole();
+
+                if (info[0] != "") 
                 {
-                    game.SetScore(Convert.ToInt32(info));
-                    game.Over();
+                    game.SetScore(Convert.ToInt32(info[0]));
+
+                    if (info[1] == "T")
+                    {
+                        game.Over();
+                    }
+
                 }
             }
         }
@@ -197,7 +208,7 @@ namespace WPFDungeon
 
                         if (bullet.Body.Hitbox.IntersectsWith(game.Player.Body.Hitbox))
                         {
-                            game.Over();
+                            //game.Over();
                         }
 
                         if (bullet.Body.Hitbox.IntersectsWith(game.Rooms[0].Body.Hitbox))
@@ -293,11 +304,11 @@ namespace WPFDungeon
                 }
             }
 
-            //Portal Check
+            //Exit protal Check
             if (game.ExitPortal != null && game.ExitPortal.Body.Hitbox.IntersectsWith(game.Player.Body.Hitbox))
             {
-                game.PortalRoom.SelectedSpawnMap.DeletePortal();
-                //Show continue window
+                game.DeleteExitPortal();
+                game.Exit();
             }
 
             List<Point> deletPoints = new List<Point>();
@@ -319,23 +330,23 @@ namespace WPFDungeon
                 }
 
 
-                //Swifter Check 
-                foreach (Swifter swifter in room.SelectedSpawnMap.Swifters)
-                {
-                    if (swifter.Body.Hitbox.IntersectsWith(game.Player.Body.Hitbox))
-                    {
-                        game.Over();
-                    }
-                }
+                ////Swifter Check 
+                //foreach (Swifter swifter in room.SelectedSpawnMap.Swifters)
+                //{
+                //    if (swifter.Body.Hitbox.IntersectsWith(game.Player.Body.Hitbox))
+                //    {
+                //        game.Over();
+                //    }
+                //}
 
-                //Shooter Check
-                foreach (Shooter shooter in room.SelectedSpawnMap.Shooters)
-                {
-                    if (shooter.Body.Hitbox.IntersectsWith(game.Player.Body.Hitbox))
-                    {
-                        game.Over();
-                    }
-                }
+                ////Shooter Check
+                //foreach (Shooter shooter in room.SelectedSpawnMap.Shooters)
+                //{
+                //    if (shooter.Body.Hitbox.IntersectsWith(game.Player.Body.Hitbox))
+                //    {
+                //        game.Over();
+                //    }
+                //}
 
             }
         }

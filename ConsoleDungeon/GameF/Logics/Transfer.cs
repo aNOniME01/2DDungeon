@@ -29,8 +29,9 @@ namespace ConsoleDungeon
         public static string ReadInData()
         {
             string info = "";
-            StreamReader sr = File.OpenText(GetLocation());            
-            info = sr.ReadLine();
+            StreamReader sr = File.OpenText(GetLocation());
+            string[] hlpr = sr.ReadLine().Trim().Split(';'); 
+            info = hlpr[0];
             sr.Close();
 
             return info;

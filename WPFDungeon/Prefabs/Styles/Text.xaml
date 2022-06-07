@@ -12,7 +12,7 @@
     </Style>
     
     <Style x:Key="Error" TargetType="{x:Type TextBlock}">
-        <Setter Property="Foreground" Value="Red"/>
+        <Setter Property="Foreground" Value="#e71d36"/>
         <Setter Property="FontFamily" Value="\Prefabs\Fonts\Dosis.ttf"/>
     </Style>
     
