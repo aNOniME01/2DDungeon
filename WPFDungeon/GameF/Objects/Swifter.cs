@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Windows;
 
 namespace WPFDungeon
 {
@@ -89,5 +90,14 @@ namespace WPFDungeon
             RefreshMoveCheck();
         }
 
+        public bool CheckFront(Rect hitbox)
+        {
+            if (Faceing == 'T' && !MoveChecks[0].CheckSingle(hitbox)) return true;
+            else if (Faceing == 'B' && !MoveChecks[1].CheckSingle(hitbox)) return true;
+            else if (Faceing == 'L' && !MoveChecks[2].CheckSingle(hitbox)) return true;
+            else if (Faceing == 'R' && !MoveChecks[3].CheckSingle(hitbox)) return true;
+
+            return false;
+        }
     }
 }

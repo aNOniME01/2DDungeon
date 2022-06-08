@@ -43,9 +43,13 @@ namespace WPFDungeon
                 C2 = new Rect(Canvas.GetLeft(body.Mesh) + body.Mesh.Width + dis, Canvas.GetTop(body.Mesh) + body.Mesh.Height - w, h, w);
             }
         }
-        public bool Check(Rect hitbox)
+        public bool CheckBoth(Rect hitbox)
         {
             return C1.IntersectsWith(hitbox) && C2.IntersectsWith(hitbox);
+        }
+        public bool CheckSingle(Rect hitbox)
+        {
+            return C1.IntersectsWith(hitbox) || C2.IntersectsWith(hitbox);
         }
         
     }

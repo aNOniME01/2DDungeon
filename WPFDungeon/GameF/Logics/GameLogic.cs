@@ -203,7 +203,7 @@ namespace WPFDungeon
 
                         if (bullet.Body.Hitbox.IntersectsWith(game.Player.Body.Hitbox))
                         {
-                            //game.Over();
+                            game.Over();
                         }
 
                         if (bullet.Body.Hitbox.IntersectsWith(game.Rooms[0].Body.Hitbox))
@@ -266,20 +266,20 @@ namespace WPFDungeon
             {
                 Rect hitbox = room.Body.Hitbox;
 
-                if (dir == 'T' && game.Player.MoveChecks[0].Check(hitbox)) return true;
-                else if (dir == 'B' && game.Player.MoveChecks[1].Check(hitbox)) return true;
-                else if (dir == 'L' && game.Player.MoveChecks[2].Check(hitbox)) return true;
-                else if (dir == 'R' && game.Player.MoveChecks[3].Check(hitbox)) return true;
+                if (dir == 'T' && game.Player.MoveChecks[0].CheckBoth(hitbox)) return true;
+                else if (dir == 'B' && game.Player.MoveChecks[1].CheckBoth(hitbox)) return true;
+                else if (dir == 'L' && game.Player.MoveChecks[2].CheckBoth(hitbox)) return true;
+                else if (dir == 'R' && game.Player.MoveChecks[3].CheckBoth(hitbox)) return true;
             }
 
             foreach (Hallway hallway in game.Hallways)
             {
                 Rect hitbox = hallway.Body.Hitbox;
 
-                if (dir == 'T' && game.Player.MoveChecks[0].Check(hitbox)) return true;
-                else if (dir == 'B' && game.Player.MoveChecks[1].Check(hitbox)) return true;
-                else if (dir == 'L' && game.Player.MoveChecks[2].Check(hitbox)) return true;
-                else if (dir == 'R' && game.Player.MoveChecks[3].Check(hitbox)) return true;
+                if (dir == 'T' && game.Player.MoveChecks[0].CheckBoth(hitbox)) return true;
+                else if (dir == 'B' && game.Player.MoveChecks[1].CheckBoth(hitbox)) return true;
+                else if (dir == 'L' && game.Player.MoveChecks[2].CheckBoth(hitbox)) return true;
+                else if (dir == 'R' && game.Player.MoveChecks[3].CheckBoth(hitbox)) return true;
             }
 
             return false;
@@ -326,23 +326,23 @@ namespace WPFDungeon
                 }
 
 
-                ////Swifter Check 
-                //foreach (Swifter swifter in room.SelectedSpawnMap.Swifters)
-                //{
-                //    if (swifter.Body.Hitbox.IntersectsWith(game.Player.Body.Hitbox))
-                //    {
-                //        game.Over();
-                //    }
-                //}
+                //Swifter Check 
+                foreach (Swifter swifter in room.SelectedSpawnMap.Swifters)
+                {
+                    if (swifter.Body.Hitbox.IntersectsWith(game.Player.Body.Hitbox))
+                    {
+                        game.Over();
+                    }
+                }
 
-                ////Shooter Check
-                //foreach (Shooter shooter in room.SelectedSpawnMap.Shooters)
-                //{
-                //    if (shooter.Body.Hitbox.IntersectsWith(game.Player.Body.Hitbox))
-                //    {
-                //        game.Over();
-                //    }
-                //}
+                //Shooter Check
+                foreach (Shooter shooter in room.SelectedSpawnMap.Shooters)
+                {
+                    if (shooter.Body.Hitbox.IntersectsWith(game.Player.Body.Hitbox))
+                    {
+                        game.Over();
+                    }
+                }
 
             }
         }
@@ -356,13 +356,10 @@ namespace WPFDungeon
         }
         private static bool SwifterMoveCheck(Swifter swifter)
         {
-            foreach (Room room in game.Rooms)
-            {
-                bool IsOutside = IsSwifterOutside(swifter);
-                bool ShooterInFront = IsEntityInfrontOfSwifter(swifter, room.SelectedSpawnMap.Shooters);
-                //bool SwifterInFront = IsEntityInfrontOfSwifter(swifter, room.SelectedSpawnMap.Swifters);
-                if (!IsOutside && ShooterInFront /*&& SwifterInFront*/) return true;
-            }
+            bool IsOutside = IsSwifterOutside(swifter);
+            bool EntityInFront = IsEntityInfrontOfSwifter(swifter);
+            if (!IsOutside && EntityInFront) return true;
+
             return false;
         }
         private static bool IsSwifterOutside(Swifter swifter)
@@ -373,36 +370,33 @@ namespace WPFDungeon
                 {
                     Rect hitbox = room.Body.Hitbox;
 
-                    if (swifter.Faceing == 'T' && swifter.MoveChecks[0].Check(hitbox)) return false;
-                    else if (swifter.Faceing == 'B' && swifter.MoveChecks[1].Check(hitbox)) return false;
-                    else if (swifter.Faceing == 'L' && swifter.MoveChecks[2].Check(hitbox)) return false;
-                    else if (swifter.Faceing == 'R' && swifter.MoveChecks[3].Check(hitbox)) return false;
+                    if (swifter.Faceing == 'T' && swifter.MoveChecks[0].CheckBoth(hitbox)) return false;
+                    else if (swifter.Faceing == 'B' && swifter.MoveChecks[1].CheckBoth(hitbox)) return false;
+                    else if (swifter.Faceing == 'L' && swifter.MoveChecks[2].CheckBoth(hitbox)) return false;
+                    else if (swifter.Faceing == 'R' && swifter.MoveChecks[3].CheckBoth(hitbox)) return false;
                 }
             }
             foreach (Hallway hallway in game.Hallways)
             {
                 Rect hitbox = hallway.Body.Hitbox;
 
-                if (swifter.Faceing == 'T' && swifter.MoveChecks[0].Check(hitbox)) return false;
-                else if (swifter.Faceing == 'B' && swifter.MoveChecks[1].Check(hitbox)) return false;
-                else if (swifter.Faceing == 'L' && swifter.MoveChecks[2].Check(hitbox)) return false;
-                else if (swifter.Faceing == 'R' && swifter.MoveChecks[3].Check(hitbox)) return false;
+                if (swifter.Faceing == 'T' && swifter.MoveChecks[0].CheckBoth(hitbox)) return false;
+                else if (swifter.Faceing == 'B' && swifter.MoveChecks[1].CheckBoth(hitbox)) return false;
+                else if (swifter.Faceing == 'L' && swifter.MoveChecks[2].CheckBoth(hitbox)) return false;
+                else if (swifter.Faceing == 'R' && swifter.MoveChecks[3].CheckBoth(hitbox)) return false;
             }
 
             return true;
         }
-        private static bool IsEntityInfrontOfSwifter(Swifter swifter, List<IEntity> entities)
+        private static bool IsEntityInfrontOfSwifter(Swifter swifter)
         {
-            foreach (IEntity entity in entities)
+            foreach (Room room in game.Rooms)
             {
-                Rect hitbox = entity.Body.Hitbox;
-
-                if (entity != swifter)
+                foreach (Shooter shooter in room.SelectedSpawnMap.Shooters)
                 {
-                    if (swifter.Faceing == 'T' && !swifter.MoveChecks[0].Check(hitbox)) return true;
-                    else if (swifter.Faceing == 'B' && !swifter.MoveChecks[1].Check(hitbox)) return true;
-                    else if (swifter.Faceing == 'L' && !swifter.MoveChecks[2].Check(hitbox)) return true;
-                    else if (swifter.Faceing == 'R' && !swifter.MoveChecks[3].Check(hitbox)) return true;
+                    Rect hitbox = shooter.Body.Hitbox;
+
+                    if (swifter.CheckFront(hitbox)) return true;
                 }
             }
 
