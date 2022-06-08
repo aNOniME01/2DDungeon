@@ -59,6 +59,43 @@ namespace WPFDungeon
             BarrierList.Add(new Rect(460, 0, 100, 462));
 
         }
+        public Game(Grid gGrid,int score)
+        {
+            gameOver = false;
+
+            Score = score;
+
+            Rooms = new List<Room>();
+            Rooms.Add(new Room("R1", Rooms.Count));
+            ExitPortal = null;
+
+            Hallways = new List<Hallway>();
+
+            foreach (Door door in Rooms[0].Doors)
+            {
+                Hallways.Add(new Hallway(door, 40, Rooms.Count - 1, door.Id));
+            }
+
+            PortalRoom = Rooms[0];
+
+            Player = new Player();
+
+            GScore = new TextBlock();
+            GScore.Foreground = Brushes.Gray;
+            GScore.Text = $"Score: {Score}";
+            GCanvas = new Canvas();
+            GGrid = gGrid;
+            gGrid.Children.Add(GCanvas);
+            gGrid.Children.Add(GScore);
+
+            BarrierList = new List<Rect>();
+
+            BarrierList.Add(new Rect(0, 0, 465, 20));
+            BarrierList.Add(new Rect(0, 442, 465, 100));
+            BarrierList.Add(new Rect(0, 20, 20, 422));
+            BarrierList.Add(new Rect(460, 0, 100, 462));
+
+        }
         public bool AddRoom(string roomName, Hallway entHallway)
         {
             Room newRoom = new Room(roomName, Rooms.Count);
@@ -182,12 +219,12 @@ namespace WPFDungeon
         {
             this.Player = null; 
             gameOver = true;
-            Transfer.WriteInfoToConsole(Score);
+            Transfer.WriteInfoToConsole(Score,"F");
         }
         public void Exit()
         {
             gameOver = true;
-            Transfer.WriteInfoToConsole(Score);
+            Transfer.WriteInfoToConsole(Score,"T");
         }
         public void DeleteExitPortal()
         {

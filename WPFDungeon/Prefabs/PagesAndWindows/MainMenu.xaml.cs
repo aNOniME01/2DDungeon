@@ -20,33 +20,18 @@ namespace WPFDungeon
     /// </summary>
     public partial class MainMenu : Page
     {
-        private GameWindow gameWindow;
-        private ScoreboardPage scorePage;
         public MainMenu()
         {
             InitializeComponent();
-            
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            if (gameWindow != null)
-            {
-                gameWindow.Close();
-            }
-
-
-            gameWindow = new GameWindow();
-            gameWindow.Show();
-
-            scorePage = new ScoreboardPage();
+            LoggedData.CreateGameWindow(null);
         }
         public void Closeing()
         {
-            if (gameWindow != null)
-            {
-                gameWindow.Close();
-            }
+            LoggedData.CloseGameWindow();
         }
     }
 }

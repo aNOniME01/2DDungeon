@@ -21,7 +21,6 @@ namespace WPFDungeon
     public partial class RestartWindow : Window
     {
         private static int Score;
-        private static string IsAlive;
         public RestartWindow()
         {
             InitializeComponent();
@@ -32,7 +31,6 @@ namespace WPFDungeon
             StreamReader sr = File.OpenText(Transfer.GetLocation() + "transfer.txt");
             string[] hlpr = sr.ReadLine().Trim().Split(';');
             Score = Convert.ToInt32(hlpr[0]);
-            IsAlive = hlpr[1];
             sr.Close();
 
             score.Text = $"Score: {Score}";
@@ -45,6 +43,17 @@ namespace WPFDungeon
             {
                 userText.Text = $"@{SQLOperations.GetUserById(LoggedData.UserId)}";
                 userText.Visibility = Visibility.Visible;
+            }
+
+            if (hlpr[1] == "F")
+            {
+                saveAndExit.Visibility = Visibility.Hidden;
+                Continue.Content = "Restart";
+            }
+            else
+            {
+                saveAndExit.Visibility = Visibility.Visible;
+                Continue.Content = "Continue";
             }
 
         }
@@ -60,5 +69,17 @@ namespace WPFDungeon
             Close();
         }
 
+        private void Continue_Click(object sender, RoutedEventArgs e)
+        {
+            if (Continue.Content == "Restart")
+            {
+                LoggedData.CreateGameWindow(null);
+            }
+            else
+            {
+                LoggedData.CreateGameWindow(Score);
+            }
+            Close();
+        }
     }
 }

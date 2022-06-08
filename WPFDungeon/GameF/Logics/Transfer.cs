@@ -40,12 +40,12 @@ namespace WPFDungeon
                 return false;
             }
         }
-        public static void WriteInfoToConsole(int score)
+        public static void WriteInfoToConsole(int score,string alive)
         {
             try
             {
                 StreamWriter sw = File.CreateText(GetLocation() + "transfer.txt");
-                sw.WriteLine(score+ ";T");
+                sw.WriteLine(score+ $";{alive}");
                 sw.Close();
             }
             catch { }

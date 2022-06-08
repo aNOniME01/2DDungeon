@@ -86,7 +86,14 @@ namespace WPFDungeon
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            game = new Game(grid);
+            if (LoggedData.Score != null)
+            {
+                game = new Game(grid, Convert.ToInt32(LoggedData.Score));
+            }
+            else
+            {
+                game = new Game(grid);
+            }
 
             GameLogic.GameLoad(game);
 

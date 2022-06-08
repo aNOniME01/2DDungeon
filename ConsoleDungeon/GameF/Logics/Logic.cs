@@ -25,8 +25,8 @@ namespace ConsoleDungeon
                 Render.PlayerStepRender(map);
             }
             sw.Write(Score);
-            if (map.Player.Location[0] == -1) sw.WriteLine(";F");
-            else sw.WriteLine(";T");
+            if (map.Player.Location[0] == -1) sw.WriteLine(";T");
+            else sw.WriteLine(";F");
             sw.Close();
         }
         private static void PlayerController(Map map)

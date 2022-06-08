@@ -31,11 +31,6 @@ namespace WPFDungeon
         {
             if (ConsoleDungeonExe == null && !game.gameOver)
             {
-                if (game.ExitPortal == null && !game.Player.Body.Hitbox.IntersectsWith(game.Rooms[0].Body.Hitbox))
-                {
-                    game.AddExitPortal();
-                }
-
                 #region PlayerLogic
                 //player movement
                 PlayerMovement(mUp, mDown, mLeft, mRight);
@@ -61,7 +56,7 @@ namespace WPFDungeon
                 {
                     game.SetScore(Convert.ToInt32(info[0]));
 
-                    if (info[1] == "T")
+                    if (info[1] == "F")
                     {
                         game.Over();
                     }
@@ -298,9 +293,10 @@ namespace WPFDungeon
                 {
                     game.PortalRoom.SelectedSpawnMap.DeletePortal();
 
-                    Transfer.WriteInfoToConsole(game.Score);
+                    Transfer.WriteInfoToConsole(game.Score,"T");
                     ConsoleDungeonExe = Process.Start(Transfer.GetLocation() + "\\ConsoleDungeon\\bin\\Debug\\net5.0\\ConsoleDungeon.exe");
                     Thread.Sleep(5000);
+                    game.AddExitPortal();
                 }
             }
 

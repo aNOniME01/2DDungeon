@@ -30,7 +30,7 @@
             <Button Content="Continue" x:Name="Continue"
                     Style="{DynamicResource GreenCorner8}"
                     Height="50" Width="150" Margin="10"
-                    Click="SaveAndExit_Click"/>
+                    Click="Continue_Click"/>
 
 
         </StackPanel>
