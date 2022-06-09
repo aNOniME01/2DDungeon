@@ -201,7 +201,7 @@ namespace WPFDungeon
                         //navigates the bullet and refreshes the bullet loc
                         bullet.Navigate();
 
-                        if (bullet.Body.Hitbox.IntersectsWith(game.Player.Body.Hitbox))
+                        if (game.Player != null && bullet.Body.Hitbox.IntersectsWith(game.Player.Body.Hitbox))
                         {
                             game.Over();
                         }
@@ -338,7 +338,7 @@ namespace WPFDungeon
                 //Shooter Check
                 foreach (Shooter shooter in room.SelectedSpawnMap.Shooters)
                 {
-                    if (shooter.Body.Hitbox.IntersectsWith(game.Player.Body.Hitbox))
+                    if (game.Player != null && shooter.Body.Hitbox.IntersectsWith(game.Player.Body.Hitbox))
                     {
                         game.Over();
                     }
