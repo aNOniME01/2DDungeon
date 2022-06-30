@@ -313,7 +313,7 @@ namespace WPFDungeon
                 //Point Check
                 foreach (Point point in room.SelectedSpawnMap.Points)
                 {
-                    if (point.Body.Hitbox.IntersectsWith(game.Player.Body.Hitbox))
+                    if (game.Player != null && point.Body.Hitbox.IntersectsWith(game.Player.Body.Hitbox))
                     {
                         game.AddToScore(1);
                         deletPoints.Add(point);
@@ -329,7 +329,7 @@ namespace WPFDungeon
                 //Swifter Check 
                 foreach (Swifter swifter in room.SelectedSpawnMap.Swifters)
                 {
-                    if (swifter.Body.Hitbox.IntersectsWith(game.Player.Body.Hitbox))
+                    if (game.Player != null && swifter.Body.Hitbox.IntersectsWith(game.Player.Body.Hitbox))
                     {
                         game.Over();
                     }
