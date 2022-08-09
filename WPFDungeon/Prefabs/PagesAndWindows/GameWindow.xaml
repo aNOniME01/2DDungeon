@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:WPFDungeon" ResizeMode="NoResize"
         mc:Ignorable="d" KeyDown="Window_KeyDown" KeyUp="Window_KeyUp" Loaded="Window_Loaded" Closing="Window_Closing"
         Title="MainWindow" Height="500" Width="500" Background="#ccc5b9">
+    
     <Grid x:Name="grid"/>
-
-
+    
 </Window>

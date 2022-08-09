@@ -11,8 +11,7 @@ namespace WPFDungeon
     {
         public static string GetLocation()
         {
-            string transferFileLoc;
-            transferFileLoc = ".";
+            string transferFileLoc = ".";
 
             transferFileLoc = Path.GetFullPath(transferFileLoc);
 
