@@ -17,10 +17,10 @@ namespace WPFDungeon
         {
             var csb = new MySqlConnectionStringBuilder
             {
-                Server = "34.65.208.119",
+                Server = "34.65.29.44",
                 UserID = "player",
-                Password = "TtE7q4h'*%&=~4)#",
-                Database = "scoreboard",
+                Password = "o6:dJ_VpG*eC(.~5",
+                Database = "dungeon_game",
                 SslMode = MySqlSslMode.Disabled,
             };
 

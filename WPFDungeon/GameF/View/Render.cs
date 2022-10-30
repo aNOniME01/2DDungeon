@@ -130,9 +130,9 @@ namespace WPFDungeon
         {
             Canvas.SetTop(uiElement, y);
             Canvas.SetLeft(uiElement, x);
-            game.GCanvas.Children.Add(uiElement);
-
             Canvas.SetZIndex(uiElement, z);
+
+            game.GCanvas.Children.Add(uiElement);
         }
         public static void AddEntityToCanvas(IEntity entity)
         {
