@@ -1,6 +1,12 @@
 # 2DDungeon by Dobesch Csongor
+![dungeon2](https://user-images.githubusercontent.com/58111721/199759969-c95e22c9-1bbe-4ed8-9923-b4f65c0cea2d.png)
+WPF dungeon gen1
+
+![dungeon1](https://user-images.githubusercontent.com/58111721/199759920-76a921f3-8698-47d8-aa9a-16ff878ca834.png)
+WPF dungeon gen2
 
 ![image_original](https://user-images.githubusercontent.com/58111721/199759596-1619ef5a-07f3-4c2c-8406-f375366cb1f3.png)
+Console dungeon gen1
 
 This was a school project that i had to make during my 3rd year of high school
 1. The goal of the project:
