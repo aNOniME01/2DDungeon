@@ -1,5 +1,7 @@
 # 2DDungeon by Dobesch Csongor
 
+![image_original](https://user-images.githubusercontent.com/58111721/199759596-1619ef5a-07f3-4c2c-8406-f375366cb1f3.png)
+
 This was a school project that i had to make during my 3rd year of high school
 1. The goal of the project:
 - Create a unique application that has both a graphic and a console side.
