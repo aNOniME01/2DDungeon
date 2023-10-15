@@ -104,7 +104,7 @@ namespace WPFDungeon
 
             while (count < 4 && enterance == null)
             {
-                enterance = newRoom.SearchDoorFaceingOpposit(entHallway.D2.Faceing);
+                enterance = newRoom.SearchDoorFaceingOpposit(entHallway.D2.Facing);
                 if (enterance != null)
                 {
                     newRoom.ToDoorLoc(entHallway.D2, enterance);
@@ -124,7 +124,7 @@ namespace WPFDungeon
 
                 if (enterance == null)
                 {
-                    ChangeRoomFaceing(newRoom, Logic.RotateFaceing90(newRoom.Faceing));
+                    ChangeRoomFaceing(newRoom, Logic.RotateFaceing90(newRoom.Facing));
                 }
                 count++;
             }
@@ -176,7 +176,7 @@ namespace WPFDungeon
             }
             return false;
         }
-        public void ChangeRoomFaceing(Room room, char faceing)
+        public void ChangeRoomFaceing(Room room, Direction faceing)
         {
             room.ChangeFaceing(faceing);
 

@@ -19,7 +19,7 @@ namespace WPFDungeon
 
         public double HitboxGap { get; private set; }
 
-        public ShooterBody( double[] location, char faceing,int turretNum)
+        public ShooterBody( double[] location, Direction faceing,int turretNum)
         {
             HitboxGap = 2;
 
@@ -58,15 +58,15 @@ namespace WPFDungeon
 
             MoveHitbox();
         }
-        public void FaceTo(char faceing)
+        public void FaceTo(Direction faceing)
         {
             RotateTransform aRotateTransform = new RotateTransform();
             aRotateTransform.CenterX = 0.5;
             aRotateTransform.CenterY = 0.5;
 
-            if (faceing == 'T') aRotateTransform.Angle = 0;
-            else if (faceing == 'B') aRotateTransform.Angle = 180;
-            else if (faceing == 'L') aRotateTransform.Angle = 270;
+            if (faceing == Direction.Top) aRotateTransform.Angle = 0;
+            else if (faceing == Direction.Bottom) aRotateTransform.Angle = 180;
+            else if (faceing == Direction.Left) aRotateTransform.Angle = 270;
             else aRotateTransform.Angle = 90;
             Texture.RelativeTransform = aRotateTransform;
         }

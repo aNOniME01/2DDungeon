@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace WPFDungeon
 {
@@ -10,49 +6,45 @@ namespace WPFDungeon
     {
         public static Random rnd = new Random();
         public static double ToPositive(double x) => Math.Sqrt(x*x);
-        public static char RotateFaceing90(char faceing)
+        public static Direction RotateFaceing90(Direction facing)
         {
-            if (faceing == 'T') return 'R';
-            else if (faceing == 'R') return 'B';
-            else if (faceing == 'B') return 'L';
-            else return 'T';
+            if (facing == Direction.Top) return Direction.Right;
+            else if (facing == Direction.Right) return Direction.Bottom;
+            else if (facing == Direction.Bottom) return Direction.Left;
+            else return Direction.Top;
         }
-        public static char RandomFaceing()
-        {
-            char dir;
-            int rand = rnd.Next(0,5);
-            if (rand == 1) dir = 'T';
-            else if (rand == 2) dir = 'B';
-            else if (rand == 3) dir = 'L';
-            else dir = 'R';
 
-            return dir;
-        }
-        public static char RotateFaceingWithRoom(char roomFaceing,char elementFaceing)
+        public static Direction RandomFaceing()
         {
-            char newFaceing = elementFaceing;
-            if (roomFaceing == 'B')
+            Array dir = Enum.GetValues(typeof(Direction));
+            return (Direction)dir.GetValue(rnd.Next(dir.Length));
+        }
+
+        public static Direction RotateFaceingWithRoom(Direction roomFaceing,Direction elementFacing)
+        {
+            Direction newFacing = elementFacing;
+            if (roomFaceing == Direction.Bottom)
             {
-                if (elementFaceing == 'T') newFaceing = 'B';
-                else if (elementFaceing == 'B') newFaceing = 'T';
-                else if (elementFaceing == 'L') newFaceing = 'R';
-                else newFaceing = 'L';
+                if (elementFacing == Direction.Top) newFacing = Direction.Bottom;
+                else if (elementFacing == Direction.Bottom) newFacing = Direction.Top;
+                else if (elementFacing == Direction.Left) newFacing = Direction.Right;
+                else newFacing = Direction.Left;
             }
-            else if (roomFaceing == 'L')
+            else if (roomFaceing == Direction.Left)
             {
-                if (elementFaceing == 'T') newFaceing = 'L';
-                else if (elementFaceing == 'B') newFaceing = 'R';
-                else if (elementFaceing == 'L') newFaceing = 'B';
-                else newFaceing = 'T';
+                if (elementFacing == Direction.Top) newFacing = Direction.Left;
+                else if (elementFacing == Direction.Bottom) newFacing = Direction.Right;
+                else if (elementFacing == Direction.Left) newFacing = Direction.Bottom;
+                else newFacing = Direction.Top;
             }
-            else if (roomFaceing == 'R')
+            else if (roomFaceing == Direction.Right)
             {
-                if (elementFaceing == 'T') newFaceing = 'R';
-                else if (elementFaceing == 'B') newFaceing = 'L';
-                else if (elementFaceing == 'L') newFaceing = 'T';
-                else newFaceing = 'B';
+                if (elementFacing == Direction.Top) newFacing = Direction.Right;
+                else if (elementFacing == Direction.Bottom) newFacing = Direction.Left;
+                else if (elementFacing == Direction.Left) newFacing = Direction.Top;
+                else newFacing = Direction.Bottom;
             }
-            return newFaceing;
+            return newFacing;
         }
     }
 }

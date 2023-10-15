@@ -2,15 +2,16 @@
 
 namespace WPFDungeon
 {
-    internal class Player:IEntity
+    internal class Player : IEntity
     {
         public double[] Location { get; private set; }
         public double Height { get; private set; }
         public double Width { get; private set; }
-        public char Faceing { get; private set; }
+        public Direction Facing { get; private set; }
         public IBody Body { get; private set; }
         public List<MoveCheck> MoveChecks { get; private set; }
         public List<Bullet> Bullets { get; private set; }
+
         public Player()
         {
             Location = new double[2];
@@ -20,7 +21,7 @@ namespace WPFDungeon
             Width = 10;
             Height = 10;
 
-            Faceing = 'T';//T,B,L,F
+            Facing = Direction.Top;
 
             
 
@@ -49,12 +50,12 @@ namespace WPFDungeon
             (Body as PlayerBody).MoveHitbox();
             RefreshMoveCheck();
         }
-        public void FaceTo(char direction)
+        public void FaceTo(Direction direction)
         {
-            Faceing = direction;
+            Facing = direction;
             Body.FaceTo(direction);
         }
-        public void Shoot() => Bullets.Add(new Bullet("pB", Location[0] + (Height / 2), Location[1] + (Width / 2) - 1, Faceing));
+        public void Shoot() => Bullets.Add(new Bullet("pB", Location[0] + (Height / 2), Location[1] + (Width / 2) - 1, Facing));
         public void DeleteBullet(Bullet bullet) => Bullets.Remove(bullet);
     }
 }

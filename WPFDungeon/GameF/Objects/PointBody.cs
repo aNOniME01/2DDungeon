@@ -38,15 +38,15 @@ namespace WPFDungeon
             MoveHitbox();
         }
 
-        public void FaceTo(char direction)
+        public void FaceTo(Direction direction)
         {
             RotateTransform aRotateTransform = new RotateTransform();
             aRotateTransform.CenterX = 0.5;
             aRotateTransform.CenterY = 0.5;
 
-            if (direction == 'T') aRotateTransform.Angle = 0;
-            else if (direction == 'B') aRotateTransform.Angle = 180;
-            else if (direction == 'L') aRotateTransform.Angle = 270;
+            if (direction == Direction.Top) aRotateTransform.Angle = 0;
+            else if (direction == Direction.Bottom) aRotateTransform.Angle = 180;
+            else if (direction == Direction.Left) aRotateTransform.Angle = 270;
             else aRotateTransform.Angle = 90;
 
             Texture.RelativeTransform = aRotateTransform;

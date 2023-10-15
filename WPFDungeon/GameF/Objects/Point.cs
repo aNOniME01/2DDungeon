@@ -10,13 +10,13 @@ namespace WPFDungeon
     {
         public double[] Location { get; private set; }
 
-        public char Faceing { get; private set; }
+        public Direction Facing { get; private set; }
 
         public IBody Body { get; private set; }
         public int RoomId { get; private set; }
         public Point(double y, double x,int roomId)
         {
-            Faceing = 'T';
+            Facing = Direction.Top;
             Location = new double[] { y, x };
             RoomId = roomId;
 
@@ -41,10 +41,10 @@ namespace WPFDungeon
             (Body as PointBody).MoveHitbox();
 
         }
-        public void FaceTo(char faceing)
+        public void FaceTo(Direction faceing)
         {
-            Faceing = faceing;
-            (Body as PointBody).FaceTo(Faceing);
+            Facing = faceing;
+            (Body as PointBody).FaceTo(Facing);
         }
 
     }

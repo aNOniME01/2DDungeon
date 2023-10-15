@@ -9,7 +9,7 @@ namespace WPFDungeon
     internal class Portal : IEntity
     {
         public double[] Location { get; private set; }
-        public char Faceing { get; private set; }
+        public Direction Facing { get; private set; }
         public IBody Body { get; private set; }
         public int RoomId { get; private set; }
         public Portal(double yLoc,double xLoc,int roomId)
@@ -20,7 +20,7 @@ namespace WPFDungeon
             Location[0] = yLoc;
             Location[1] = xLoc;
 
-            Faceing = 'T';
+            Facing = Direction.Top;
 
             Body = new PortalBody(Location);
         }
@@ -33,10 +33,10 @@ namespace WPFDungeon
 
             (Body as PortalBody).MoveHitbox();
         }
-        public void FaceTo(char faceing)
+        public void FaceTo(Direction faceing)
         {
-            Faceing = faceing;
-            (Body as PortalBody).FaceTo(Faceing);
+            Facing = faceing;
+            (Body as PortalBody).FaceTo(Facing);
         }
 
         public void ToRoomCenter(Room room)

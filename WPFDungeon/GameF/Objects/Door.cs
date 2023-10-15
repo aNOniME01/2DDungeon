@@ -8,9 +8,10 @@ namespace WPFDungeon
     {
         public double X { get; set; }
         public double[] Location { get; private set; }
-        public char Faceing { get; private set; }
+        public Direction Facing { get; private set; }
         public int RoomId { get; private set; }
         public int Id { get; private set; }
+
         /// <summary>
         /// Door constructor
         /// </summary>
@@ -18,7 +19,7 @@ namespace WPFDungeon
         /// <param name="faceing">The direction witch the door is faceing</param>
         /// <param name="rHeight">Room height</param>
         /// <param name="rWidth">Room width</param>
-        public Door(double x, char faceing, double rHeight, double rWidth,int roomId,int id)
+        public Door(double x, Direction faceing, double rHeight, double rWidth,int roomId,int id)
         {
             RoomId = roomId;
             Id = id;
@@ -29,6 +30,7 @@ namespace WPFDungeon
             
             SetLocRot(x, faceing, rHeight, rWidth);
         }
+
         /// <summary>
         /// Duplicates door without a reference
         /// </summary>
@@ -44,22 +46,23 @@ namespace WPFDungeon
             Location[0] = door.Location[0];
             Location[1] = door.Location[1];
 
-            Faceing = door.Faceing;
+            Facing = door.Facing;
         }
-        public void SetLocRot(double x, char faceing, double rHeight, double rWidth)
+
+        public void SetLocRot(double x, Direction faceing, double rHeight, double rWidth)
         {
-            Faceing = faceing;
-            if (faceing == 'T')
+            Facing = faceing;
+            if (faceing == Direction.Top)
             {
                 Location[0] = 0;
                 Location[1] = x;
             }
-            else if (faceing == 'B')
+            else if (faceing == Direction.Bottom)
             {
                 Location[0] = rHeight;
                 Location[1] = x;
             }
-            else if (faceing == 'L')
+            else if (faceing == Direction.Left)
             {
                 Location[0] = x;
                 Location[1] = 0;
@@ -70,17 +73,19 @@ namespace WPFDungeon
                 Location[1] = rWidth;
             }
         }
+
         /// <summary>
         /// Modifies the hallway location
         /// </summary>
         /// <param name="length">Hallway length</param>
         public void ModifyLocation(double length)
         {
-            if (this.Faceing == 'T') this.Location[0] -= length;
-            else if (this.Faceing == 'B') this.Location[0] += length;
-            else if (this.Faceing == 'L') this.Location[1] -= length;
+            if (this.Facing == Direction.Top) this.Location[0] -= length;
+            else if (this.Facing == Direction.Bottom) this.Location[0] += length;
+            else if (this.Facing == Direction.Left) this.Location[1] -= length;
             else this.Location[1] += length;
         }
+
         public void ToRoomLocation(double[] roomLoc)
         {
             Location[0] += roomLoc[0];

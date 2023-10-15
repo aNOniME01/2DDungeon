@@ -25,6 +25,7 @@ namespace WPFDungeon
             //Draw Enemies
             SetUpEnemy(game.Rooms[0]);
         }
+
         /// <summary>
         /// Draws all enemies onto the canvas
         /// </summary>

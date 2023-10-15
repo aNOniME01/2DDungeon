@@ -16,18 +16,18 @@ namespace WPFDungeon
         public Rectangle Mesh { get;}
         public double HitboxGap { get;}
 
-        public void FaceTo(char faceing)
+        public void FaceTo(Direction faceing)
         {
             RotateTransform aRotateTransform = new RotateTransform();
             aRotateTransform.CenterX = 0.5;
             aRotateTransform.CenterY = 0.5;
 
-            if (faceing == 'T') aRotateTransform.Angle = 0;
-            else if (faceing == 'B') aRotateTransform.Angle = 180;
-            else if (faceing == 'L') aRotateTransform.Angle = 270;
+            if (faceing == Direction.Top) aRotateTransform.Angle = 0;
+            else if (faceing == Direction.Bottom) aRotateTransform.Angle = 180;
+            else if (faceing == Direction.Left) aRotateTransform.Angle = 270;
             else aRotateTransform.Angle = 90;
-            Texture.RelativeTransform = aRotateTransform;
 
+            Texture.RelativeTransform = aRotateTransform;
         }
 
     }

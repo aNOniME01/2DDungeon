@@ -19,7 +19,8 @@ namespace WPFDungeon
 
         public double HitboxGap { get; private set; }
 
-        public SwifterBody(double[] location, char faceing)
+
+        public SwifterBody(double[] location, Direction facing)
         {
             HitboxGap = 2;
 
@@ -32,7 +33,7 @@ namespace WPFDungeon
 
 
             Mesh = new Rectangle();
-            if (faceing == 'T'|| faceing == 'B')
+            if (facing == Direction.Top|| facing == Direction.Bottom)
             {
                 Mesh.Width = width;
                 Mesh.Height = height;
@@ -44,15 +45,16 @@ namespace WPFDungeon
             }
             Mesh.Fill = Texture;
 
-            FaceTo(faceing);
+            FaceTo(facing);
 
             Render.RefreshElement(Mesh, location);
 
             MoveHitbox();
         }
-        public void FaceTo(char faceing)
+
+        public void FaceTo(Direction facing)
         {
-            if (faceing == 'T' || faceing == 'B')
+            if (facing == Direction.Top|| facing == Direction.Bottom)
             {
                 Mesh.Height = 20;
                 Mesh.Width = 10;
@@ -67,13 +69,14 @@ namespace WPFDungeon
             aRotateTransform.CenterX = 0.5;
             aRotateTransform.CenterY = 0.5;
 
-            if (faceing == 'T') aRotateTransform.Angle = 0;
-            else if (faceing == 'B') aRotateTransform.Angle = 180;
-            else if (faceing == 'L') aRotateTransform.Angle = 270;
+            if (facing == Direction.Top) aRotateTransform.Angle = 0;
+            else if (facing == Direction.Bottom) aRotateTransform.Angle = 180;
+            else if (facing == Direction.Left) aRotateTransform.Angle = 270;
             else aRotateTransform.Angle = 90;
-            Texture.RelativeTransform = aRotateTransform;
 
+            Texture.RelativeTransform = aRotateTransform;
         }
+
         public void MoveHitbox() => Hitbox = new Rect(Canvas.GetLeft(Mesh) + HitboxGap, Canvas.GetTop(Mesh) + HitboxGap, Mesh.Width - HitboxGap, Mesh.Height - HitboxGap);
     }
 }
