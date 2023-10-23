@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -19,9 +20,10 @@ namespace WPFDungeon
     /// </summary>
     public partial class MainWindow : Window
     {
-        MainMenu menu;
-        RegisterPage registerPage;
-        ScoreboardPage scoreboardPage;
+        private MainMenu menu;
+        private RegisterPage registerPage;
+        private ScoreboardPage scoreboardPage;
+        private Thread connectionThread;
         public MainWindow()
         {
             InitializeComponent();
@@ -31,20 +33,56 @@ namespace WPFDungeon
             scoreboardPage = new ScoreboardPage();
 
             frame.Content = menu;
-            if (!SQLOperations.Connect())
+
+
+            login.Visibility = Visibility.Hidden;
+            register.Visibility = Visibility.Hidden;
+
+            usernameHolder.Visibility = Visibility.Visible;
+            userText.Text = "Connecting";
+            userText.Foreground = Brushes.Orange;
+
+            scoreButton.Visibility = Visibility.Hidden;            
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            connectionThread = new Thread(CheckConnection);
+            connectionThread.Start();
+        }
+
+        private void CheckConnection()
+        {
+            try
             {
-                login.Visibility = Visibility.Hidden;
+                if (!SQLOperations.Connect())
+                {
+                    Dispatcher.Invoke(() =>
+                    {
+                        userText.Text = "offline";
+                        userText.Foreground = Brushes.Red;
+                    });
+                }
+                else
+                {
+                    Dispatcher.Invoke(() =>
+                    {
+                        usernameHolder.Visibility = Visibility.Hidden;
 
-                register.Visibility = Visibility.Hidden;
+                        login.Visibility = Visibility.Visible;
+                        register.Visibility = Visibility.Visible;
 
-                usernameHolder.Visibility = Visibility.Visible;
-                userText.Text = "offline";
-                userText.Foreground = Brushes.Red;
-
-                scoreButton.Visibility = Visibility.Hidden; 
+                        scoreButton.Visibility = Visibility.Visible;
+                    });
+                }
             }
-            
+            catch { }
+        }
 
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            SQLOperations.Disconnect();
+            menu.Closeing();
         }
 
         private void LogIn_Click(object sender, RoutedEventArgs e)
@@ -140,6 +178,7 @@ namespace WPFDungeon
                 }
 
             }
+
             else if (publish.Content == "LogIn") 
             {
                 int[] errors = RegistAndLogIn.LoggingIn(registerPage.UsernameBox.Text, registerPage.PasswordBox.Password);
@@ -171,12 +210,6 @@ namespace WPFDungeon
                 }
             }
         }
-        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            SQLOperations.Disconnect();
-            menu.Closeing();
-        }
-
 
     }
 }

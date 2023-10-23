@@ -53,6 +53,7 @@ namespace WPFDungeon
             Mesh.Height = height;
             Mesh.Fill = Texture;
 
+
             Canvas.SetTop(Mesh, location[0]);
             Canvas.SetLeft(Mesh, location[1]);
 

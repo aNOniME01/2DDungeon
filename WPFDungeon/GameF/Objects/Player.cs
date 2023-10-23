@@ -35,10 +35,10 @@ namespace WPFDungeon
         private void RefreshMoveCheck()
         {
             MoveChecks.Clear();
-            MoveChecks.Add(new MoveCheck('T',Body));
-            MoveChecks.Add(new MoveCheck('B',Body));
-            MoveChecks.Add(new MoveCheck('L',Body));
-            MoveChecks.Add(new MoveCheck('R',Body));
+            MoveChecks.Add(new MoveCheck(Direction.Top, Body));
+            MoveChecks.Add(new MoveCheck(Direction.Bottom, Body));
+            MoveChecks.Add(new MoveCheck(Direction.Left, Body));
+            MoveChecks.Add(new MoveCheck(Direction.Right, Body));
         }
         public void AddToLocation(double x, double y)
         {

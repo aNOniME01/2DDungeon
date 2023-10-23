@@ -79,11 +79,13 @@ namespace WPFDungeon
                     }
                 }
             }
+
             Body = new RoomBody(height, width, Location, Type);
 
             SelectedSpawnMapIndex = Logic.rnd.Next(0, SpawnMaps.Count);
             SelectedSpawnMap = SpawnMaps[SelectedSpawnMapIndex];
         }
+
         private void ResetRoom(string fileName)
         {
             Doors.Clear();
@@ -146,9 +148,10 @@ namespace WPFDungeon
 
             SelectedSpawnMap = SpawnMaps[SelectedSpawnMapIndex];
         }
+
         public void ChangeFaceing(Direction newFaceing)
         {
-            //Resets the room to defaoult (faceing, height, width)
+            //Resets the room to default (faceing, height, width)
             ResetRoom(Type);
 
             //Assign new faceing
@@ -166,10 +169,11 @@ namespace WPFDungeon
             //Set RoomFaceing
             Body.FaceTo(Facing);
 
-            ChangeDoorFaceing();
+            ChangeDoorFacing();
 
         }
-        private void ChangeDoorFaceing()
+
+        private void ChangeDoorFacing()
         {
             foreach (Door door in Doors)
             {
@@ -180,6 +184,7 @@ namespace WPFDungeon
             }
 
         }
+
         private void RotateEntityWithRoom(List<IEntity> entities)
         {
             if (Facing != Direction.Top)
@@ -190,6 +195,7 @@ namespace WPFDungeon
                 }
             }
         }
+
         private void ChangeEntityFaceingWithRoom(IEntity entity)
         {
             double[] newLoc = new double[2];
@@ -214,6 +220,7 @@ namespace WPFDungeon
 
             entity.FaceTo(Logic.RotateFaceingWithRoom(Facing, entity.Facing));
         }
+
         public void ChangeLocation(double y, double x)
         {
             Location[0] = y;
@@ -224,6 +231,7 @@ namespace WPFDungeon
             (Body as RoomBody).MoveHitbox();
             ChangeEntityLocation(y,x);
         }
+
         public void ToDoorLoc(Door targetDoor,Door door)
         {
             double disY = targetDoor.Location[0] - door.Location[0];
@@ -231,6 +239,7 @@ namespace WPFDungeon
 
             ChangeLocation(disY,disX);
         }
+
         private void ChangeEntityLocation(double y, double x)
         {
             foreach (Shooter entity in SelectedSpawnMap.Shooters)
@@ -252,6 +261,7 @@ namespace WPFDungeon
                 SelectedSpawnMap.Portal.ChangeLocationBy(y,x);
             }
         }
+
         public Door SearchDoorFaceingOpposit(Direction faceing)
         {
             Direction SearchedFaceing;

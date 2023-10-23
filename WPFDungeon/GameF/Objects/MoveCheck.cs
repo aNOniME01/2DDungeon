@@ -7,7 +7,7 @@ namespace WPFDungeon
     {
         public Rect C1 { get; }
         public Rect C2 { get; }
-        public MoveCheck(char faceing,IBody body)
+        public MoveCheck(Direction faceing,IBody body)
         {
             //distance between the hitbox and the checker
             double dis = 2;
@@ -18,25 +18,25 @@ namespace WPFDungeon
             //checker height
             double h = 2;
 
-            if (faceing == 'T')
+            if (faceing == Direction.Top)
             {
                 C1 = new Rect(Canvas.GetLeft(body.Mesh), Canvas.GetTop(body.Mesh) - h - dis,w,h);
 
                 C2 = new Rect(Canvas.GetLeft(body.Mesh) + body.Mesh.Width - w, Canvas.GetTop(body.Mesh) - dis - h, w, h);
             }
-            else if (faceing == 'B')
+            else if (faceing == Direction.Bottom)
             {
                 C1 = new Rect(Canvas.GetLeft(body.Mesh), Canvas.GetTop(body.Mesh) + body.Mesh.Height + dis, w, h);
 
                 C2 = new Rect(Canvas.GetLeft(body.Mesh) + body.Mesh.Width - w, Canvas.GetTop(body.Mesh) + body.Mesh.Height + dis, w, h);
             }
-            else if (faceing == 'L')
+            else if (faceing == Direction.Left)
             {
                 C1 = new Rect(Canvas.GetLeft(body.Mesh) - dis - h, Canvas.GetTop(body.Mesh),h,w);
 
                 C2 = new Rect(Canvas.GetLeft(body.Mesh) - dis - h, Canvas.GetTop(body.Mesh) + body.Mesh.Height - w, h, w);
             }
-            else if (faceing == 'R')
+            else if (faceing == Direction.Right)
             {
                 C1 = new Rect(Canvas.GetLeft(body.Mesh) + body.Mesh.Width + dis, Canvas.GetTop(body.Mesh), h, w);
 

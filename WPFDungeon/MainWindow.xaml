@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WPFDungeon" ResizeMode="NoResize"
-        mc:Ignorable="d" Closing="Window_Closing"
+        mc:Ignorable="d" Closing="Window_Closing" Loaded="Window_Loaded"
         Title="RestartWindow" Height="400" Width="300" Background="#fdfffc">
     <Grid>
         <Button x:Name="backToMenu"

@@ -21,7 +21,7 @@ P10;40
 P10;60
 P30;20
 -portal-
-O0;90;R
+O0;90;Right
 --------
 
 V2
@@ -88,7 +88,7 @@ V6
 --------
 -shooters-
 S10;80;2;Bottom
-S30;80;2;Lop
+S30;80;2;Left
 -swifters-
 F10;10;Right
 F30;10;Right

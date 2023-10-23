@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace WPFDungeon
 {
@@ -184,6 +185,7 @@ namespace WPFDungeon
                 game.Player.DeleteBullet(bullet);
             }
         }
+
         private static void ShooterLogic()
         {
             foreach (Room room in game.Rooms)
@@ -254,6 +256,7 @@ namespace WPFDungeon
                 }
             }
         }
+
         private static void SwifterLogic()
         {
             foreach (Room room in game.Rooms)
@@ -264,6 +267,7 @@ namespace WPFDungeon
                 }
             }
         }
+
         private static bool PlayerMoveCheck(Direction dir)
         {
             foreach (Room room in game.Rooms)
@@ -288,6 +292,7 @@ namespace WPFDungeon
 
             return false;
         }
+
         private static void PlayerIntersectionCheck()
         {
             //Portal Check
@@ -350,6 +355,7 @@ namespace WPFDungeon
 
             }
         }
+
         public static void StopConsoleWindow()
         {
             if (ConsoleDungeonExe != null)
@@ -358,6 +364,7 @@ namespace WPFDungeon
                 ConsoleDungeonExe = null;
             }
         }
+
         private static bool SwifterMoveCheck(Swifter swifter)
         {
             bool IsOutside = IsSwifterOutside(swifter);
@@ -366,6 +373,7 @@ namespace WPFDungeon
 
             return false;
         }
+
         private static bool IsSwifterOutside(Swifter swifter)
         {
             foreach (Room room in game.Rooms)
@@ -392,6 +400,7 @@ namespace WPFDungeon
 
             return true;
         }
+
         private static bool IsEntityInfrontOfSwifter(Swifter swifter)
         {
             foreach (Room room in game.Rooms)
@@ -406,6 +415,7 @@ namespace WPFDungeon
 
             return false;
         }
+
         private static bool isBulletInside(Bullet bullet)
         {
             foreach (Room room in game.Rooms)
@@ -419,6 +429,7 @@ namespace WPFDungeon
 
             return false;
         }
+
         private static void GenerateDungeon()
         {
             int count = 0;
@@ -444,7 +455,6 @@ namespace WPFDungeon
             }
 
             Render.AddEntityToCanvas(game.PortalRoom.SelectedSpawnMap.Portal);
-
 
             foreach (Room room in game.Rooms)
             {
@@ -484,6 +494,7 @@ namespace WPFDungeon
             }
 
         }
+
         private static bool IsEntityOutside(IEntity entity)
         {
             foreach (Room room in game.Rooms)
