@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace WPFDungeon
 {
@@ -15,6 +16,7 @@ namespace WPFDungeon
     {
         private static Process? ConsoleDungeonExe = null;
         private static Game? game;
+
         public static void GameLoad(Game gm)
         {
             game = gm;
@@ -23,7 +25,7 @@ namespace WPFDungeon
 
             game.ChangeRoomLocation(game.Rooms[0], 200, 50);
 
-            game.ChangeRoomFaceing(game.Rooms[0], 'L');
+            game.ChangeRoomFaceing(game.Rooms[0], Direction.Left);
 
             GenerateDungeon();
         }
@@ -61,6 +63,7 @@ namespace WPFDungeon
                 }
             }
         }
+
         /// <summary>
         /// cheks if a player can move into a direction and if yes moves it
         /// </summary>
@@ -70,27 +73,28 @@ namespace WPFDungeon
         /// <param name="mRight">is D pressed</param>
         private static void PlayerMovement( bool mUp, bool mDown, bool mLeft, bool mRight)
         {
-            if (mUp && PlayerMoveCheck('T'))
+            if (mUp && PlayerMoveCheck(Direction.Top))
             {
-                game.Player.FaceTo('T');
+                game.Player.FaceTo(Direction.Top);
                 game.Player.AddToLocation(-2, 0);
             }
-            if (mDown && PlayerMoveCheck('B'))
+            if (mDown && PlayerMoveCheck(Direction.Bottom))
             {
-                game.Player.FaceTo('B');
+                game.Player.FaceTo(Direction.Bottom);
                 game.Player.AddToLocation(2, 0);
             }
-            if (mLeft && PlayerMoveCheck('L'))
+            if (mLeft && PlayerMoveCheck(Direction.Left))
             {
-                game.Player.FaceTo('L');
+                game.Player.FaceTo(Direction.Left);
                 game.Player.AddToLocation(0, -2);
             }
-            if (mRight && PlayerMoveCheck('R'))
+            if (mRight && PlayerMoveCheck(Direction.Right))
             {
-                game.Player.FaceTo('R');
+                game.Player.FaceTo(Direction.Right);
                 game.Player.AddToLocation(0, 2);
             }
         }
+
         /// <summary>
         /// Navigates the bullet
         /// </summary>
@@ -177,6 +181,7 @@ namespace WPFDungeon
                 game.Player.DeleteBullet(bullet);
             }
         }
+
         private static void ShooterLogic()
         {
             foreach (Room room in game.Rooms)
@@ -247,6 +252,7 @@ namespace WPFDungeon
                 }
             }
         }
+
         private static void SwifterLogic()
         {
             foreach (Room room in game.Rooms)
@@ -257,30 +263,32 @@ namespace WPFDungeon
                 }
             }
         }
-        private static bool PlayerMoveCheck(char dir)
+
+        private static bool PlayerMoveCheck(Direction dir)
         {
             foreach (Room room in game.Rooms)
             {
                 Rect hitbox = room.Body.Hitbox;
 
-                if (dir == 'T' && game.Player.MoveChecks[0].CheckBoth(hitbox)) return true;
-                else if (dir == 'B' && game.Player.MoveChecks[1].CheckBoth(hitbox)) return true;
-                else if (dir == 'L' && game.Player.MoveChecks[2].CheckBoth(hitbox)) return true;
-                else if (dir == 'R' && game.Player.MoveChecks[3].CheckBoth(hitbox)) return true;
+                if (dir == Direction.Top && game.Player.MoveChecks[0].CheckBoth(hitbox)) return true;
+                else if (dir == Direction.Bottom && game.Player.MoveChecks[1].CheckBoth(hitbox)) return true;
+                else if (dir == Direction.Left && game.Player.MoveChecks[2].CheckBoth(hitbox)) return true;
+                else if (dir == Direction.Right && game.Player.MoveChecks[3].CheckBoth(hitbox)) return true;
             }
 
             foreach (Hallway hallway in game.Hallways)
             {
                 Rect hitbox = hallway.Body.Hitbox;
 
-                if (dir == 'T' && game.Player.MoveChecks[0].CheckBoth(hitbox)) return true;
-                else if (dir == 'B' && game.Player.MoveChecks[1].CheckBoth(hitbox)) return true;
-                else if (dir == 'L' && game.Player.MoveChecks[2].CheckBoth(hitbox)) return true;
-                else if (dir == 'R' && game.Player.MoveChecks[3].CheckBoth(hitbox)) return true;
+                if (dir == Direction.Top && game.Player.MoveChecks[0].CheckBoth(hitbox)) return true;
+                else if (dir == Direction.Bottom && game.Player.MoveChecks[1].CheckBoth(hitbox)) return true;
+                else if (dir == Direction.Left && game.Player.MoveChecks[2].CheckBoth(hitbox)) return true;
+                else if (dir == Direction.Right && game.Player.MoveChecks[3].CheckBoth(hitbox)) return true;
             }
 
             return false;
         }
+
         private static void PlayerIntersectionCheck()
         {
             //Portal Check
@@ -343,6 +351,7 @@ namespace WPFDungeon
 
             }
         }
+
         public static void StopConsoleWindow()
         {
             if (ConsoleDungeonExe != null)
@@ -351,6 +360,7 @@ namespace WPFDungeon
                 ConsoleDungeonExe = null;
             }
         }
+
         private static bool SwifterMoveCheck(Swifter swifter)
         {
             bool IsOutside = IsSwifterOutside(swifter);
@@ -359,6 +369,7 @@ namespace WPFDungeon
 
             return false;
         }
+
         private static bool IsSwifterOutside(Swifter swifter)
         {
             foreach (Room room in game.Rooms)
@@ -367,24 +378,25 @@ namespace WPFDungeon
                 {
                     Rect hitbox = room.Body.Hitbox;
 
-                    if (swifter.Faceing == 'T' && swifter.MoveChecks[0].CheckBoth(hitbox)) return false;
-                    else if (swifter.Faceing == 'B' && swifter.MoveChecks[1].CheckBoth(hitbox)) return false;
-                    else if (swifter.Faceing == 'L' && swifter.MoveChecks[2].CheckBoth(hitbox)) return false;
-                    else if (swifter.Faceing == 'R' && swifter.MoveChecks[3].CheckBoth(hitbox)) return false;
+                    if (swifter.Facing == Direction.Top && swifter.MoveChecks[0].CheckBoth(hitbox)) return false;
+                    else if (swifter.Facing == Direction.Bottom && swifter.MoveChecks[1].CheckBoth(hitbox)) return false;
+                    else if (swifter.Facing == Direction.Left && swifter.MoveChecks[2].CheckBoth(hitbox)) return false;
+                    else if (swifter.Facing == Direction.Right && swifter.MoveChecks[3].CheckBoth(hitbox)) return false;
                 }
             }
             foreach (Hallway hallway in game.Hallways)
             {
                 Rect hitbox = hallway.Body.Hitbox;
 
-                if (swifter.Faceing == 'T' && swifter.MoveChecks[0].CheckBoth(hitbox)) return false;
-                else if (swifter.Faceing == 'B' && swifter.MoveChecks[1].CheckBoth(hitbox)) return false;
-                else if (swifter.Faceing == 'L' && swifter.MoveChecks[2].CheckBoth(hitbox)) return false;
-                else if (swifter.Faceing == 'R' && swifter.MoveChecks[3].CheckBoth(hitbox)) return false;
+                if (swifter.Facing == Direction.Top && swifter.MoveChecks[0].CheckBoth(hitbox)) return false;
+                else if (swifter.Facing == Direction.Bottom && swifter.MoveChecks[1].CheckBoth(hitbox)) return false;
+                else if (swifter.Facing == Direction.Left && swifter.MoveChecks[2].CheckBoth(hitbox)) return false;
+                else if (swifter.Facing == Direction.Right && swifter.MoveChecks[3].CheckBoth(hitbox)) return false;
             }
 
             return true;
         }
+
         private static bool IsEntityInfrontOfSwifter(Swifter swifter)
         {
             foreach (Room room in game.Rooms)
@@ -399,6 +411,7 @@ namespace WPFDungeon
 
             return false;
         }
+
         private static bool isBulletInside(Bullet bullet)
         {
             foreach (Room room in game.Rooms)
@@ -412,6 +425,7 @@ namespace WPFDungeon
 
             return false;
         }
+
         private static void GenerateDungeon()
         {
             int count = 0;
@@ -437,7 +451,6 @@ namespace WPFDungeon
             }
 
             Render.AddEntityToCanvas(game.PortalRoom.SelectedSpawnMap.Portal);
-
 
             foreach (Room room in game.Rooms)
             {
@@ -477,6 +490,7 @@ namespace WPFDungeon
             }
 
         }
+
         private static bool IsEntityOutside(IEntity entity)
         {
             foreach (Room room in game.Rooms)

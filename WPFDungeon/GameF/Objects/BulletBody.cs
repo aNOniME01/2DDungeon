@@ -12,11 +12,11 @@ namespace WPFDungeon
         public Rectangle Mesh { get; private set; }
         public double HitboxGap => throw new System.NotImplementedException();
 
-        public BulletBody(char faceing, double[] location)
+        public BulletBody(Direction facing, double[] location)
         {
 
             Mesh = new Rectangle();
-            if (faceing == 'T' || faceing == 'B')
+            if (facing == Direction.Top || facing == Direction.Bottom)
             {
                 Mesh.Width = 2;
                 Mesh.Height = 3;

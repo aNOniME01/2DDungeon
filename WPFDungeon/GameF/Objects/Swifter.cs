@@ -6,12 +6,12 @@ namespace WPFDungeon
     internal class Swifter:IEntity
     {
         public double[] Location { get; private set; }
-        public char Faceing { get; private set; }
+        public Direction Facing { get; private set; }
         public IBody Body { get; private set; }
         public int RoomId { get; private set; }
         public List<MoveCheck> MoveChecks { get; private set; }
 
-        public Swifter(double yLoc,double xLoc,char faceing,int roomId)
+        public Swifter(double yLoc,double xLoc,Direction facing,int roomId)
         {
             RoomId = roomId;
             Location = new double[2];
@@ -19,9 +19,9 @@ namespace WPFDungeon
             Location[0] = yLoc;
             Location[1] = xLoc;
 
-            Faceing = faceing;
+            Facing = facing;
 
-            Body = new SwifterBody(Location,Faceing);
+            Body = new SwifterBody(Location,Facing);
 
             MoveChecks = new List<MoveCheck>();
             RefreshMoveCheck();
@@ -29,35 +29,35 @@ namespace WPFDungeon
         private void RefreshMoveCheck()
         {
             MoveChecks.Clear();
-            MoveChecks.Add(new MoveCheck('T', Body));
-            MoveChecks.Add(new MoveCheck('B', Body));
-            MoveChecks.Add(new MoveCheck('L', Body));
-            MoveChecks.Add(new MoveCheck('R', Body));
+            MoveChecks.Add(new MoveCheck(Direction.Top, Body));
+            MoveChecks.Add(new MoveCheck(Direction.Bottom, Body));
+            MoveChecks.Add(new MoveCheck(Direction.Left, Body));
+            MoveChecks.Add(new MoveCheck(Direction.Right, Body));
         }
         public void Navigate(bool canMove)
         {
             double speed = 1.5;
-            if (Faceing == 'T')
+            if (Facing == Direction.Top)
             {
-                if (!canMove) Faceing = 'B';
+                if (!canMove) Facing = Direction.Bottom;
                 else Location[0] -= speed;
             }
-            else if (Faceing == 'B')
+            else if (Facing == Direction.Bottom)
             {
-                if (!canMove) Faceing = 'T';
+                if (!canMove) Facing = Direction.Top;
                 else Location[0] += speed;
             }
-            else if (Faceing == 'L')
+            else if (Facing == Direction.Left)
             {
-                if (!canMove) Faceing = 'R';
+                if (!canMove) Facing = Direction.Right;
                 else Location[1] -= speed;
             }
             else
             {
-                if (!canMove) Faceing = 'L';
+                if (!canMove) Facing = Direction.Left;
                 else Location[1] += speed;
             }
-            Body.FaceTo(Faceing);
+            Body.FaceTo(Facing);
 
             Render.RefreshEntity(this);
 
@@ -83,19 +83,19 @@ namespace WPFDungeon
             (Body as SwifterBody).MoveHitbox();
 
         }
-        public void FaceTo(char faceing)
+        public void FaceTo(Direction facing)
         {
-            Faceing = faceing;
-            (Body as SwifterBody).FaceTo(Faceing);
+            Facing = facing;
+            (Body as SwifterBody).FaceTo(Facing);
             RefreshMoveCheck();
         }
 
         public bool CheckFront(Rect hitbox)
         {
-            if (Faceing == 'T' && !MoveChecks[0].CheckSingle(hitbox)) return true;
-            else if (Faceing == 'B' && !MoveChecks[1].CheckSingle(hitbox)) return true;
-            else if (Faceing == 'L' && !MoveChecks[2].CheckSingle(hitbox)) return true;
-            else if (Faceing == 'R' && !MoveChecks[3].CheckSingle(hitbox)) return true;
+            if (Facing == Direction.Top && !MoveChecks[0].CheckSingle(hitbox)) return true;
+            else if (Facing == Direction.Bottom && !MoveChecks[1].CheckSingle(hitbox)) return true;
+            else if (Facing == Direction.Left && !MoveChecks[2].CheckSingle(hitbox)) return true;
+            else if (Facing == Direction.Right && !MoveChecks[3].CheckSingle(hitbox)) return true;
 
             return false;
         }

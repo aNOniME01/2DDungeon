@@ -25,17 +25,17 @@ namespace WPFDungeon
             Points = new List<IEntity>();
             this.Portal = null;
         }
-        public void AddShooter(double yLoc,double xLoc,int turretNum, char faceing)
+        public void AddShooter(double yLoc,double xLoc,int turretNum, Direction facing)
         {
-            Shooters.Add(new Shooter(yLoc, xLoc, turretNum, faceing, RoomId));
+            Shooters.Add(new Shooter(yLoc, xLoc, turretNum, facing, RoomId));
         }
         public void DeleteShooter(Shooter shooter)
         {
             Shooters.Remove(shooter);
         }
-        public void AddSwifter(double yLoc,double xLoc, char faceing)
+        public void AddSwifter(double yLoc,double xLoc, Direction facing)
         {
-            Swifters.Add(new Swifter(yLoc, xLoc, faceing, RoomId));
+            Swifters.Add(new Swifter(yLoc, xLoc, facing, RoomId));
         }
         public void AddPoint(double yLoc,double xLoc)
         {
@@ -45,7 +45,7 @@ namespace WPFDungeon
         {
             Swifters.Remove(swifter);
         }
-        public void AddPortal(double yLoc, double xLoc, char faceing)
+        public void AddPortal(double yLoc, double xLoc, Direction facing)
         {
             this.Portal = new Portal(yLoc, xLoc, RoomId);
         }

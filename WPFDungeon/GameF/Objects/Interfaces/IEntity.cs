@@ -6,14 +6,22 @@ using System.Threading.Tasks;
 
 namespace WPFDungeon
 {
+    enum Direction
+    {
+        Top,
+        Bottom,
+        Left,
+        Right
+    }
+
     internal interface IEntity
     {
         public double[] Location { get; }
-        public char Faceing { get; }
+        public Direction Facing { get; }
         public IBody Body { get; }
         public void ToRoomLoc(double[] roomLocation){}
         public void GoTo(double[] location){}
-        public void FaceTo(char faceing){}
+        public void FaceTo(Direction faceing){}
 
     }
 }

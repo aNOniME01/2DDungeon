@@ -13,9 +13,10 @@ namespace WPFDungeon
     {
         public string Tag { get; private set; }
         public double[] Location { get; private set; }
-        public char Faceing { get; private set; }
+        public Direction Facing { get; private set; }
         public IBody Body { get; set; }
-        public Bullet(string tag, double yLoc, double xLoc, char faceing)
+
+        public Bullet(string tag, double yLoc, double xLoc, Direction faceing)
         {
             Tag = tag;
 
@@ -23,30 +24,20 @@ namespace WPFDungeon
             Location[0] = yLoc;
             Location[1] = xLoc;
 
-            Faceing = faceing;
-            Body = new BulletBody(Faceing,Location);
+            Facing = faceing;
+            Body = new BulletBody(Facing,Location);
         }
+
         public void Navigate()
         {
-            if (Faceing == 'T')
-            {
-                Location[0] -= 5;
-            }
-            else if (Faceing == 'B')
-            {
-                Location[0] += 5;
-            }
-            else if (Faceing == 'L')
-            {
-                Location[1] -= 5;
-            }
-            else if (Faceing == 'R')
-            {
-                Location[1] += 5;
-            }
+            if (Facing == Direction.Top) Location[0] -= 5;
+            else if (Facing == Direction.Bottom) Location[0] += 5;
+            else if (Facing == Direction.Left) Location[1] -= 5;
+            else if (Facing == Direction.Right) Location[1] += 5;
             Render.RefreshEntity(this);
 
             (Body as BulletBody).SetHitboxLocation();
         }
+
     }
 }
