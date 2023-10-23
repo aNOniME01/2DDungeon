@@ -27,25 +27,22 @@ namespace WPFDungeon
 
             GenerateDungeon();
         }
+
         public static void GameLoop(bool mUp, bool mDown, bool mLeft, bool mRight)
         {
             if (ConsoleDungeonExe == null && !game.gameOver)
             {
                 #region PlayerLogic
-                //player movement
                 PlayerMovement(mUp, mDown, mLeft, mRight);
 
-                //bullet navigation
                 PBulletNavigation();
 
                 PlayerIntersectionCheck();
 
                 #endregion
 
-                //Shooter logic
                 ShooterLogic();
 
-                //Swifter logic
                 SwifterLogic();
             }
             else if(!game.gameOver)

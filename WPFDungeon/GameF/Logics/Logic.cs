@@ -10,11 +10,11 @@ namespace WPFDungeon
     {
         public static Random rnd = new Random();
         public static double ToPositive(double x) => Math.Sqrt(x*x);
-        public static char RotateFaceing90(char faceing)
+        public static char RotateFaceing90(char facing)
         {
-            if (faceing == 'T') return 'R';
-            else if (faceing == 'R') return 'B';
-            else if (faceing == 'B') return 'L';
+            if (facing == 'T') return 'R';
+            else if (facing == 'R') return 'B';
+            else if (facing == 'B') return 'L';
             else return 'T';
         }
         public static char RandomFaceing()

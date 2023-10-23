@@ -11,6 +11,7 @@ namespace ConsoleDungeon
     {
         private static int Score;
         private static StreamWriter sw = File.CreateText(Transfer.GetLocation());
+
         public static void GameLogic(Map map, bool gameOver, int score)
         {
             Score = score;
@@ -29,6 +30,7 @@ namespace ConsoleDungeon
             else sw.WriteLine(";F");
             sw.Close();
         }
+
         private static void PlayerController(Map map)
         {
             ConsoleKeyInfo keypress = new ConsoleKeyInfo();
